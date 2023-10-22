@@ -149,25 +149,25 @@ namespace CryptoUSB.Services
         {
             this._kakaduWriter.FlushPort();
         }
-        public bool sendRowCount()
-        {
-            try
-            {
-                byte[] count = DatabaseModel.INSTANCE.getRowCountByte();
-                byte[] answer = new byte[2];
-                answer[0] = this.kakaduWriter.sendAndReceiveWithWait(count[0], 50);
-                if (answer[0] != count[0])
-                    throw new Exception("sendRowCount error with first byte");
-                answer[1] = this.kakaduWriter.sendAndReceiveWithWait(count[1], 50);
-                if (answer[1] != count[1])
-                    throw new Exception("sendRowCount error with second byte");
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-        }
+        //public bool sendRowCount()
+        //{
+        //    try
+        //    {
+        //        byte[] count = DatabaseModel.INSTANCE.getRowCountByte();
+        //        byte[] answer = new byte[2];
+        //        answer[0] = this.kakaduWriter.sendAndReceiveWithWait(count[0], 50);
+        //        if (answer[0] != count[0])
+        //            throw new Exception("sendRowCount error with first byte");
+        //        answer[1] = this.kakaduWriter.sendAndReceiveWithWait(count[1], 50);
+        //        if (answer[1] != count[1])
+        //            throw new Exception("sendRowCount error with second byte");
+        //        return true;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return false;
+        //    }
+        //}
         private bool cNUM(byte[] commandArray)
         {
             try
