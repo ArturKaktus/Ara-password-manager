@@ -11,61 +11,37 @@ namespace CryptoUSB.Models
 {
     public class RecordModel
     {
-        private int _id;
-        private int _pid;
-        private string _name;
-        private string _login;
+        public int Id { get; set; }
+        public int Pid { get; set; }
+        public string Name { get; set; }
+        public string Login { get; set; }
         private SymbolModel _afterLoginSymbol = new SymbolModel();
-        private char[] _password;
+        public char[] Password { get; set; }
         private SymbolModel _afterPasswordSymbol = new SymbolModel();
-        private string _url;
+        public string Url { get; set; }
         private SymbolModel _afterUrlSymbol = new SymbolModel();
         public RecordModel(int id, int pid, string name, string login, string url)
         {
-            this._id = id;
-            this._pid = pid;
-            this._name = name;
-            this._url = url;
+            Id = id;
+            Pid = pid;
+            Name = name;
+            Url = url;
         }
         public RecordModel(int id, int pid, string name, string login, char[] password, string url, string symbolLogin, string symbolPassword, string symbolUrl)
         {
-            this._id = id;
-            this._pid = pid;
-            this._name = name;
-            this._login = login;
-            this._password = password;
-            this._url = url;
+            Id = id;
+            Pid = pid;
+            Name = name;
+            Login = login;
+            Password = password;
+            Url = url;
             this._afterLoginSymbol.SetSymbolValueFromString(symbolLogin);
             this._afterPasswordSymbol.SetSymbolValueFromString(symbolPassword);
             this._afterUrlSymbol.SetSymbolValueFromString(symbolUrl);
         }
-        public int GetId()
-        {
-            return this._id;
-        }
-        public int GetPid()
-        {
-            return this._pid;
-        }
-        public char[] GetPassword()
-        {
-            return this._password;
-        }
         public new string GetType()
         {
             return "";
-        }
-        public string GetName()
-        {
-            return this._name;
-        }
-        public string GetLogin()
-        {
-            return this._login;
-        }
-        public string GetUrl()
-        {
-            return this._url;
         }
         public string getAfterLoginString()
         {
@@ -78,30 +54,6 @@ namespace CryptoUSB.Models
         public string getAfterUrlString()
         {
             return this._afterUrlSymbol.GetSymbolStringValue();
-        }
-        public void SetId(int id)
-        {
-            this._id = id;
-        }
-        public void SetPid(int pid)
-        {
-            this._pid = pid;
-        }
-        public void SetName(string name)
-        {
-            this._name = name;
-        }
-        public void SetLogin(string login)
-        {
-            this._login = login;
-        }
-        public void SetPassword(char[] password)
-        {
-            this._password = password;
-        }
-        public void SetUrl(string url)
-        {
-            this._url = url;
         }
         public void SetAfterLoginSymbol(string afterLoginSymbol)
         {
@@ -117,12 +69,12 @@ namespace CryptoUSB.Models
         }
         public string GetPasswordString()
         {
-            return new string(this._password); ;
+            return new string(Password); ;
         }
         public byte[] GetKakaduBytes()
         {
-            byte[] idBytes = IntToDoubleByte(this._id);
-            byte[] pidBytes = IntToDoubleByte(this._pid);
+            byte[] idBytes = IntToDoubleByte(Id);
+            byte[] pidBytes = IntToDoubleByte(Pid);
             byte[] nameBytes = GetNameBytes();
             byte[] loginBytes = GetLoginBytes();
             byte[] passwordBytes = GetPasswordBytes();
@@ -136,7 +88,7 @@ namespace CryptoUSB.Models
             try
             {
                 Encoding encoding = Encoding.GetEncoding("Windows-1251");
-                byte[] tempBytes = encoding.GetBytes(_name);
+                byte[] tempBytes = encoding.GetBytes(Name);
                 if (tempBytes.Length <= 48)
                     for (int i = 0; i < tempBytes.Length; i++)
                         nameBytes[i] = tempBytes[i];
@@ -153,14 +105,14 @@ namespace CryptoUSB.Models
             try
             {
                 Encoding encoding = Encoding.GetEncoding("Windows-1251");
-                byte[] tempBytes = encoding.GetBytes(_login);
+                byte[] tempBytes = encoding.GetBytes(Login);
                 if (tempBytes.Length <= 48)
                 {
                     int i;
                     for (i = 0; i < tempBytes.Length; i++)
                         loginBytes[i] = tempBytes[i];
                     if (i < 47)
-                        loginBytes[i] = this._afterLoginSymbol.getSymbolByteValue();
+                        loginBytes[i] = this._afterLoginSymbol.GetSymbolByteValue();
                 }
             }
             catch (Exception e)
@@ -181,7 +133,7 @@ namespace CryptoUSB.Models
                     for (i = 0; i < tempBytes.Length; i++)
                         passwordBytes[i] = tempBytes[i];
                     if (i < 47)
-                        passwordBytes[i] = this._afterPasswordSymbol.getSymbolByteValue();
+                        passwordBytes[i] = this._afterPasswordSymbol.GetSymbolByteValue();
                 }
             }
             catch (Exception e)
@@ -195,14 +147,14 @@ namespace CryptoUSB.Models
             try
             {
                 Encoding encoding = Encoding.GetEncoding("Windows-1251");
-                byte[] tempBytes = encoding.GetBytes(_url);
+                byte[] tempBytes = encoding.GetBytes(Url);
                 if (tempBytes.Length <= 48)
                 {
                     int i;
                     for (i = 0; i < tempBytes.Length; i++)
                         urlBytes[i] = tempBytes[i];
                     if (i < 47)
-                        urlBytes[i] = this._afterUrlSymbol.getSymbolByteValue();
+                        urlBytes[i] = this._afterUrlSymbol.GetSymbolByteValue();
                 }
             }
             catch (Exception e)

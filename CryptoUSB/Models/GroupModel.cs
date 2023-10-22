@@ -11,52 +11,28 @@ namespace CryptoUSB.Models
 {
     public class GroupModel
     {
-        private int _id;
-        private int _pid;
-        private string _name;
+        public int Id { get; set; }
+        public int Pid { get; set; }
+        public string Name { get; set; }
         public GroupModel(int id, int pid, string name)
         {
-            this._id = id;
-            this._pid = pid;
-            this._name = name;
-        }
-        public string GetName()
-        {
-            return this._name;
-        }
-        public int GetId()
-        {
-            return this._id;
-        }
-        public int GetPid()
-        {
-            return this._pid;
-        }
-        public void SetId(int id)
-        {
-            this._id = id;
-        }
-        public void SetPid(int pid)
-        {
-            this._pid = pid;
+            Id = id;
+            Pid = pid;
+            Name = name;
         }
         public new string GetType()
         {
             return ""; //Декомпиляция показывает бред, будем смотреть
         }
-        public void SetName(string name)
-        {
-            this._name = name;
-        }
         public override string ToString()
         {
-            return this._name;
+            return Name;
         }
         public byte[] GetKakaduBytes()
         {
             byte[] kakaduBytes = GetPrepArray(196);
-            byte[] idBytes = IntToDoubleByte(this._id);
-            byte[] pidBytes = IntToDoubleByte(this._pid);
+            byte[] idBytes = IntToDoubleByte(Id);
+            byte[] pidBytes = IntToDoubleByte(Pid);
             byte[] nameBytes = GetNameBytes();
             byte[] groupBytes = ConcatTwoArrays(ConcatTwoArrays(idBytes, pidBytes), nameBytes);
             for (int i = 0; i < groupBytes.Length; i++)
@@ -69,7 +45,7 @@ namespace CryptoUSB.Models
             try
             {
                 Encoding encoding = Encoding.GetEncoding("Windows-1251");
-                byte[] tempBytes = encoding.GetBytes(_name);
+                byte[] tempBytes = encoding.GetBytes(Name);
                 if (tempBytes.Length <= 48)
                     for (int i = 0; i < tempBytes.Length; i++)
                         nameBytes[i] = tempBytes[i];

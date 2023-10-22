@@ -34,7 +34,7 @@ namespace CryptoUSB.Models
             }
             this._symbolValue = SymbolValue.NONE;
         }
-        public void SetSymbolValueFromString(String value)
+        public void SetSymbolValueFromString(string value)
         {
             switch (value)
             {
@@ -63,8 +63,7 @@ namespace CryptoUSB.Models
             }
             return "NONE";
         }
-
-        public byte getSymbolByteValue()
+        public byte GetSymbolByteValue()
         {
             switch (this._symbolValue)
             {
