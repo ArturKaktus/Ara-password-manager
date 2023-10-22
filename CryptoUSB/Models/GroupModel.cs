@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿/*  
+ *  Автор: Миловидов Артур
+ *  Время: 22.10.2023 20:41
+ *  Статус: ОК - Класс переведен
+ */
+
+using System;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CryptoUSB.Models
 {
     public class GroupModel
     {
         private int _id;
-
         private int _pid;
-
         private string _name;
         public GroupModel(int id, int pid, string name)
         {
@@ -23,38 +24,31 @@ namespace CryptoUSB.Models
         {
             return this._name;
         }
-
         public int GetId()
         {
             return this._id;
         }
-
         public int GetPid()
         {
             return this._pid;
         }
-
         public void SetId(int id)
         {
             this._id = id;
         }
-
         public void SetPid(int pid)
         {
             this._pid = pid;
         }
-
-        public string getType()
+        public new string GetType()
         {
             return ""; //Декомпиляция показывает бред, будем смотреть
         }
-
         public void SetName(string name)
         {
             this._name = name;
         }
-
-        public string ToString()
+        public override string ToString()
         {
             return this._name;
         }
@@ -94,7 +88,6 @@ namespace CryptoUSB.Models
             }
             return prepArray;
         }
-
         private byte[] IntToDoubleByte(int toByte)
         {
             byte[] doubleByte = new byte[2];
@@ -102,7 +95,6 @@ namespace CryptoUSB.Models
             doubleByte[0] = (byte)(toByte >> 8);
             return doubleByte;
         }
-
         private byte[] ConcatTwoArrays(byte[] firstArray, byte[] secondArray)
         {
             int firstLen = firstArray.Length;
