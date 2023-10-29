@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace CryptoUSB.ViewModels
 {
-    public class DeviceStatusModel : ViewModelBase, INotifyPropertyChanged
+    public class DeviceStatusModel : ViewModelBase
     {
         public DeviceStatusModel() 
         {
             DeviceFinder.Instance.Find.PropertyChanged += DeviceStatus_PropertyChange;
         }
-        private string _status = "Не подключен";
-        public string Status { get => _status; set { _status = value; OnPropertyChanged("Status"); } }
+        private string _status = string.Empty;
+        public string Status { get => _status; set { if (_status != value) { _status = value; OnPropertyChanged("Status"); } } }
         private void DeviceStatus_PropertyChange(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "IsConnected")
@@ -25,15 +25,6 @@ namespace CryptoUSB.ViewModels
                         Status = "Подключен";
                     else
                         Status = "Не подключен";
-            }
-        }
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
     }

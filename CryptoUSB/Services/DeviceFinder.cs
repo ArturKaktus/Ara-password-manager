@@ -10,34 +10,20 @@ using System.Xml.Linq;
 
 namespace CryptoUSB.Services
 {
-    public class DeviceFinder : INotifyPropertyChanged
+    public class DeviceFinder
     {
         public static DeviceFinder Instance = new DeviceFinder();
         private KakaduCommander _commander = new KakaduCommander();
         private FindDevice _findDevice = new FindDevice();
-        private bool _isConnected = false;
         public FindDevice Find { get { return _findDevice; } }
         public KakaduCommander Commander { get { return _commander; } }
         public bool ContinFind { get; set; } = true;
         public string Port { get; set; } = string.Empty;
         public string KakaduVersion { get; set; } = string.Empty;
-        public bool IsConnected
-        {
-            get => _isConnected;
-            set
-            {
-                if (_isConnected != value)
-                {
-                    _isConnected = value;
-                    OnPropertyChanged(nameof(IsConnected));
-                }
-            }
-        }
+        public bool IsConnected { get; set; }
         public void StartSearch()
         {
             ContinFind = true;
-            //_findDevice = new FindDevice();
-            _findDevice.PropertyChanged += IsConnected_PropertyChange;
             Thread findDeviceThread = new Thread(_findDevice.Run);
             findDeviceThread.Start();
         }
@@ -48,7 +34,7 @@ namespace CryptoUSB.Services
         }
         public int GetVersion()
         {
-            return _commander.GetFWVersion();
+            return Commander.GetFWVersion();
         }
         public void StopSearch() 
         {
@@ -59,21 +45,12 @@ namespace CryptoUSB.Services
         {
             try
             {
-                _commander.SetPort(port);
-                return _commander.SendWAY();
+                Commander.SetPort(port);
+                return Commander.SendWAY();
             }
             catch 
             {
                 return false;
-            }
-        }
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
     }
@@ -97,11 +74,7 @@ namespace CryptoUSB.Services
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged(string propertyName)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public void Run()
