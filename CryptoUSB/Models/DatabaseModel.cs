@@ -8,6 +8,8 @@ using System.Resources;
 using Avalonia.Markup.Xaml.Templates;
 using System.Diagnostics;
 using System.Text.Json.Nodes;
+using Avalonia.Controls;
+using CryptoUSB.Controllers;
 
 namespace CryptoUSB.Models
 {
@@ -23,12 +25,12 @@ namespace CryptoUSB.Models
         public static DatabaseModel INSTANCE = new DatabaseModel();
         private ResourceManager bundle;
 
-        //private DatabaseModel()
-        //{
-        //    this.bundle = LanguageController.INSTANCE.getAppLanguageBundle();
-        //    createNewDatabase("New database");
-        //    hashDatabase();
-        //}
+        private DatabaseModel()
+        {
+            this.bundle = LanguageController.INSTANCE.GetAppLanguageBundle();
+            CreateNewDatabase("New database");
+            HashDatabase();
+        }
         public bool IsSaved()
         {
             return this.groupsArrayList.GetHashCode() == this.groupsHashCode
@@ -97,7 +99,47 @@ namespace CryptoUSB.Models
             string tempString = string.Empty;
             if (lastId != 0)
             {
-                
+                List<GroupModel> temp = GetGroupsByPid(pidInt);
+                foreach (GroupModel groupModel in temp) 
+                {
+                    if (groupModel.Name.Equals(nameString))
+                    {
+                        nameCount++;
+                    }
+                }
+                if (nameCount > 0)
+                {
+                    string newString = nameString + " (" + nameCount + ")";
+                    while (contin) 
+                    {
+                        if (!tempString.Equals(newString))
+                        {
+                            tempString = newString;
+                            if (tempString.Length < 48)
+                            {
+                                foreach(GroupModel groupModel in temp)
+                                {
+                                    if (groupModel.Name.Equals(tempString))
+                                    {
+                                        nameCount++;
+                                        newString = newString + " (" + nameCount + ")";
+                                    }
+
+                                }
+                                continue;
+                            }
+                            contin = false;
+                            tempString = newString;
+                            continue;
+                        }
+                        contin = false;
+                    }
+                    this.groupsArrayList.Add(new GroupModel(lastId + 1, pidInt, tempString));
+                }
+                else
+                {
+                    this.groupsArrayList.Add(new GroupModel(lastId + 1, pidInt, tempString));
+                }
             }
         }
         public void AddRecord(int pid, string name, string login, string password, string url, string afterLogin, string afterPassword, string afterUrl)
@@ -140,7 +182,7 @@ namespace CryptoUSB.Models
                 {
                     if (this.recordsArrayList.Count > 0)
                     {
-                        DeleteRecordsById(id);
+                        DeleteRecordsByPid(id);
                     }
                     DeleteGroupChild(id);
                     this.groupsArrayList.RemoveAt(i);
@@ -155,10 +197,10 @@ namespace CryptoUSB.Models
         public void CopyGroupById(int id, int newPid)
         {
             int lastIndex = 0;
-            AddGroup(newPid, GetGroupById(id).Name());
+            AddGroup(newPid, GetGroupById(id).Name);
             lastIndex = GetLastGroupID();
             CopyRecords(id, lastIndex);
-            RecursiveCopyGroups(id, lastIndex, new List<int>);
+            RecursiveCopyGroups(id, lastIndex, new List<int>());
         }
         public void RecursiveCopyGroups(int pid, int newPid, List<int> integers)
         {
@@ -376,6 +418,159 @@ namespace CryptoUSB.Models
                 }
             }
             return noZeros;
+        }
+        private List<GroupModel> GetPrepareGroupArray()
+        {
+            List<GroupModel> newGroupModel = new List<GroupModel>();
+
+            return newGroupModel;
+        }
+        private List<RecordModel> GetPrepareRecordArray()
+        {
+            List<RecordModel> newRecordModel = new List<RecordModel>();
+
+            return newRecordModel;
+        }
+        public byte[,] GetDeveiceArray()
+        {
+            List<GroupModel> readyGroupModels = GetPrepareGroupArray();
+            List<RecordModel> readyRecordModels = GetPrepareRecordArray();
+            byte[,] kakaduBytes = new byte[readyGroupModels.Count + readyRecordModels.Count, 196];
+            return kakaduBytes;
+        }
+        private char[] StringToCharArray(string value)
+        {
+            return value.ToCharArray();
+        }
+        public List<GroupModel> GetGroupsByPid(int id)
+        {
+            List<GroupModel> groupModelsById = new List<GroupModel>();
+            foreach(GroupModel groupModel in this.groupsArrayList)
+            {
+                if (groupModel.Pid == id)
+                {
+                    groupModelsById.Add(groupModel);
+                }
+            }
+            return groupModelsById;
+        }
+        //public TreeViewItem<GroupModel> GetTreeItem(int startId)
+        //{
+        //    TreeViewItem<GroupModel> tree = null;
+
+        //    foreach (GroupModel groupModel in this.groupsArrayList)
+        //    {
+        //        if (groupModel.Id == startId)
+        //        {
+        //            tree = new TreeViewItem<GroupModel>(groupModel);
+        //        }
+        //    }
+
+        //    foreach (GroupModel groupModel in this.groupsArrayList)
+        //    {
+        //        if (tree != null && groupModel.GetPid() == startId)
+        //        {
+        //            tree.Children.Add(GetTreeItem(groupModel.GetId()));
+        //        }
+        //    }
+
+        //    return tree;
+        //}
+        private string GetSymbolFromByteArray(byte[] byteArray)
+        {
+            string symbol = "NONE";
+            foreach(byte b in byteArray)
+            {
+                if (b == 9)
+                {
+                    symbol = "TAB";
+                }
+                if (b == 10)
+                {
+                    symbol = "ENTER";
+                }
+            }
+            return symbol;
+        }
+        public GroupModel GetGroupById(int findId)
+        {
+            foreach(GroupModel groupModel in this.groupsArrayList)
+            {
+                if (groupModel.Id == findId)
+                {
+                    return groupModel;
+                }
+            }
+            return null;
+        }
+        public RecordModel GetRecordById(int findId)
+        {
+            foreach (RecordModel recordModel in this.recordsArrayList)
+            {
+                if (recordModel.Id == findId)
+                    return recordModel;
+            }
+            return null;
+        }
+        public List<RecordModel> GetRecordsByPid(int groupId)
+        {
+            List<RecordModel> recordModel = new List<RecordModel>();
+            foreach (RecordModel record in this.recordsArrayList)
+            {
+                if (record.Pid == groupId)
+                {
+                    recordModel.Add(record);
+                }
+            }
+            return recordModel;
+        }
+        private void SetBreadCrumb(int id)
+        {
+            GroupModel gm = GetGroupById(id);
+            this.groupsBreadList.Add(new GroupModel(gm.Id, gm.Pid, gm.Name));
+            if (gm.Pid != 0)
+                SetBreadCrumb(gm.Pid);
+        }
+        public List<GroupModel> GetGroupsBreadList(int id)
+        {
+            this.groupsBreadList.Clear();
+            SetBreadCrumb(id);
+            this.groupsBreadList.Reverse();
+            return this.groupsBreadList;
+        }
+        public List<GroupModel> GetGroupsArrayList()
+        {
+            List<GroupModel> newGroup = new List<GroupModel>(this.groupsArrayList);
+            return newGroup;
+        }
+        public int GetRowCount()
+        {
+            return this.groupsArrayList.Count + this.recordsArrayList.Count;
+        }
+        public byte[] GetRowCountByte()
+        {
+            return IntToDoubleByte(GetRowCount() - 1);
+        }
+        public int ToDecFromBytes(byte b1, byte b2)
+        {
+            byte[] byteArray = { b1, b2 };
+
+            if (BitConverter.IsLittleEndian)
+            {
+                Array.Reverse(byteArray);
+            }
+
+            short shortVal = BitConverter.ToInt16(byteArray, 0);
+            int x = shortVal;
+
+            return x;
+        }
+        public byte[] IntToDoubleByte(int toByte)
+        {
+            byte[] doubleByte = new byte[2];
+            doubleByte[1] = (byte)toByte;
+            doubleByte[0] = (byte)(toByte >> 8);
+            return doubleByte;
         }
     }
 }
