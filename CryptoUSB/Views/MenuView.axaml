@@ -32,9 +32,9 @@
 		
 		<!-- Кнопки справа -->
 		<StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Top" Margin="5,5,10,5">
-			<Button Content="Настройки" />
+			<Button Content="{Binding Settings}" FontSize="20"/>
 			<Menu>
-				<MenuItem Header="Инфо">
+				<MenuItem Header="{Binding Infos }" FontSize="25">
 					<MenuItem Header="О программе" />
 					<MenuItem Header="Помощь" />
 					<MenuItem Header="Сайт" />
