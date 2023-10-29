@@ -5,9 +5,6 @@
 			 xmlns:vm="clr-namespace:CryptoUSB.ViewModels"
              mc:Ignorable="d" d:DesignWidth="100" d:DesignHeight="100"
              x:Class="CryptoUSB.Views.DeviceStatus"
-			 x:DataType="vm:DeviceStatusModel">
-	<Design.DataContext>
-		<vm:DeviceStatusModel/>
-	</Design.DataContext>
+			 x:DataType="vm:DeviceStatusViewModel">
 	<TextBlock Text="{Binding Status}" Foreground="White" Background="Gray"/>
 </UserControl>

@@ -2,9 +2,9 @@
 
 namespace CryptoUSB.Views;
 
-public partial class MainView : UserControl
+public partial class MenuView : UserControl
 {
-    public MainView()
+    public MenuView()
     {
         InitializeComponent();
     }

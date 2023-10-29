@@ -15,7 +15,7 @@
 			<RowDefinition Height="auto"/>
 		</Grid.RowDefinitions>
 		
-		<views:MainView Grid.Row="0"/>
+		<views:MenuView Grid.Row="0"/>
 
 		<views:DeviceStatus Grid.Row="2"/>
 	</Grid>

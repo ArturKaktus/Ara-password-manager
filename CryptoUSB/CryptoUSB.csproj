@@ -20,4 +20,10 @@
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
     <PackageReference Include="System.IO.Ports" Version="7.0.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\MenuView.axaml.cs">
+      <DependentUpon>MenuView.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

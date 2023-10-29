@@ -8,7 +8,7 @@ namespace CryptoUSB.Views
         public DeviceStatus()
         {
             InitializeComponent();
-            var d = new DeviceStatusModel();
+            var d = new DeviceStatusViewModel();
             this.DataContext = d;
         }
     }

@@ -4,10 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:CryptoUSB.ViewModels"
              mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="50"
-             x:Class="CryptoUSB.Views.MainView"
-             x:DataType="vm:MainViewModel">
+             x:Class="CryptoUSB.Views.MenuView"
+             x:DataType="vm:MenuViewModel">
   <Design.DataContext>
-    <vm:MainViewModel />
+    <vm:MenuViewModel />
   </Design.DataContext>
 
 	<Grid Background="Gray">

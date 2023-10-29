@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace CryptoUSB.ViewModels
 {
-    public class DeviceStatusModel : ViewModelBase
+    public class DeviceStatusViewModel : ViewModelBase
     {
-        public DeviceStatusModel() 
+        public DeviceStatusViewModel() 
         {
             DeviceFinder.Instance.Find.PropertyChanged += DeviceStatus_PropertyChange;
         }
