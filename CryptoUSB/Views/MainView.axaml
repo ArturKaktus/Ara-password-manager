@@ -3,14 +3,43 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:CryptoUSB.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="50"
              x:Class="CryptoUSB.Views.MainView"
              x:DataType="vm:MainViewModel">
   <Design.DataContext>
-    <!-- This only sets the DataContext for the previewer in an IDE,
-         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
     <vm:MainViewModel />
   </Design.DataContext>
 
-  <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+	<Grid Background="Gray">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="Auto" />
+		</Grid.ColumnDefinitions>
+
+		<!-- Меню -->
+		<StackPanel Grid.Column="0" VerticalAlignment="Top" Margin="10,5,5,5">
+		<Menu>
+			<MenuItem Header="Открыть">
+				<MenuItem Header="С устройства" />
+				<MenuItem Header="С компьютера" />
+			</MenuItem>
+			<MenuItem Header="Сохранить">
+				<MenuItem Header="На устройство" />
+				<MenuItem Header="На компьютере" />
+			</MenuItem>
+		</Menu>
+		</StackPanel>
+		
+		<!-- Кнопки справа -->
+		<StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Top" Margin="5,5,10,5">
+			<Button Content="Настройки" />
+			<Menu>
+				<MenuItem Header="Инфо">
+					<MenuItem Header="О программе" />
+					<MenuItem Header="Помощь" />
+					<MenuItem Header="Сайт" />
+				</MenuItem>
+			</Menu>
+		</StackPanel>
+	</Grid>
 </UserControl>

@@ -2,12 +2,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 			 xmlns:vm="clr-namespace:CryptoUSB.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="100" d:DesignHeight="100"
              x:Class="CryptoUSB.Views.DeviceStatus"
 			 x:DataType="vm:DeviceStatusModel">
 	<Design.DataContext>
 		<vm:DeviceStatusModel/>
 	</Design.DataContext>
-	<TextBlock Text="{Binding Status}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+	<TextBlock Text="{Binding Status}" Foreground="White" Background="Gray"/>
 </UserControl>

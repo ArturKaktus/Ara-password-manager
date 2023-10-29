@@ -21,8 +21,7 @@ public partial class App : Application
         {
             desktop.MainWindow = new MainWindow
             {
-                //DataContext = new MainViewModel()
-                DataContext = new DeviceStatusModel()
+                DataContext = new MainViewModel()
             };
             CastomModules();
         }
@@ -30,8 +29,7 @@ public partial class App : Application
         {
             singleViewPlatform.MainView = new MainView
             {
-                //DataContext = new MainViewModel()
-                DataContext = new DeviceStatusModel()
+                DataContext = new MainViewModel()
             };
             CastomModules();
         }

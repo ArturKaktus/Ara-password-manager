@@ -8,5 +8,15 @@
         x:Class="CryptoUSB.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="CryptoUSB">
-        <views:DeviceStatus />
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="auto"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="auto"/>
+		</Grid.RowDefinitions>
+		
+		<views:MainView Grid.Row="0"/>
+
+		<views:DeviceStatus Grid.Row="2"/>
+	</Grid>
 </Window>

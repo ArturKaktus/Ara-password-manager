@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using CryptoUSB.ViewModels;
 
 namespace CryptoUSB.Views
 {
@@ -7,6 +8,8 @@ namespace CryptoUSB.Views
         public DeviceStatus()
         {
             InitializeComponent();
+            var d = new DeviceStatusModel();
+            this.DataContext = d;
         }
     }
 }
