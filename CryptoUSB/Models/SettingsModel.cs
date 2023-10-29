@@ -151,10 +151,10 @@ namespace CryptoUSB.Models
             try
             {
                 string filePath = SystemInfoService.INSTANCE.UserHome + settingsWinDir + settingsFile;
-                using (FileStream settingsStream = new FileStream(filePath, FileMode.Open))
-                {
-                    userProperties.Load(settingsStream);
-                }
+                //using (FileStream settingsStream = new FileStream(filePath, FileMode.Open))
+                //{
+                //    //userProperties.Load(settingsStream);
+                //}
             }
             catch (Exception e)
             {
@@ -164,10 +164,10 @@ namespace CryptoUSB.Models
 
         private void LoadSettings()
         {
-            appFirstStart = bool.Parse(userProperties.GetProperty("appFirstStart", "true"));
-            appLanguage = userProperties.GetProperty("appLanguage", SystemInfoService.Instance.OsLanguage);
-            appShowFirstModal = bool.Parse(userProperties.GetProperty("appShowFirstModal", "true"));
-            appShowAlerts = bool.Parse(userProperties.GetProperty("appShowAlerts", "true"));
+            //appFirstStart = bool.Parse(userProperties.GetProperty("appFirstStart", "true"));
+            //appLanguage = userProperties.GetProperty("appLanguage", SystemInfoService.Instance.OsLanguage);
+            //appShowFirstModal = bool.Parse(userProperties.GetProperty("appShowFirstModal", "true"));
+            //appShowAlerts = bool.Parse(userProperties.GetProperty("appShowAlerts", "true"));
         }
         public void SaveSettings()
         {

@@ -69,7 +69,7 @@ namespace CryptoUSB.Services
             success = false;
             return success;
         }
-        public bool sendWAY()
+        public bool SendWAY()
         {
             byte[] answer = this._kakaduWriter.SendAndReceive(CommandToBytes("cWAY"));
             string answerString = BytesToString(answer);
@@ -80,7 +80,7 @@ namespace CryptoUSB.Services
             } 
             return false;
         }
-        public bool sendSET()
+        public bool SendSET()
         {
             try
             {
@@ -92,7 +92,7 @@ namespace CryptoUSB.Services
             catch (Exception exception) { }
             return false;
         }
-        public bool sendCHK()
+        public bool SendCHK()
         {
             return true;
         }

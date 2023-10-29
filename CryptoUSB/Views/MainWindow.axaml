@@ -8,5 +8,5 @@
         x:Class="CryptoUSB.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="CryptoUSB">
-        <views:MainView />
+        <views:DeviceStatus />
 </Window>
