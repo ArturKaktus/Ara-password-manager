@@ -1,0 +1,26 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:CryptoUSB.ViewModels"
+			 mc:Ignorable="d" d:DesignWidth="250" d:DesignHeight="200"
+             x:Class="CryptoUSB.Views.EnterPassOpenFile"
+			 x:DataType="vm:EnterPassOpenFileViewModel">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="auto"/>
+			<RowDefinition Height="auto"/>
+			<RowDefinition Height="auto"/>
+			<RowDefinition Height="auto"/>
+			<RowDefinition Height="auto"/>
+			<RowDefinition Height="auto"/>
+		</Grid.RowDefinitions>
+		<TextBlock Text="Открыть базу данных" Grid.Row="0"/>
+		<TextBlock Text="Путь к файлу" Grid.Row="1"/>
+		<TextBlock Text="---путь---" Grid.Row="2"/>
+		<TextBlock Text="Введите пароль от базы" Grid.Row="3"/>
+		<TextBox Watermark="Не менее 10 символов" Grid.Row="4"/>
+		<Button Content="Открыть" Grid.Row="5"/>
+	</Grid>
+
+</UserControl>

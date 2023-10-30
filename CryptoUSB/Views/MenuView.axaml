@@ -21,7 +21,7 @@
 		<Menu>
 			<MenuItem Header="Открыть">
 				<MenuItem Header="С устройства" />
-				<MenuItem Header="С компьютера" />
+				<MenuItem Header="С компьютера" Command="{Binding OpenKKDFromPC}"/>
 			</MenuItem>
 			<MenuItem Header="Сохранить">
 				<MenuItem Header="На устройство" />
