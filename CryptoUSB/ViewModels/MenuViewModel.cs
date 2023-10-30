@@ -1,10 +1,9 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
+using CryptoUSB.Views;
 using ReactiveUI;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Xml.Linq;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CryptoUSB.ViewModels;
 
@@ -21,13 +20,41 @@ public class MenuViewModel : ViewModelBase
     }
     public async Task OpenKKDFromPC()
     {
+        Window owner = ((ClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime).MainWindow;
+        if (owner == null)
+            return;
         var dialog = new OpenFileDialog();
         string[] result = null;
         dialog.Filters.Add(new FileDialogFilter() { Name = "Резервная копия Kakadu", Extensions = { "kkd" } });
         result = await dialog.ShowAsync(new Window());
-        if (result != null)
+        if (result != null && result.Length > 0)
         {
-            Data = File.ReadAllText(result.First());
+            try
+            {
+                var passwordWindow = new Window
+                {
+                    Title = "Введите пароль",
+                    Height = 200,
+                    Width = 300
+                };
+                var enterPasswordControl = new EnterPassOpenFile(result[0]);
+                passwordWindow.Content = enterPasswordControl;
+                
+                enterPasswordControl.AcceptButtonClicked += (sender, e) =>
+                {
+                    passwordWindow.Close();
+                };
+                passwordWindow.Closed += (sender, e) =>
+                {
+                    var dataContext = enterPasswordControl.DataContext;
+                };
+                await passwordWindow.ShowDialog(owner);
+            }
+            catch
+            {
+
+            }
+            
         }
     }
 }
