@@ -1,6 +1,7 @@
 ﻿using CryptoUSB.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,10 +12,19 @@ namespace CryptoUSB.Controllers
     {
         FoxPassBackupReaderModel foxBackup;
         KakaduBackupReaderModel kakaduBackup;
+        public string FilePath { get; set; }
+        public char[] Password { get; set; }
 
-        private void Open()
+        public void Open()
         {
-            char[] password = new char[] { '*' }; //ВНОС ПАРОЛЯ ИЗ ОКНА
+            if (IsKakaduBackup(FilePath))
+            {
+                kakaduBackup = new KakaduBackupReaderModel(FilePath, Password);
+                if (kakaduBackup.ImportDatabase())
+                {
+                    DatabaseModel.INSTANCE.Name = "TEST";
+                }
+            }
         }
         private bool IsKakaduBackup(string backupPath)
         {

@@ -16,7 +16,7 @@
 		</Grid.RowDefinitions>
 		
 		<views:MenuView Grid.Row="0"/>
-
+		<views:CatalogTreeView Grid.Row="1"/>
 		<views:DeviceStatus Grid.Row="2"/>
 	</Grid>
 </Window>

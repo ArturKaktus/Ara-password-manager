@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using CryptoUSB.Controllers;
 using CryptoUSB.Views;
 using ReactiveUI;
 using System.Threading.Tasks;
@@ -31,6 +32,7 @@ public class MenuViewModel : ViewModelBase
         {
             try
             {
+                bool isEntered = false;
                 var passwordWindow = new Window
                 {
                     Title = "Введите пароль",
@@ -42,11 +44,20 @@ public class MenuViewModel : ViewModelBase
                 
                 enterPasswordControl.AcceptButtonClicked += (sender, e) =>
                 {
+                    isEntered = true;
                     passwordWindow.Close();
                 };
                 passwordWindow.Closed += (sender, e) =>
                 {
-                    var dataContext = enterPasswordControl.DataContext;
+                    if (isEntered)
+                    {
+                        var dataContext = enterPasswordControl.DataContext as EnterPassOpenFileViewModel;
+                        OpenFromPCController openFromPCController = new OpenFromPCController();
+                        openFromPCController.FilePath = result[0];
+                        openFromPCController.Password = dataContext.Password.ToCharArray();
+                        openFromPCController.Open();
+                    }
+                    
                 };
                 await passwordWindow.ShowDialog(owner);
             }

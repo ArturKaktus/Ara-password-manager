@@ -15,11 +15,11 @@ namespace CryptoUSB.Models
 {
     public class DatabaseModel
     {
-        private string Name { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
         private List<GroupModel> groupsArrayList = new List<GroupModel>();
         private List<RecordModel> recordsArrayList = new List<RecordModel>();
         private List<GroupModel> groupsBreadList = new List<GroupModel>();
-        private bool Saved { get; set; } = true;
+        public bool Saved { get; set; } = true;
         private int groupsHashCode = 0;
         private int recordsHashCode = 0;
         public static DatabaseModel INSTANCE = new DatabaseModel();
