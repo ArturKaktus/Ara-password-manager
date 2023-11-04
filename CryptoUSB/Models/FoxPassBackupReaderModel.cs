@@ -23,8 +23,8 @@ namespace CryptoUSB.Models
             string jsonString = DecryptFoxBackup(ReadFile());
             if (jsonString.Equals("error"))
                 return false;
-            DatabaseModel.INSTANCE.FillFromFoxJson(jsonString);
-            DatabaseModel.INSTANCE.HashDatabase();
+            DatabaseModel.Instance.FillFromFoxJson(jsonString);
+            DatabaseModel.Instance.HashDatabase();
             return true;
         }
         private byte[] ReadFile()

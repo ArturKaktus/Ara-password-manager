@@ -10,25 +10,43 @@ using System.Diagnostics;
 using System.Text.Json.Nodes;
 using Avalonia.Controls;
 using CryptoUSB.Controllers;
+using System.Collections.ObjectModel;
+using Avalonia.LogicalTree;
+using System.ComponentModel;
 
 namespace CryptoUSB.Models
 {
-    public class DatabaseModel
+    public class DatabaseModel : INotifyPropertyChanged
     {
+        private TreeObject _TreeObjects = new();
         public string Name { get; set; } = string.Empty;
-        private List<GroupModel> groupsArrayList = new List<GroupModel>();
-        private List<RecordModel> recordsArrayList = new List<RecordModel>();
-        private List<GroupModel> groupsBreadList = new List<GroupModel>();
+        private readonly List<GroupModel> groupsArrayList = new();
+        private readonly List<RecordModel> recordsArrayList = new();
+        private readonly List<GroupModel> groupsBreadList = new();
+        public TreeObject TreeObjects 
+        { 
+            get => _TreeObjects;
+            set
+            {
+                _TreeObjects = value;
+                OnPropertyChanged(nameof(TreeObjects));
+            }
+        }
         public bool Saved { get; set; } = true;
         private int groupsHashCode = 0;
         private int recordsHashCode = 0;
-        public static DatabaseModel INSTANCE = new DatabaseModel();
-        private ResourceManager bundle;
+        public static DatabaseModel Instance = new();
+        private readonly ResourceManager bundle;
 
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
         private DatabaseModel()
         {
             this.bundle = LanguageController.INSTANCE.GetAppLanguageBundle();
-            CreateNewDatabase("New database");
+            //CreateNewDatabase("New database");
             HashDatabase();
         }
         public bool IsSaved()
@@ -196,9 +214,8 @@ namespace CryptoUSB.Models
         }
         public void CopyGroupById(int id, int newPid)
         {
-            int lastIndex = 0;
             AddGroup(newPid, GetGroupById(id).Name);
-            lastIndex = GetLastGroupID();
+            int lastIndex = GetLastGroupID();
             CopyRecords(id, lastIndex);
             RecursiveCopyGroups(id, lastIndex, new List<int>());
         }
@@ -233,7 +250,7 @@ namespace CryptoUSB.Models
         }
         private List<GroupModel> GetChildGroupArray(int pid) 
         {
-            List<GroupModel> list = new List<GroupModel>();
+            List<GroupModel> list = new();
             foreach (GroupModel groupModel in this.groupsArrayList)
             {
                 if (groupModel.Pid == pid)
@@ -250,7 +267,7 @@ namespace CryptoUSB.Models
         }
         private void DeleteGroupChild(int pid)
         {
-            List<GroupModel> temp = new List<GroupModel>();
+            List<GroupModel> temp = new();
             for (int i = 0; i < this.groupsArrayList.Count; i++)
             {
                 if (this.groupsArrayList[i].Pid == pid)
@@ -284,7 +301,7 @@ namespace CryptoUSB.Models
         }
         public void DeleteRecordsByPid(int pid)
         {
-            List<RecordModel> temp = new List<RecordModel>();
+            List<RecordModel> temp = new();
             for (int i = 0; i < this.recordsArrayList.Count; i++)
             {
                 if (this.recordsArrayList[i].Pid == pid)
@@ -361,37 +378,75 @@ namespace CryptoUSB.Models
         }
         public void FillFromKakaduJSON(string json)
         {
+            Clear();
 
+            JsonNode? obj = JsonObject.Parse(json);
+            JsonObject jsonObj = (JsonObject)obj;
+            JsonArray groupArray = (JsonArray)jsonObj["groups"];
+            int size = groupArray.Count;
+            for (int i = 0; i < size; i++)
+            {
+                JsonObject groupObj = (JsonObject)groupArray[i];
+                this.groupsArrayList.Add(new GroupModel(
+                    Convert.ToInt32(groupObj["id"].ToString()),
+                    Convert.ToInt32(groupObj["pid"].ToString()),
+                    groupObj["name"].ToString()));
+            }
+
+            JsonArray recordArray = (JsonArray)jsonObj["records"];
+            size = recordArray.Count;
+            for (int i = 0; i < size; i++)
+            {
+                JsonObject recordObj = (JsonObject)recordArray[i];
+                this.recordsArrayList.Add(new RecordModel(
+                    Convert.ToInt32(recordObj["id"].ToString()),
+                    Convert.ToInt32(recordObj["pid"].ToString()),
+                    recordObj["name"].ToString(),
+                    recordObj["login"].ToString(),
+                    StringToCharArray(recordObj["password"].ToString()),
+                    recordObj["url"].ToString(),
+                    recordObj["loginSymbol"].ToString(),
+                    recordObj["passwordSymbol"].ToString(),
+                    recordObj["urlSymbol"].ToString()));
+            }
         }
         public void FillFromDevice(byte[][] buffer)
         {
 
         }
+        public void BuildTree()
+        {
+            TreeObjects = Instance.CreateTree(1);
+        }
         public string GetJSONString()
         {
-            JsonArray groupsArray = new JsonArray();
-            JsonArray recordsArray = new JsonArray();
-            JsonObject backupObj = new JsonObject();
+            JsonArray groupsArray = new();
+            JsonArray recordsArray = new();
+            JsonObject backupObj = new();
             foreach (GroupModel groupModel in this.groupsArrayList)
             {
-                JsonObject groupJSON = new JsonObject();
-                groupJSON.Add("id", groupModel.Id);
-                groupJSON.Add("pid", groupModel.Pid);
-                groupJSON.Add("name", groupModel.Name);
+                JsonObject groupJSON = new()
+                {
+                    { "id", groupModel.Id },
+                    { "pid", groupModel.Pid },
+                    { "name", groupModel.Name }
+                };
                 groupsArray.Add(groupJSON);
             }
             foreach (RecordModel recordModel in this.recordsArrayList)
             {
-                JsonObject recordJSON = new JsonObject();
-                recordJSON.Add("id", recordModel.Id);
-                recordJSON.Add("pid", recordModel.Pid);
-                recordJSON.Add("name", recordModel.Name);
-                recordJSON.Add("login", recordModel.Login);
-                recordJSON.Add("password", recordModel.GetPasswordString());
-                recordJSON.Add("url", recordModel.Url);
-                recordJSON.Add("loginSymbol", recordModel.getAfterLoginString());
-                recordJSON.Add("passwordSymbol", recordModel.getAfterPasswordString());
-                recordJSON.Add("urlSymbol", recordModel.getAfterUrlString());
+                JsonObject recordJSON = new()
+                {
+                    { "id", recordModel.Id },
+                    { "pid", recordModel.Pid },
+                    { "name", recordModel.Name },
+                    { "login", recordModel.Login },
+                    { "password", recordModel.GetPasswordString() },
+                    { "url", recordModel.Url },
+                    { "loginSymbol", recordModel.getAfterLoginString() },
+                    { "passwordSymbol", recordModel.getAfterPasswordString() },
+                    { "urlSymbol", recordModel.getAfterUrlString() }
+                };
                 recordsArray.Add(recordJSON);
             }
             backupObj.Add("groups", groupsArray);
@@ -419,15 +474,15 @@ namespace CryptoUSB.Models
             }
             return noZeros;
         }
-        private List<GroupModel> GetPrepareGroupArray()
+        private static List<GroupModel> GetPrepareGroupArray()
         {
-            List<GroupModel> newGroupModel = new List<GroupModel>();
+            List<GroupModel> newGroupModel = new();
 
             return newGroupModel;
         }
-        private List<RecordModel> GetPrepareRecordArray()
+        private static List<RecordModel> GetPrepareRecordArray()
         {
-            List<RecordModel> newRecordModel = new List<RecordModel>();
+            List<RecordModel> newRecordModel = new();
 
             return newRecordModel;
         }
@@ -438,13 +493,13 @@ namespace CryptoUSB.Models
             byte[,] kakaduBytes = new byte[readyGroupModels.Count + readyRecordModels.Count, 196];
             return kakaduBytes;
         }
-        private char[] StringToCharArray(string value)
+        private static char[] StringToCharArray(string value)
         {
             return value.ToCharArray();
         }
         public List<GroupModel> GetGroupsByPid(int id)
         {
-            List<GroupModel> groupModelsById = new List<GroupModel>();
+            List<GroupModel> groupModelsById = new();
             foreach(GroupModel groupModel in this.groupsArrayList)
             {
                 if (groupModel.Pid == id)
@@ -476,6 +531,33 @@ namespace CryptoUSB.Models
 
         //    return tree;
         //}
+        private TreeObject CreateTree (int startId)
+        {
+            TreeObject treeObject = new();
+            //Выбор нулевой группы
+            treeObject.Item = groupsArrayList.FirstOrDefault(g => g.Id == startId); ;
+
+            List<GroupModel> groups = GetGroupsByPid(startId);
+            foreach (GroupModel groupModel1 in groups)
+            {
+                if (treeObject.Item != null )
+                {
+                    treeObject.Children.Add(CreateTree(groupModel1.Id));
+                }
+            }
+
+            //Сбор записей в группу
+            List<RecordModel> recordModels = GetRecordsByPid(startId);
+            foreach (RecordModel recordModel in recordModels)
+            {
+                treeObject.Children.Add(new TreeObject() { Item = recordModel });
+            }
+
+
+            //ObservableCollection<TreeObject> tree = new ObservableCollection<TreeObject>();
+            //tree.Add(treeObject);
+            return treeObject;
+        }
         private string GetSymbolFromByteArray(byte[] byteArray)
         {
             string symbol = "NONE";
@@ -514,7 +596,7 @@ namespace CryptoUSB.Models
         }
         public List<RecordModel> GetRecordsByPid(int groupId)
         {
-            List<RecordModel> recordModel = new List<RecordModel>();
+            List<RecordModel> recordModel = new();
             foreach (RecordModel record in this.recordsArrayList)
             {
                 if (record.Pid == groupId)
@@ -523,6 +605,14 @@ namespace CryptoUSB.Models
                 }
             }
             return recordModel;
+        }
+        public List<GroupModel> GetGroupsByPis(int pid)
+        {
+            List<GroupModel> groupModels = new();
+            foreach (GroupModel groupModel in this.groupsArrayList)
+                if (groupModel.Pid == pid)
+                    groupModels.Add(groupModel);
+            return groupModels;
         }
         private void SetBreadCrumb(int id)
         {
@@ -540,7 +630,7 @@ namespace CryptoUSB.Models
         }
         public List<GroupModel> GetGroupsArrayList()
         {
-            List<GroupModel> newGroup = new List<GroupModel>(this.groupsArrayList);
+            List<GroupModel> newGroup = new(this.groupsArrayList);
             return newGroup;
         }
         public int GetRowCount()
@@ -572,5 +662,11 @@ namespace CryptoUSB.Models
             doubleByte[0] = (byte)(toByte >> 8);
             return doubleByte;
         }
+    }
+    public class TreeObject
+    {
+        public IObjectModel Item { get; set; }
+        public string ImageType { get => Item is GroupModel ? "/Assets/folder.png" : "/Assets/file.png"; }
+        public ObservableCollection<TreeObject> Children { get; set; } = new ObservableCollection<TreeObject>();
     }
 }

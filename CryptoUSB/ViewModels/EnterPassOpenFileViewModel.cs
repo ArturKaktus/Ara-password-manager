@@ -14,8 +14,8 @@ namespace CryptoUSB.ViewModels
         {
             PathString = path;
         }
-        private string _PathString;
-        private string _Password;
+        private string _PathString = string.Empty;
+        private string _Password = string.Empty;
         private bool _IsEnableButton;
         
         public string PathString { get => _PathString; set => this.RaiseAndSetIfChanged(ref _PathString, value); }

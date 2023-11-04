@@ -31,7 +31,7 @@ namespace CryptoUSB.Models
             CreateSettingsFile();
             ReadSettingsFile();
             LoadSettings();
-            ClearUploadDir();
+            //ClearUploadDir();
         }
 
         public string FirmwareWinDir

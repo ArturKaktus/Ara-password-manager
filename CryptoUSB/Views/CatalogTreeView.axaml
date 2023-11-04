@@ -3,14 +3,25 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:vm="clr-namespace:CryptoUSB.ViewModels"
+			 xmlns:models="clr-namespace:CryptoUSB.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="CryptoUSB.Views.CatalogTreeView"
 			 x:DataType="vm:CatalogTreeViewViewModel">
+	<UserControl.Resources>
+		<vm:ObjectTypeToImageConverter x:Key="Convert"/>
+	</UserControl.Resources>
 
-
-	<Grid Background="Lavender">
+	<Grid>
 		<TreeView ItemsSource="{Binding Catalog}">
-			
+			<TreeView.DataTemplates>
+				<TreeDataTemplate DataType="models:TreeObject" ItemsSource="{Binding Children}">
+					<StackPanel Orientation="Horizontal">
+						<Image Source="{Binding Converter={StaticResource Convert }}" Width="15" Height="15"/>
+						<TextBlock Text="{Binding Item}"/>
+					</StackPanel>
+				</TreeDataTemplate>
+			</TreeView.DataTemplates>
 		</TreeView>
+		
 	</Grid>
 </UserControl>

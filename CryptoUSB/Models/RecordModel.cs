@@ -9,7 +9,7 @@ using System.Text;
 
 namespace CryptoUSB.Models
 {
-    public class RecordModel
+    public class RecordModel : IObjectModel
     {
         public int Id { get; set; }
         public int Pid { get; set; }
@@ -186,6 +186,10 @@ namespace CryptoUSB.Models
             Array.Copy(firstArray, 0, concat, 0, firstLen);
             Array.Copy(secondArray, 0, concat, firstLen, secondLen);
             return concat;
+        }
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }

@@ -13,6 +13,8 @@
 
   
   <ItemGroup>
+    <None Remove="Assets\File.png" />
+    <None Remove="Assets\Folder.png" />
     <None Remove="Assets\github-logo.png" />
   </ItemGroup>
 

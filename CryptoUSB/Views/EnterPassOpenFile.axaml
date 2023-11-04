@@ -6,9 +6,7 @@
 			 mc:Ignorable="d" d:DesignWidth="250" d:DesignHeight="200"
              x:Class="CryptoUSB.Views.EnterPassOpenFile"
 			 x:DataType="vm:EnterPassOpenFileViewModel">
-	<Design.DataContext>
-		<vm:EnterPassOpenFileViewModel />
-	</Design.DataContext>
+
 	<Grid Margin="5">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="auto"/>

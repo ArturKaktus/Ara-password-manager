@@ -23,8 +23,9 @@ namespace CryptoUSB.Models
             string jsonString = DecryptFoxBackup(ReadFile());
             if (jsonString.Equals("error"))
                 return false;
-            DatabaseModel.INSTANCE.FillFromKakaduJSON(jsonString);
-            DatabaseModel.INSTANCE.HashDatabase();
+            DatabaseModel.Instance.FillFromKakaduJSON(jsonString);
+            DatabaseModel.Instance.HashDatabase();
+            DatabaseModel.Instance.BuildTree();
             return true;
         }
         private byte[] ReadFile()

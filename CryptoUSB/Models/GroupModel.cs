@@ -9,7 +9,7 @@ using System.Text;
 
 namespace CryptoUSB.Models
 {
-    public class GroupModel
+    public class GroupModel : IObjectModel
     {
         public int Id { get; set; }
         public int Pid { get; set; }

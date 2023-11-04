@@ -25,7 +25,7 @@ public class MenuViewModel : ViewModelBase
         if (owner == null)
             return;
         var dialog = new OpenFileDialog();
-        string[] result = null;
+        string[]? result = null;
         dialog.Filters.Add(new FileDialogFilter() { Name = "Резервная копия Kakadu", Extensions = { "kkd" } });
         result = await dialog.ShowAsync(new Window());
         if (result != null && result.Length > 0)

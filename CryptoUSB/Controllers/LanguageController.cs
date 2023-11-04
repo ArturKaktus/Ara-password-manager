@@ -14,7 +14,7 @@ namespace CryptoUSB.Controllers
     {
         private CultureInfo appLocale;
         private ResourceManager appLanguageBundle;
-        public static readonly LanguageController INSTANCE = new LanguageController();
+        public static readonly LanguageController INSTANCE = new();
         private string[] localArray;
 
         private LanguageController()
@@ -38,19 +38,12 @@ namespace CryptoUSB.Controllers
 
         public void SetLocale()
         {
-            switch (SettingsModel.INSTANCE.AppLanguage)
+            this.appLocale = SettingsModel.INSTANCE.AppLanguage switch
             {
-                case "ru":
-                    this.appLocale = new CultureInfo("ru-RU");
-                    break;
-                case "en":
-                    this.appLocale = new CultureInfo("en-GB");
-                    break;
-                default:
-                    this.appLocale = new CultureInfo("en-GB");
-                    break;
-            }
-
+                "ru" => new CultureInfo("ru-RU"),
+                "en" => new CultureInfo("en-GB"),
+                _ => new CultureInfo("en-GB"),
+            };
             this.localArray = new string[2];
             this.localArray[0] = "English";
             this.localArray[1] = "";
