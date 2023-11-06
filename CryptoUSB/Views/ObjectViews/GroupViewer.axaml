@@ -3,7 +3,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="CryptoUSB.Views.GroupViewer">
+             x:Class="CryptoUSB.Views.GroupViewer"
+			 xmlns:vm="clr-namespace:CryptoUSB.ViewModels"
+			 x:DataType="vm:ObjectViewerViewModel">
+
 	<Grid Margin="5">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
@@ -11,7 +14,7 @@
 			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
 		<TextBlock Grid.Row="0" Text="Название папки" Margin="5"/>
-		<TextBox Grid.Row="1" Margin="5"/>
+		<TextBox Text="{Binding Name}" Grid.Row="1" Margin="5"/>	
 		<Button Grid.Row="2" Content="Сохранить" Margin="5"/>
 	</Grid>
 </UserControl>

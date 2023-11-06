@@ -1,6 +1,4 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml.Templates;
 using CryptoUSB.Models;
 using CryptoUSB.ViewModels;
 
@@ -18,11 +16,16 @@ namespace CryptoUSB.Views
 
         private void TreeView_SelectionChanged(object? sender, Avalonia.Controls.SelectionChangedEventArgs e)
         {
+            if (ViewContainer.Content != null && 
+                ((ObjectViewerViewModel)((UserControl)ViewContainer.Content).DataContext).IsChanged)
+            {
+                //TODO: если запись изменена, но не сохранена, то вопрос
+            }
             TreeObject TreeObject = ((TreeView)sender).SelectedItem as TreeObject;
-            if (TreeObject.Item is RecordModel)
-                ViewContainer.Content = new RecordViewer();
-            else if (TreeObject.Item is GroupModel)
-                ViewContainer.Content = new GroupViewer();
+            if (TreeObject.Item is RecordModel recordModel)
+                ViewContainer.Content = new RecordViewer(recordModel);
+            else if (TreeObject.Item is GroupModel groupModel)
+                ViewContainer.Content = new GroupViewer(groupModel);
         }
     }
 }

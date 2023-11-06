@@ -3,7 +3,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="CryptoUSB.Views.RecordViewer">
+             x:Class="CryptoUSB.Views.RecordViewer"
+			 xmlns:vm="clr-namespace:CryptoUSB.ViewModels"
+			 x:DataType="vm:ObjectViewerViewModel">
+	
 	<Grid Margin="5">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
@@ -22,21 +25,21 @@
 		</Grid.ColumnDefinitions>
 		
 		<TextBlock Text="Название записи" Grid.Row="0" Grid.Column="0" Margin="5"/>
-		<TextBox Grid.Row="1" Grid.Column="0" Margin="5"/>
+		<TextBox Text="{Binding Name}" Grid.Row="1" Grid.Column="0" Margin="5"/>
 		
 		<TextBlock Text="Адрес сайта" Grid.Row="2" Grid.Column="0" Margin="5"/>
 		<TextBlock Text="Действие после" Grid.Row="2" Grid.Column="1" Margin="5"/>
-		<TextBox Grid.Row="3" Grid.Column="0" Margin="5"/>
+		<TextBox Text="{Binding Url}" Grid.Row="3" Grid.Column="0" Margin="5"/>
 		<ComboBox Grid.Row="3" Grid.Column="1" Margin="5"/>
 		
 		<TextBlock Text="Логин" Grid.Row="4" Grid.Column="0" Margin="5"/>
 		<TextBlock Text="Действие после" Grid.Row="4" Grid.Column="1" Margin="5"/>
-		<TextBox Grid.Row="5" Grid.Column="0" Margin="5"/>
+		<TextBox Text="{Binding Login}" Grid.Row="5" Grid.Column="0" Margin="5"/>
 		<ComboBox Grid.Row="5" Grid.Column="1" Margin="5"/>
 		
 		<TextBlock Text="Пароль" Grid.Row="6" Grid.Column="0" Margin="5"/>
 		<TextBlock Text="Действие после" Grid.Row="6" Grid.Column="1" Margin="5"/>
-		<TextBox Grid.Row="7" Grid.Column="0" Margin="5"/>
+		<TextBox Text="{Binding Password}" Grid.Row="7" Grid.Column="0" Margin="5"/>
 		<ComboBox Grid.Row="7" Grid.Column="1" Margin="5"/>
 		
 		<Button Content="Сохранить" Grid.Row="8" Grid.Column="0" Margin="5"/>

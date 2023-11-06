@@ -10,9 +10,12 @@ namespace CryptoUSB.Views
         EnterPassOpenFileViewModel viewModel;
         public event EventHandler AcceptButtonClicked;
 
-        public EnterPassOpenFile(string path)
+        public EnterPassOpenFile() 
         {
             InitializeComponent();
+        }
+        public EnterPassOpenFile(string path):this()
+        {
             viewModel = new EnterPassOpenFileViewModel(path);
             this.DataContext = viewModel;
         }

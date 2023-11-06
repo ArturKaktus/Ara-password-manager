@@ -45,7 +45,7 @@ namespace CryptoUSB.Models
     {
         using (SHA256 sha256 = SHA256.Create())
         {
-            byte[] hash = sha256.ComputeHash(Encoding.UTF8.GetBytes(this.password.ToString()));
+            byte[] hash = sha256.ComputeHash(Encoding.UTF8.GetBytes(new string(this.password)));
 
             using (Aes aes = Aes.Create())
             {
