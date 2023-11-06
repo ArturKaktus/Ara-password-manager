@@ -6,7 +6,7 @@ namespace CryptoUSB.Views
 {
     public partial class RecordViewer : UserControl
     {
-        ObjectViewerViewModel model;
+        readonly ObjectViewerViewModel model;
         public RecordViewer()
         {
             InitializeComponent();

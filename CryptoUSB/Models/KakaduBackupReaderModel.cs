@@ -10,8 +10,8 @@ namespace CryptoUSB.Models
 {
     public class KakaduBackupReaderModel
     {
-        private string path;
-        private char[] password;
+        private readonly string path;
+        private readonly char[] password;
 
         public KakaduBackupReaderModel(string path, char[] password)
         {
@@ -46,25 +46,18 @@ namespace CryptoUSB.Models
         {
             try
             {
-                using (SHA256 sha256 = SHA256.Create())
-                {
-                    byte[] hash = sha256.ComputeHash(Encoding.UTF8.GetBytes(this.password));
-                    using (Aes aesAlg = Aes.Create())
-                    {
-                        aesAlg.Key = hash;
-                        aesAlg.Mode = CipherMode.ECB;
-                        aesAlg.Padding = PaddingMode.PKCS7;
+                byte[] hash = SHA256.HashData(Encoding.UTF8.GetBytes(this.password));
+                using Aes aesAlg = Aes.Create();
+                aesAlg.Key = hash;
+                aesAlg.Mode = CipherMode.ECB;
+                aesAlg.Padding = PaddingMode.PKCS7;
 
-                        ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
-                        using (MemoryStream ms = new MemoryStream(sourceArray))
-                        using (CryptoStream cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
-                        using (StreamReader sr = new StreamReader(cs, Encoding.UTF8))
-                        {
-                            string decryptedText = sr.ReadToEnd();
-                            return decryptedText;
-                        }
-                    }
-                }
+                ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+                using MemoryStream ms = new(sourceArray);
+                using CryptoStream cs = new(ms, decryptor, CryptoStreamMode.Read);
+                using StreamReader sr = new(cs, Encoding.UTF8);
+                string decryptedText = sr.ReadToEnd();
+                return decryptedText;
             }
             catch (Exception e)
             {

@@ -14,15 +14,15 @@ namespace CryptoUSB.Models
         private readonly string firmwareWinDir = "\\Documents\\Crypto Kakadu\\update\\";
         private readonly string settingsFile = "config.properties";
 
-        private readonly Dictionary<string, string> defaultProperties = new Dictionary<string, string>();
-        private readonly Dictionary<string, string> userProperties = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> defaultProperties = new();
+        private readonly Dictionary<string, string> userProperties = new();
 
         private string appLanguage = string.Empty;
         private bool appFirstStart;
         private bool appShowFirstModal;
         private bool appShowAlerts;
 
-        public static readonly SettingsModel INSTANCE = new SettingsModel();
+        public static readonly SettingsModel Instance = new();
 
         private SettingsModel()
         {
@@ -45,12 +45,12 @@ namespace CryptoUSB.Models
             SaveSettings();
         }
 
-        public string Version
+        public static string Version
         {
             get { return "2.3.1"; }
         }
 
-        public int IntVersion
+        public static int IntVersion
         {
             get
             {
@@ -121,14 +121,12 @@ namespace CryptoUSB.Models
                         //{
                         //    defaultProperties.Store(settingsStream, "Crypto Kakadu default config");
                         //}
-                        using (var settingsStream = new StreamWriter(filePath))
+                        using var settingsStream = new StreamWriter(filePath);
+                        foreach (var kvp in defaultProperties)
                         {
-                            foreach (var kvp in defaultProperties)
-                            {
-                                settingsStream.WriteLine($"{kvp.Key}={kvp.Value}");
-                            }
-                            settingsStream.Flush();
+                            settingsStream.WriteLine($"{kvp.Key}={kvp.Value}");
                         }
+                        settingsStream.Flush();
                     }
                     catch (Exception e)
                     {
@@ -182,21 +180,19 @@ namespace CryptoUSB.Models
                 //{
                 //    userProperties.Store(settingsStream, "Crypto Kakadu config");
                 //}
-                using (var settingsStream = new StreamWriter(filePath))
+                using var settingsStream = new StreamWriter(filePath);
+                foreach (var kvp in userProperties)
                 {
-                    foreach (var kvp in userProperties)
-                    {
-                        settingsStream.WriteLine($"{kvp.Key}={kvp.Value}");
-                    }
-                    settingsStream.Flush();
+                    settingsStream.WriteLine($"{kvp.Key}={kvp.Value}");
                 }
+                settingsStream.Flush();
             }
             catch { }
         }
         public void ClearUploadDir()
         {
             string dirPath = Path.Combine(SystemInfoService.INSTANCE.UserHome, firmwareWinDir);
-            DirectoryInfo dir = new DirectoryInfo(dirPath);
+            DirectoryInfo dir = new(dirPath);
             foreach (FileInfo file in dir.GetFiles())
             {
                 if (!file.Directory.Exists)

@@ -6,7 +6,7 @@ namespace CryptoUSB.Views
 {
     public partial class CatalogTreeView : UserControl
     {
-        CatalogTreeViewViewModel viewModel;
+        readonly CatalogTreeViewViewModel viewModel;
         public CatalogTreeView()
         {
             InitializeComponent();        

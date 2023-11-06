@@ -243,9 +243,9 @@ namespace CryptoUSB.Models
                     recordModel.Login, 
                     recordModel.GetPasswordString(), 
                     recordModel.Url, 
-                    recordModel.getAfterLoginString(), 
-                    recordModel.getAfterPasswordString(), 
-                    recordModel.getAfterUrlString());
+                    recordModel.GetAfterLoginString(), 
+                    recordModel.GetAfterPasswordString(), 
+                    recordModel.GetAfterUrlString());
             }
         }
         private List<GroupModel> GetChildGroupArray(int pid) 
@@ -443,9 +443,9 @@ namespace CryptoUSB.Models
                     { "login", recordModel.Login },
                     { "password", recordModel.GetPasswordString() },
                     { "url", recordModel.Url },
-                    { "loginSymbol", recordModel.getAfterLoginString() },
-                    { "passwordSymbol", recordModel.getAfterPasswordString() },
-                    { "urlSymbol", recordModel.getAfterUrlString() }
+                    { "loginSymbol", recordModel.GetAfterLoginString() },
+                    { "passwordSymbol", recordModel.GetAfterPasswordString() },
+                    { "urlSymbol", recordModel.GetAfterUrlString() }
                 };
                 recordsArray.Add(recordJSON);
             }

@@ -15,11 +15,11 @@ namespace CryptoUSB.Models
         public int Pid { get; set; }
         public string Name { get; set; }
         public string Login { get; set; }
-        private SymbolModel _afterLoginSymbol = new SymbolModel();
+        private readonly SymbolModel _afterLoginSymbol = new();
         public char[] Password { get; set; }
-        private SymbolModel _afterPasswordSymbol = new SymbolModel();
+        private readonly SymbolModel _afterPasswordSymbol = new();
         public string Url { get; set; }
-        private SymbolModel _afterUrlSymbol = new SymbolModel();
+        private readonly SymbolModel _afterUrlSymbol = new();
         public RecordModel(int id, int pid, string name, string login, string url)
         {
             Id = id;
@@ -43,15 +43,15 @@ namespace CryptoUSB.Models
         {
             return "";
         }
-        public string getAfterLoginString()
+        public string GetAfterLoginString()
         {
             return this._afterLoginSymbol.GetSymbolStringValue();
         }
-        public string getAfterPasswordString()
+        public string GetAfterPasswordString()
         {
             return this._afterPasswordSymbol.GetSymbolStringValue();
         }
-        public string getAfterUrlString()
+        public string GetAfterUrlString()
         {
             return this._afterUrlSymbol.GetSymbolStringValue();
         }
@@ -162,7 +162,7 @@ namespace CryptoUSB.Models
             }
             return urlBytes;
         }
-        private byte[] GetPrepArray(int len)
+        private static byte[] GetPrepArray(int len)
         {
             byte[] prepArray = new byte[len];
             for (int i = 0; i < prepArray.Length; i++)
@@ -171,14 +171,14 @@ namespace CryptoUSB.Models
             }
             return prepArray;
         }
-        private byte[] IntToDoubleByte(int toByte)
+        private static byte[] IntToDoubleByte(int toByte)
         {
             byte[] doubleByte = new byte[2];
             doubleByte[1] = (byte)toByte;
             doubleByte[0] = (byte)(toByte >>> 8);
             return doubleByte;
         }
-        private byte[] ConcatTwoArrays(byte[] firstArray, byte[] secondArray)
+        private static byte[] ConcatTwoArrays(byte[] firstArray, byte[] secondArray)
         {
             int firstLen = firstArray.Length;
             int secondLen = secondArray.Length;

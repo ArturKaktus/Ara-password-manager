@@ -7,7 +7,7 @@ namespace CryptoUSB.Views
 {
     public partial class EnterPassOpenFile : UserControl
     {
-        EnterPassOpenFileViewModel viewModel;
+        readonly EnterPassOpenFileViewModel viewModel;
         public event EventHandler AcceptButtonClicked;
 
         public EnterPassOpenFile() 

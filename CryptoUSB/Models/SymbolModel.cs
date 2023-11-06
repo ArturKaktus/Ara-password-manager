@@ -52,29 +52,23 @@ namespace CryptoUSB.Models
         }
         public string GetSymbolStringValue()
         {
-            switch (this._symbolValue)
+            return this._symbolValue switch
             {
-                case SymbolValue.TAB:
-                    return "TAB";
-                case SymbolValue.ENTER:
-                    return "ENTER";
-                case SymbolValue.NONE:
-                    return "NONE";
-            }
-            return "NONE";
+                SymbolValue.TAB => "TAB",
+                SymbolValue.ENTER => "ENTER",
+                SymbolValue.NONE => "NONE",
+                _ => "NONE",
+            };
         }
         public byte GetSymbolByteValue()
         {
-            switch (this._symbolValue)
+            return this._symbolValue switch
             {
-                case SymbolValue.TAB:
-                    return 9;
-                case SymbolValue.ENTER:
-                    return 10;
-                case SymbolValue.NONE:
-                    return 0;
-            }
-            return 0;
+                SymbolValue.TAB => 9,
+                SymbolValue.ENTER => 10,
+                SymbolValue.NONE => 0,
+                _ => 0,
+            };
         }
     }
 }

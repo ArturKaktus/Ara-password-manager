@@ -10,8 +10,8 @@ namespace CryptoUSB.Models
 {
     public class KakaduBackupWriterModel
     {
-        private string pathString = string.Empty;
-        private char[] password;
+        private readonly string pathString = string.Empty;
+        private readonly char[] password;
         public KakaduBackupWriterModel(string password, string path)
         {
             this.pathString = path;
@@ -23,13 +23,13 @@ namespace CryptoUSB.Models
             {
                 if (this.pathString != null)
                 {
-                    using (FileStream backUpStream = new FileStream(this.pathString, FileMode.Create))
+                    using (FileStream backUpStream = new(this.pathString, FileMode.Create))
                     {
                         Console.WriteLine(DatabaseModel.Instance.GetJSONString());
                         backUpStream.Write(EncryptBackup(DatabaseModel.Instance.GetJSONString()));
                         DatabaseModel.Instance.HashDatabase();
                     }
-                    FileInfo save = new FileInfo(this.pathString);
+                    FileInfo save = new(this.pathString);
                     DatabaseModel.Instance.Name = save.Name;
                     return true;
 
@@ -43,23 +43,16 @@ namespace CryptoUSB.Models
         }
     private byte[] EncryptBackup(string backupString)
     {
-        using (SHA256 sha256 = SHA256.Create())
-        {
-            byte[] hash = sha256.ComputeHash(Encoding.UTF8.GetBytes(new string(this.password)));
+        byte[] hash = SHA256.HashData(Encoding.UTF8.GetBytes(new string(this.password)));
 
-            using (Aes aes = Aes.Create())
-            {
-                aes.Key = hash;
-                aes.Mode = CipherMode.ECB;
-                aes.Padding = PaddingMode.PKCS7;
+            using Aes aes = Aes.Create();
+            aes.Key = hash;
+            aes.Mode = CipherMode.ECB;
+            aes.Padding = PaddingMode.PKCS7;
 
-                using (ICryptoTransform encryptor = aes.CreateEncryptor())
-                {
-                    byte[] byteCipherText = encryptor.TransformFinalBlock(Encoding.UTF8.GetBytes(backupString), 0, backupString.Length);
-                    return byteCipherText;
-                }
-            }
+            using ICryptoTransform encryptor = aes.CreateEncryptor();
+            byte[] byteCipherText = encryptor.TransformFinalBlock(Encoding.UTF8.GetBytes(backupString), 0, backupString.Length);
+            return byteCipherText;
         }
     }
-}
 }

@@ -9,9 +9,9 @@ namespace CryptoUSB.Services
 {
     public class DeviceFinder
     {
-        public static DeviceFinder Instance = new DeviceFinder();
-        private KakaduCommander _commander = new KakaduCommander();
-        private FindDevice _findDevice = new FindDevice();
+        public static DeviceFinder Instance = new();
+        private KakaduCommander _commander = new();
+        private FindDevice _findDevice = new();
         public FindDevice Find { get { return _findDevice; } }
         public KakaduCommander Commander { get { return _commander; } }
         public bool ContinFind { get; set; } = true;
@@ -21,7 +21,7 @@ namespace CryptoUSB.Services
         public void StartSearch()
         {
             ContinFind = true;
-            Thread findDeviceThread = new Thread(_findDevice.Run);
+            Thread findDeviceThread = new(_findDevice.Run);
             findDeviceThread.Start();
         }
         private void IsConnected_PropertyChange(object sender, PropertyChangedEventArgs e)
@@ -53,7 +53,6 @@ namespace CryptoUSB.Services
     }
     public class FindDevice : INotifyPropertyChanged
     {
-        private string _answerString = "";
         private bool _connected = false;
         public bool IsConnected
         {
@@ -97,12 +96,7 @@ namespace CryptoUSB.Services
             }
         }
 
-        public string GetPort()
-        {
-            return DeviceFinder.Instance.Port;
-        }
-
-        private bool SearchInAllPorts()
+        private static bool SearchInAllPorts()
         {
             string[] portsNames = SerialPort.GetPortNames();
             for (int i = 0; i < portsNames.Length; i++)

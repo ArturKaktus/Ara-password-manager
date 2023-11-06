@@ -6,7 +6,7 @@ namespace CryptoUSB.Views
 {
     public partial class DeviceStatus : UserControl
     {
-        DeviceStatusViewModel viewModel;
+        readonly DeviceStatusViewModel viewModel;
         public DeviceStatus()
         {
             InitializeComponent();
@@ -15,8 +15,7 @@ namespace CryptoUSB.Views
         }
         public void GitHubPressed(object sender, PointerPressedEventArgs e)
         {
-            if (viewModel != null)
-                viewModel.GitHubPressed();
+            viewModel?.GitHubPressed();
         }
     }
 }

@@ -12,14 +12,14 @@ public class MenuViewModel : ViewModelBase
 {
     private string _data;
 
-    public string Settings => char.ConvertFromUtf32(0x2699);
-    public string Infos => char.ConvertFromUtf32(0x1F6C8);
+    public static string Settings => char.ConvertFromUtf32(0x2699);
+    public static string Infos => char.ConvertFromUtf32(0x1F6C8);
     public string Data
     {
         get => _data;
         set => this.RaiseAndSetIfChanged(ref _data, value);
     }
-    public async Task OpenKKDFromPC()
+    public static async Task OpenKKDFromPC()
     {
         Window owner = ((ClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime).MainWindow;
         if (owner == null)
@@ -52,9 +52,11 @@ public class MenuViewModel : ViewModelBase
                     if (isEntered)
                     {
                         var dataContext = enterPasswordControl.DataContext as EnterPassOpenFileViewModel;
-                        OpenFromPCController openFromPCController = new OpenFromPCController();
-                        openFromPCController.FilePath = result[0];
-                        openFromPCController.Password = dataContext.Password.ToCharArray();
+                        OpenFromPCController openFromPCController = new()
+                        {
+                            FilePath = result[0],
+                            Password = dataContext.Password.ToCharArray()
+                        };
                         openFromPCController.Open();
                     }
                     

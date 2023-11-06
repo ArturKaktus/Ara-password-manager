@@ -8,9 +8,9 @@ namespace CryptoUSB.Models
 {
     public class DeviceDriveModel
     {
-        private string _model;
-        private string _path;
-        private long _size = 0;
+        private readonly string _model;
+        private readonly string _path;
+        private readonly long _size = 0;
 
         public DeviceDriveModel(string model, string pathString, long size)
         {

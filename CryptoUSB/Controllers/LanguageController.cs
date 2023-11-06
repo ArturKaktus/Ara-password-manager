@@ -38,7 +38,7 @@ namespace CryptoUSB.Controllers
 
         public void SetLocale()
         {
-            this.appLocale = SettingsModel.INSTANCE.AppLanguage switch
+            this.appLocale = SettingsModel.Instance.AppLanguage switch
             {
                 "ru" => new CultureInfo("ru-RU"),
                 "en" => new CultureInfo("en-GB"),

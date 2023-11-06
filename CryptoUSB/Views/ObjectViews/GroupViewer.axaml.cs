@@ -6,7 +6,7 @@ namespace CryptoUSB.Views
 {
     public partial class GroupViewer : UserControl
     {
-        ObjectViewerViewModel model;
+        readonly ObjectViewerViewModel model;
         public GroupViewer()
         {
             InitializeComponent();
