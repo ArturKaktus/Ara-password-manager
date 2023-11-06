@@ -32,7 +32,7 @@
 				</TreeDataTemplate>
 			</TreeView.DataTemplates>
 		</TreeView>
-		<GridSplitter Grid.Column="1"/>
+		<GridSplitter Grid.Column="1" Background="Gray"/>
 		<ContentControl Grid.Column="2" x:Name="ViewContainer" />
 	</Grid>
 </UserControl>
