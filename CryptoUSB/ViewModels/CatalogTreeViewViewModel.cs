@@ -28,6 +28,4 @@ namespace CryptoUSB.ViewModels
             Catalog.Add(DatabaseModel.Instance.TreeObjects);
         }
     }
-    
-
 }

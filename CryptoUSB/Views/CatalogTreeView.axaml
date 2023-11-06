@@ -12,16 +12,27 @@
 	</UserControl.Resources>
 
 	<Grid>
-		<TreeView ItemsSource="{Binding Catalog}">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="auto" MinWidth="50"/>
+			<ColumnDefinition Width="1"/>
+			<ColumnDefinition Width="*" MinWidth="50"/>
+		</Grid.ColumnDefinitions>
+		<TreeView ItemsSource="{Binding Catalog}" Margin="5" SelectionChanged="TreeView_SelectionChanged" Grid.Column="0">
 			<TreeView.DataTemplates>
 				<TreeDataTemplate DataType="models:TreeObject" ItemsSource="{Binding Children}">
-					<StackPanel Orientation="Horizontal">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto"/>
+							<ColumnDefinition/>
+						</Grid.ColumnDefinitions>
+
 						<Image Source="{Binding Converter={StaticResource Convert }}" Width="15" Height="15"/>
-						<TextBlock Text="{Binding Item}"/>
-					</StackPanel>
+						<TextBlock Text="{Binding Item}" Grid.Column="1"/>
+					</Grid>
 				</TreeDataTemplate>
 			</TreeView.DataTemplates>
 		</TreeView>
-		
+		<GridSplitter Grid.Column="1"/>
+		<ContentControl Grid.Column="2" x:Name="ViewContainer" />
 	</Grid>
 </UserControl>
