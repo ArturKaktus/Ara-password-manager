@@ -10,7 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia.Controls.TreeDataGrid" Version="11.0.1" />
     <PackageReference Include="Avalonia.Desktop" Version="11.0.5" />
     <PackageReference Include="Avalonia.LinuxFramebuffer" Version="11.0.5" />
   </ItemGroup>
