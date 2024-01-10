@@ -13,13 +13,13 @@ public class MenuViewModel : ViewModelBase
     private string _data;
 
     public static string Settings => char.ConvertFromUtf32(0x2699);
-    public static string Infos => char.ConvertFromUtf32(0x1F6C8);
+    public static string Infos => char.ConvertFromUtf32(0x2139);
     public string Data
     {
         get => _data;
         set => this.RaiseAndSetIfChanged(ref _data, value);
     }
-    public static async Task OpenKKDFromPC()
+    public async Task OpenKKDFromPC()
     {
         Window owner = ((ClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime).MainWindow;
         if (owner == null)

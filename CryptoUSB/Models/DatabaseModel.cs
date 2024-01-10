@@ -18,12 +18,17 @@ namespace CryptoUSB.Models
 {
     public class DatabaseModel : INotifyPropertyChanged
     {
-        private TreeObject _TreeObjects = new();
+        private ObservableCollection<TreeObject> _TreeObjects = new();
         public string Name { get; set; } = string.Empty;
         private readonly List<GroupModel> groupsArrayList = new();
         private readonly List<RecordModel> recordsArrayList = new();
         private readonly List<GroupModel> groupsBreadList = new();
-        public TreeObject TreeObjects 
+
+        private void GroupItem_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+
+        }
+        public ObservableCollection<TreeObject> TreeObjects 
         { 
             get => _TreeObjects;
             set
@@ -416,7 +421,11 @@ namespace CryptoUSB.Models
         }
         public void BuildTree()
         {
-            TreeObjects = Instance.CreateTree(1);
+            foreach (var group in Instance.groupsArrayList)
+            {
+                group.PropertyChanged += GroupItem_PropertyChanged;
+            }
+            TreeObjects.Add(Instance.CreateTree(1));
         }
         public string GetJSONString()
         {
@@ -663,10 +672,14 @@ namespace CryptoUSB.Models
             return doubleByte;
         }
     }
-    public class TreeObject
+    public class TreeObject /*: TreeViewItem*/
     {
         public IObjectModel Item { get; set; }
         public string ImageType { get => Item is GroupModel ? "/Assets/folder.png" : "/Assets/file.png"; }
         public ObservableCollection<TreeObject> Children { get; set; } = new ObservableCollection<TreeObject>();
+        //public bool IsSelected { get; set; } = false;
+        //public new bool IsSelected { get => base.IsSelected; set { base.IsSelected = value; } }
+        //public new bool IsExpanded { get => base.IsExpanded; set { base.IsExpanded = value; } }
+
     }
 }

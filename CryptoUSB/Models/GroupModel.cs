@@ -5,15 +5,28 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace CryptoUSB.Models
 {
-    public class GroupModel : IObjectModel
+    public class GroupModel : IObjectModel, INotifyPropertyChanged
     {
+        private string _Name;
         public int Id { get; set; }
         public int Pid { get; set; }
-        public string Name { get; set; }
+        public string Name
+        {
+            get => _Name;
+            set
+            {
+                _Name = value;
+                OnPropertyChanged(nameof(Name));
+            }
+        }
+
         public GroupModel(int id, int pid, string name)
         {
             Id = id;
@@ -79,6 +92,12 @@ namespace CryptoUSB.Models
             Array.Copy(firstArray, 0, concat, 0, firstLen);
             Array.Copy(secondArray, 0, concat, firstLen, secondLen);
             return concat;
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

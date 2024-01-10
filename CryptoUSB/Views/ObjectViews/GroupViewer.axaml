@@ -15,6 +15,6 @@
 		</Grid.RowDefinitions>
 		<TextBlock Grid.Row="0" Text="Название папки" Margin="5"/>
 		<TextBox Text="{Binding Name}" Grid.Row="1" Margin="5"/>	
-		<Button Grid.Row="2" Content="Сохранить" Margin="5"/>
+		<Button IsEnabled="{Binding IsChanged}" Command="{Binding SaveChanges}" Grid.Row="2" Content="Сохранить" Margin="5"/>
 	</Grid>
 </UserControl>

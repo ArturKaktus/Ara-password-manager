@@ -3,6 +3,7 @@ using Avalonia.Data;
 using Avalonia.Data.Converters;
 using CryptoUSB.Models;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,8 +25,9 @@ namespace CryptoUSB.ViewModels
 
         private void TreeObjets_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            Catalog.Clear();
-            Catalog.Add(DatabaseModel.Instance.TreeObjects);
+            Catalog = DatabaseModel.Instance.TreeObjects;
+            //Catalog.Clear();
+            //Catalog.Add(DatabaseModel.Instance.TreeObjects);
         }
     }
 }

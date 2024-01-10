@@ -35,11 +35,12 @@ namespace CryptoUSB.ViewModels
             }
             IsChanged = false;
         }
-        public void SaveChanges()
+        public async Task SaveChanges()
         {
             if (IsChanged)
             {
-
+                Object.Name = Name;
+                IsChanged = false;
             }
         }
     }

@@ -19,8 +19,8 @@
 		</Grid.ColumnDefinitions>
 		<TreeView ItemsSource="{Binding Catalog}" Margin="5" SelectionChanged="TreeView_SelectionChanged" Grid.Column="0">
 			<TreeView.DataTemplates>
-				<TreeDataTemplate DataType="models:TreeObject" ItemsSource="{Binding Children}">
-					<Grid>
+                <TreeDataTemplate DataType="models:TreeObject" ItemsSource="{Binding Children}">
+                    <Grid>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="Auto"/>
 							<ColumnDefinition/>
