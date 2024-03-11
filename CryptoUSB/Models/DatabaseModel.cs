@@ -425,7 +425,9 @@ namespace CryptoUSB.Models
             {
                 group.PropertyChanged += GroupItem_PropertyChanged;
             }
-            TreeObjects.Add(Instance.CreateTree(1));
+            ObservableCollection<TreeObject> asd = new ObservableCollection<TreeObject>();
+            asd.Add(Instance.CreateTree(1));
+            TreeObjects = asd;
         }
         public string GetJSONString()
         {
@@ -495,7 +497,7 @@ namespace CryptoUSB.Models
 
             return newRecordModel;
         }
-        public byte[,] GetDeveiceArray()
+        public static byte[,] GetDeveiceArray()
         {
             List<GroupModel> readyGroupModels = GetPrepareGroupArray();
             List<RecordModel> readyRecordModels = GetPrepareRecordArray();
@@ -672,14 +674,10 @@ namespace CryptoUSB.Models
             return doubleByte;
         }
     }
-    public class TreeObject /*: TreeViewItem*/
+    public class TreeObject 
     {
         public IObjectModel Item { get; set; }
         public string ImageType { get => Item is GroupModel ? "/Assets/folder.png" : "/Assets/file.png"; }
         public ObservableCollection<TreeObject> Children { get; set; } = new ObservableCollection<TreeObject>();
-        //public bool IsSelected { get; set; } = false;
-        //public new bool IsSelected { get => base.IsSelected; set { base.IsSelected = value; } }
-        //public new bool IsExpanded { get => base.IsExpanded; set { base.IsExpanded = value; } }
-
     }
 }

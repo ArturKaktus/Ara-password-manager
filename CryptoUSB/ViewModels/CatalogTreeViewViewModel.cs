@@ -17,17 +17,22 @@ namespace CryptoUSB.ViewModels
 {
     public class CatalogTreeViewViewModel : ViewModelBase
     {
-        public ObservableCollection<TreeObject> Catalog { get; set; } = new ObservableCollection<TreeObject>();
+        private ObservableCollection<TreeObject> _Catalog;
+        public ObservableCollection<TreeObject> Catalog 
+        { 
+            get => _Catalog;
+            set => this.RaiseAndSetIfChanged(ref _Catalog, value);
+        }
         public CatalogTreeViewViewModel() 
         {
+            Catalog = new ObservableCollection<TreeObject>();
             DatabaseModel.Instance.PropertyChanged += TreeObjets_PropertyChanged;
         }
 
         private void TreeObjets_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             Catalog = DatabaseModel.Instance.TreeObjects;
-            //Catalog.Clear();
-            //Catalog.Add(DatabaseModel.Instance.TreeObjects);
+
         }
     }
 }

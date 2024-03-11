@@ -34,4 +34,9 @@
       <DependentUpon>MenuView.axaml</DependentUpon>
     </Compile>
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controls\" />
+    <Folder Include="Commands\" />
+  </ItemGroup>
 </Project>

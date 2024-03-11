@@ -18,9 +18,9 @@
 			<ColumnDefinition Width="*" MinWidth="50"/>
 		</Grid.ColumnDefinitions>
 		<TreeView ItemsSource="{Binding Catalog}" Margin="5" SelectionChanged="TreeView_SelectionChanged" Grid.Column="0">
-			<TreeView.DataTemplates>
-                <TreeDataTemplate DataType="models:TreeObject" ItemsSource="{Binding Children}">
-                    <Grid>
+			<TreeView.ItemTemplate>
+				<TreeDataTemplate ItemsSource="{Binding Children}">
+					<Grid>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="Auto"/>
 							<ColumnDefinition/>
@@ -30,8 +30,9 @@
 						<TextBlock Text="{Binding Item}" Grid.Column="1"/>
 					</Grid>
 				</TreeDataTemplate>
-			</TreeView.DataTemplates>
+			</TreeView.ItemTemplate>
 		</TreeView>
+		
 		<GridSplitter Grid.Column="1" Background="Gray"/>
 		<ContentControl Grid.Column="2" x:Name="ViewContainer" />
 	</Grid>
