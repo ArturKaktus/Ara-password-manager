@@ -9,10 +9,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using CryptoUSB.Models.Interfaces;
 
 namespace CryptoUSB.Models
 {
-    public class GroupModel : IObjectModel, INotifyPropertyChanged
+    public class GroupModel : IGroupModel, INotifyPropertyChanged
     {
         private string _Name;
         public int Id { get; set; }

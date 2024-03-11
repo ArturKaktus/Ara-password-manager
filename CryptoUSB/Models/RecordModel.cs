@@ -6,10 +6,11 @@
 
 using System;
 using System.Text;
+using CryptoUSB.Models.Interfaces;
 
 namespace CryptoUSB.Models
 {
-    public class RecordModel : IObjectModel
+    public class RecordModel : IRecordModel
     {
         public int Id { get; set; }
         public int Pid { get; set; }

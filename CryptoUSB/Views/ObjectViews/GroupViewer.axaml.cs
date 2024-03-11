@@ -1,5 +1,5 @@
 using Avalonia.Controls;
-using CryptoUSB.Models;
+using CryptoUSB.Models.Interfaces;
 using CryptoUSB.ViewModels;
 
 namespace CryptoUSB.Views

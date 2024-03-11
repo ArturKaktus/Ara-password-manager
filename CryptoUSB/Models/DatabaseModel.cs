@@ -13,6 +13,7 @@ using CryptoUSB.Controllers;
 using System.Collections.ObjectModel;
 using Avalonia.LogicalTree;
 using System.ComponentModel;
+using CryptoUSB.Models.Interfaces;
 
 namespace CryptoUSB.Models
 {

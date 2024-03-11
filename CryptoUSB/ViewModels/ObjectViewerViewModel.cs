@@ -1,4 +1,5 @@
 ﻿using CryptoUSB.Models;
+using CryptoUSB.Models.Interfaces;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
