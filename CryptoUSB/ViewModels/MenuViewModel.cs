@@ -70,4 +70,51 @@ public class MenuViewModel : ViewModelBase
             
         }
     }
+
+    public async Task SaveKKDToPC()
+    {
+        Window owner = ((ClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime).MainWindow;
+        if (owner == null)
+            return;
+        var dialog = new SaveFileDialog();
+        string? result = null;
+        dialog.Filters.Add(new FileDialogFilter() { Name = "Резервная копия Kakadu", Extensions = { "kkd" } });
+        result = await dialog.ShowAsync(new Window());
+        if (result != null)
+        {
+            try
+            {
+                bool isEntered = false;
+                var passwordWindow = new Window
+                {
+                    Title = "Сохранение базы"
+                };
+                var savePasswordControl = new EnterPassSaveFile();
+                savePasswordControl.AcceptButtonClicked += (sender, e) =>
+                {
+                    isEntered = true;
+                    passwordWindow.Close();
+                };
+                passwordWindow.Closed += (sender, e) =>
+                {
+                    if (isEntered)
+                    {
+                        var dataContext = savePasswordControl.DataContext as EnterPassOpenFileViewModel;
+                        //SaveFromPCController openFromPCController = new()
+                        //{
+                        //    FilePath = result[0],
+                        //    Password = dataContext.Password.ToCharArray()
+                        //};
+                        //openFromPCController.Open();
+                    }
+
+                };
+            }
+            catch
+            {
+
+            }
+        }
+
+    }
 }

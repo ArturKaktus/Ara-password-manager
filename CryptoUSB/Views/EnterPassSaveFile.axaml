@@ -1,0 +1,32 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:CryptoUSB.ViewModels"
+			 mc:Ignorable="d" d:DesignWidth="250" d:DesignHeight="400"
+             x:Class="CryptoUSB.Views.EnterPassSaveFile"
+			 x:DataType="vm:EnterPassSaveFileViewModel">
+  <Grid>
+	  <Grid.RowDefinitions>
+		  <RowDefinition Height="auto"/>
+		  <RowDefinition Height="auto"/>
+		  <RowDefinition Height="auto"/>
+		  <RowDefinition Height="auto"/>
+		  <RowDefinition Height="auto"/>
+		  <RowDefinition Height="auto"/>
+		  <RowDefinition Height="auto"/>
+		  <RowDefinition Height="auto"/>
+		  <RowDefinition Height="auto"/>
+	  </Grid.RowDefinitions>
+	  <TextBlock Text="Сохранить базу данных" Grid.Row="0" FontWeight="Bold" Margin="5"/>
+	  <TextBlock Text="Путь к файлу" Grid.Row="1" FontWeight="Bold" Margin="5"/>
+	  <TextBlock Text="*путь*" Grid.Row="2" Margin="5"/>
+	  
+	  <TextBlock Text="Придумайте пароль для базы" FontWeight="Bold" Grid.Row="3" Margin="5"/>
+	  <TextBox Watermark="Не менее 10 символов" PasswordChar="*" Text="{Binding Password, Mode=TwoWay}" Grid.Row="4" Margin="5"/>
+	  <TextBlock Text="Повторите пароль для базы" FontWeight="Bold" Grid.Row="5" Margin="5"/>
+	  <TextBox Watermark="Не менее 10 символов" PasswordChar="*" Text="{Binding RePassword, Mode=TwoWay}" Grid.Row="6" Margin="5"/>
+	  <Button Content="Сохранить" HorizontalAlignment="Center" Grid.Row="7" Margin="5" IsEnabled="{Binding IsEnableButton}" Click="SaveButton_Click"/>
+	  
+  </Grid>
+</UserControl>

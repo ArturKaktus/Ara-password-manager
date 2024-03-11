@@ -25,7 +25,7 @@
 			</MenuItem>
 			<MenuItem Header="Сохранить">
 				<MenuItem Header="На устройство" />
-				<MenuItem Header="На компьютере" />
+				<MenuItem Header="На компьютере" Command="{Binding SaveKKDToPC}"/>
 			</MenuItem>
 		</Menu>
 		</StackPanel>
