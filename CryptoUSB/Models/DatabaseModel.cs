@@ -521,28 +521,6 @@ namespace CryptoUSB.Models
             }
             return groupModelsById;
         }
-        //public TreeViewItem<GroupModel> GetTreeItem(int startId)
-        //{
-        //    TreeViewItem<GroupModel> tree = null;
-
-        //    foreach (GroupModel groupModel in this.groupsArrayList)
-        //    {
-        //        if (groupModel.Id == startId)
-        //        {
-        //            tree = new TreeViewItem<GroupModel>(groupModel);
-        //        }
-        //    }
-
-        //    foreach (GroupModel groupModel in this.groupsArrayList)
-        //    {
-        //        if (tree != null && groupModel.GetPid() == startId)
-        //        {
-        //            tree.Children.Add(GetTreeItem(groupModel.GetId()));
-        //        }
-        //    }
-
-        //    return tree;
-        //}
         private TreeObject CreateTree (int startId)
         {
             TreeObject treeObject = new();
