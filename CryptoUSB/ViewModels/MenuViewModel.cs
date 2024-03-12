@@ -89,7 +89,8 @@ public class MenuViewModel : ViewModelBase
                 {
                     Title = "Сохранение базы"
                 };
-                var savePasswordControl = new EnterPassSaveFile();
+                var savePasswordControl = new EnterPassSaveFile(result);
+                passwordWindow.Content = savePasswordControl;
                 savePasswordControl.AcceptButtonClicked += (sender, e) =>
                 {
                     isEntered = true;
@@ -99,16 +100,16 @@ public class MenuViewModel : ViewModelBase
                 {
                     if (isEntered)
                     {
-                        var dataContext = savePasswordControl.DataContext as EnterPassOpenFileViewModel;
-                        //SaveFromPCController openFromPCController = new()
-                        //{
-                        //    FilePath = result[0],
-                        //    Password = dataContext.Password.ToCharArray()
-                        //};
-                        //openFromPCController.Open();
+                        var dataContext = savePasswordControl.DataContext as EnterPassSaveFileViewModel;
+                        SaveToPcController openFromPCController = new()
+                        {
+                            Password = dataContext.Password,
+                            Path = dataContext.Path
+                        };
+                        openFromPCController.Save();
                     }
-
                 };
+                await passwordWindow.ShowDialog(owner);
             }
             catch
             {

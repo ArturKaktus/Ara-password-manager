@@ -20,7 +20,7 @@
 	  </Grid.RowDefinitions>
 	  <TextBlock Text="Сохранить базу данных" Grid.Row="0" FontWeight="Bold" Margin="5"/>
 	  <TextBlock Text="Путь к файлу" Grid.Row="1" FontWeight="Bold" Margin="5"/>
-	  <TextBlock Text="*путь*" Grid.Row="2" Margin="5"/>
+	  <TextBlock Text="{Binding Path}" Grid.Row="2" Margin="5"/>
 	  
 	  <TextBlock Text="Придумайте пароль для базы" FontWeight="Bold" Grid.Row="3" Margin="5"/>
 	  <TextBox Watermark="Не менее 10 символов" PasswordChar="*" Text="{Binding Password, Mode=TwoWay}" Grid.Row="4" Margin="5"/>

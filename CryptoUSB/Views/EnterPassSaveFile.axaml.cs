@@ -12,7 +12,11 @@ namespace CryptoUSB.Views
         public EnterPassSaveFile()
         {
             InitializeComponent();
-            viewModel = new EnterPassSaveFileViewModel();
+            
+        }
+        public EnterPassSaveFile(string path) : this() 
+        {
+            viewModel = new EnterPassSaveFileViewModel(path);
             this.DataContext = viewModel;
         }
 
