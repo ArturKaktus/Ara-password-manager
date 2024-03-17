@@ -20,11 +20,11 @@
 		<StackPanel Grid.Column="0" VerticalAlignment="Top" Margin="10,5,5,5">
 		<Menu>
 			<MenuItem Header="Открыть">
-				<MenuItem Header="С устройства" />
+				<MenuItem Header="С устройства" Command="{Binding OpenKKDFromDevice}"/>
 				<MenuItem Header="С компьютера" Command="{Binding OpenKKDFromPC}"/>
 			</MenuItem>
 			<MenuItem Header="Сохранить">
-				<MenuItem Header="На устройство" />
+				<MenuItem Header="На устройство" Command="{Binding SaveKKDToDevice}"/>
 				<MenuItem Header="На компьютере" Command="{Binding SaveKKDToPC}"/>
 			</MenuItem>
 		</Menu>

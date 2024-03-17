@@ -36,7 +36,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controls\" />
-    <Folder Include="Commands\" />
+    <Folder Include="Command\" />
   </ItemGroup>
 </Project>

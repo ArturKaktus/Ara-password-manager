@@ -19,6 +19,38 @@ public class MenuViewModel : ViewModelBase
         get => _data;
         set => this.RaiseAndSetIfChanged(ref _data, value);
     }
+    public async Task OpenKKDFromDevice()
+    {
+        Window owner = ((ClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime).MainWindow;
+        bool isEntered = false;
+        var passwordWindow = new Window
+        {
+            Title = "Введите пин код",
+            Height = 200,
+            Width = 300
+        };
+        var devicePinCodeWindow = new DevicePinCodeWindow();
+        passwordWindow.Content = devicePinCodeWindow;
+        devicePinCodeWindow.AcceptButtonClicked += (sender, e) =>
+        {
+            isEntered = true;
+            passwordWindow.Close();
+        };
+        passwordWindow.Closed += (sender, e) =>
+        {
+            if (isEntered)
+            {
+                var dataContext = devicePinCodeWindow.DataContext as DevicePinCodeViewModel;
+                OpenFromDeviceController openFromDeviceController = new()
+                {
+                    
+                };
+                //openFromDeviceController.Open();
+            }
+
+        };
+        await passwordWindow.ShowDialog(owner);
+    }
     public async Task OpenKKDFromPC()
     {
         Window owner = ((ClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime).MainWindow;
@@ -71,6 +103,10 @@ public class MenuViewModel : ViewModelBase
         }
     }
 
+    public async Task SaveKKDToDevice()
+    {
+
+    }
     public async Task SaveKKDToPC()
     {
         Window owner = ((ClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime).MainWindow;
