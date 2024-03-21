@@ -1,4 +1,5 @@
-﻿using CryptoUSB.Services;
+﻿using CryptoUSB.Models;
+using CryptoUSB.Services;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
@@ -12,15 +13,18 @@ namespace CryptoUSB.Controllers
 
     public class OpenFromDeviceController
     {
-        public static string PinPassword { get; set; }
+        public string PinPassword { get; set; }
         public CheckIsConnected checkIsConnected = new CheckIsConnected();
-        public static string pinCode;
+        public string pinCode;
         public void ClickOpen()
         {
-            this.checkIsConnected.contin = false;
-            CheckPin checkPin = new CheckPin();
+            //this.checkIsConnected.contin = false;
+            //CheckPin checkPin = new CheckPin();
 
             //checkPin.Start();
+
+            DeviceReaderModel deviceReaderModel = new DeviceReaderModel(this.pinCode);
+            deviceReaderModel.read();
         }
         public void CloseOpenDBPassword()
         {
@@ -32,6 +36,10 @@ namespace CryptoUSB.Controllers
     }
     public class CheckPin
     {
+        public void Open()
+        {
+
+        }
         //public void Run()
         //{
         //    OpenFromDeviceController.pinCode = OpenFromDeviceController.PinPassword;

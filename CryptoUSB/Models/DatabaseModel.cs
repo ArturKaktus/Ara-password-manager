@@ -14,6 +14,8 @@ using System.Collections.ObjectModel;
 using Avalonia.LogicalTree;
 using System.ComponentModel;
 using CryptoUSB.Models.Interfaces;
+using Avalonia.Controls.Shapes;
+using CryptoUSB.Utils;
 
 namespace CryptoUSB.Models
 {
@@ -416,10 +418,107 @@ namespace CryptoUSB.Models
                     recordObj["urlSymbol"].ToString()));
             }
         }
-        public void FillFromDevice(byte[][] buffer)
+        public void FillFromDevice(byte[,] buffer)
         {
-
+            int length = buffer.Length;
+            this.Clear();
+            Name = "device.kkd";
+            byte[] tempBytes = new byte[48];
+            this.groupsArrayList.Add(new GroupModel(1, 0, "ТЕСТ"/*this.bundle.GetString("main.pane.root")*/));
+            byte[] tempName = new byte[48];
+            byte[] tempLogin = new byte[48];
+            byte[] tempPassword = new byte[48];
+            byte[] tempUrl = new byte[48];
+            var count = buffer.GetLength(0);
+            for (int i = 0; i < count; i++)
+            {
+                byte[] bs = buffer.GetRow(i);
+                string name;
+                int pid;
+                int id;
+                if (bs[52] == 0)
+                {
+                    id = ToDecFromBytes(bs[0], bs[1]) + 1;
+                    pid = ToDecFromBytes(bs[2], bs[3]) + 1;
+                    Array.Copy(bs, 4, tempBytes, 0, 48);
+                    byte[] nameBytes = DeleteZerosFromArray(tempBytes);
+                    try
+                    {
+                        name = ByteUtils.ByteToUtf8String(nameBytes);
+                        this.groupsArrayList.Add(new GroupModel(id, pid, name));
+                    }
+                    catch (Exception e)
+                    {
+                        //Console.Error.WriteLine(e);
+                    }
+                    continue;
+                }
+                id = ToDecFromBytes(bs[0], bs[1]) + 1;
+                pid = ToDecFromBytes(bs[2], bs[3]) + 1;
+                Array.Copy(bs, 4, tempName, 0, 48);
+                Array.Copy(bs, 52, tempLogin, 0, 48);
+                Array.Copy(bs, 100, tempPassword, 0, 48);
+                Array.Copy(bs, 148, tempUrl, 0, 48);
+                string afterLoginString = GetSymbolFromByteArray(tempLogin);
+                string afterPasswordString = GetSymbolFromByteArray(tempPassword);
+                string afterUrlString = GetSymbolFromByteArray(tempUrl);
+                try
+                {
+                    name = ByteUtils.ByteToUtf8String(DeleteZerosFromArray(tempName));
+                    string login = ByteUtils.ByteToUtf8String(DeleteZerosFromArray(tempLogin));
+                    string password = ByteUtils.ByteToUtf8String(DeleteZerosFromArray(tempPassword));
+                    string url = ByteUtils.ByteToUtf8String(DeleteZerosFromArray(tempUrl));
+                    this.recordsArrayList.Add(new RecordModel(id, pid, name, login, StringToCharArray(password), url, afterLoginString, afterPasswordString, afterUrlString));
+                }
+                catch /*(UnsupportedEncodingException e)*/
+                {
+                    //Console.Error.WriteLine(e);
+                }
+            }
         }
+        string HexStringToString(string HexString)
+        {
+            string stringValue = "";
+            for (int i = 0; i < HexString.Length / 2; i++)
+            {
+                string hexChar = HexString.Substring(i * 2, 2);
+                int hexValue = Convert.ToInt32(hexChar, 16);
+                stringValue += Char.ConvertFromUtf32(hexValue);
+            }
+            return stringValue;
+        }
+        byte[] ConvertWin1251ToUtf8(byte[] hex)
+        {
+            byte[] returnHex = new byte[hex.Length*2];
+            int ii = 0;
+            for (int i = 0; i<hex.Length; i++)
+            {
+                if (hex[i] >= 192 && hex[i] <= 239)
+                {
+                    returnHex[ii] = 208;
+                    returnHex[ii + 1] = (byte)(hex[i] - 48);
+                }
+                else if (hex[i] >= 240 && hex[i] <= 255)
+                {
+                    returnHex[ii] = 209;
+                    returnHex[ii + 1] = (byte)(hex[i] - 112);
+                }
+                else if (hex[i] == 168)
+                {
+                    returnHex[ii] = 208;
+                    returnHex[ii + 1] = 129;
+                }
+                else if (hex[i] == 184)
+                {
+                    returnHex[ii] = 209;
+                    returnHex[ii + 1] = 145;
+                }
+                ii += 2;
+            }
+            return returnHex;
+        }
+
+
         public void BuildTree()
         {
             foreach (var group in Instance.groupsArrayList)
@@ -658,5 +757,12 @@ namespace CryptoUSB.Models
         public IObjectModel Item { get; set; }
         public string ImageType { get => Item is GroupModel ? "/Assets/folder.png" : "/Assets/file.png"; }
         public ObservableCollection<TreeObject> Children { get; set; } = new ObservableCollection<TreeObject>();
+    }
+    public static class ArrayExtensions
+    {
+        public static T[] GetRow<T>(this T[,] data, int i)
+        {
+            return Enumerable.Range(0, data.GetLength(1)).Select(j => data[i, j]).ToArray();
+        }
     }
 }

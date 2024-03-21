@@ -43,9 +43,9 @@ public class MenuViewModel : ViewModelBase
                 var dataContext = devicePinCodeWindow.DataContext as DevicePinCodeViewModel;
                 OpenFromDeviceController openFromDeviceController = new()
                 {
-                    
+                    pinCode = dataContext.PinCode
                 };
-                //openFromDeviceController.Open();
+                openFromDeviceController.ClickOpen();
             }
 
         };

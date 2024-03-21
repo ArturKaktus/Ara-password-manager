@@ -12,6 +12,7 @@ namespace CryptoUSB.Views
         public DevicePinCodeWindow()
         {
             InitializeComponent();
+            viewModel = new DevicePinCodeViewModel();
             this.DataContext = viewModel;
         }
         private void AcceptButton_Click(object sender, RoutedEventArgs e)
