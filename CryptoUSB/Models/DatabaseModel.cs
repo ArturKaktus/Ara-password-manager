@@ -597,7 +597,7 @@ namespace CryptoUSB.Models
 
             return newRecordModel;
         }
-        public static byte[,] GetDeveiceArray()
+        public byte[,] GetDeveiceArray()
         {
             List<GroupModel> readyGroupModels = GetPrepareGroupArray();
             List<RecordModel> readyRecordModels = GetPrepareRecordArray();

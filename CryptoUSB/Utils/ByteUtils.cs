@@ -50,7 +50,7 @@ namespace CryptoUSB.Utils
         }
 
         public static string ByteToUtf8String(byte[] hex)
-        {
+        {   
             return Encoding.UTF8.GetString(ConvertWin1251ToUtf8(hex));
         }
     }

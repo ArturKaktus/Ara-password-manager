@@ -105,7 +105,35 @@ public class MenuViewModel : ViewModelBase
 
     public async Task SaveKKDToDevice()
     {
+        Window owner = ((ClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime).MainWindow;
+        bool isEntered = false;
+        var passwordWindow = new Window
+        {
+            Title = "Введите пин код",
+            Height = 200,
+            Width = 300
+        };
+        var devicePinCodeWindow = new SaveToDeviceWindow();
+        passwordWindow.Content = devicePinCodeWindow;
+        devicePinCodeWindow.AcceptButtonClicked += (sender, e) =>
+        {
+            isEntered = true;
+            passwordWindow.Close();
+        };
+        passwordWindow.Closed += (sender, e) =>
+        {
+            if (isEntered)
+            {
+                var dataContext = devicePinCodeWindow.DataContext as SaveToDeviceViewModel;
+                SaveToDeviceController openFromDeviceController = new()
+                {
+                    pinCode = dataContext.PinCode
+                };
+                openFromDeviceController.ClickSave();
+            }
 
+        };
+        await passwordWindow.ShowDialog(owner);
     }
     public async Task SaveKKDToPC()
     {

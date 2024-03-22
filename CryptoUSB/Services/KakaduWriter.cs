@@ -50,15 +50,14 @@ namespace CryptoUSB.Services
             //    throw new Exception("0 bytes in serial port");
             return receivedBytes;
         }
-        public byte[] SendAndReceiveWithWait(byte sendByte, int attempts)
+        public byte? SendAndReceiveWithWait(byte sendByte, int attempts)
         {
             int errorCount = 0;
-            byte[] sendBytes = new byte[1];
-            sendBytes[0] = sendByte;
-            this._serialPort = new KakaduDeviceSerialPort(this._port);
+            byte[] sendBytes = new byte[] { sendByte };
+            _serialPort = new KakaduDeviceSerialPort(this._port);
             this._serialPort.OpenPort();
             this._serialPort.Write(sendBytes, 0, sendBytes.Length);
-            while (errorCount < attempts)
+            for (errorCount = 0; errorCount < attempts; ++errorCount)
             {
                 Thread.Sleep(100);
                 if (this._serialPort.BytesToRead > 0)
@@ -66,13 +65,11 @@ namespace CryptoUSB.Services
                     byte[] receivedBytes = new byte[this._serialPort.BytesToRead];
                     this._serialPort.Read(receivedBytes, 0, receivedBytes.Length);
                     this._serialPort.Close();
-                    return receivedBytes;
+                    return receivedBytes[0];
                 }
-                errorCount++;
             }
             this._serialPort.ClosePort();
             return null;
-            //throw new Exception("single sendAndReceiveWithWait attempts are over at" + errorCount);
         }
         public byte[] SendAndReceiveWithWait(byte[] sendBytes, int attempts)
         {
