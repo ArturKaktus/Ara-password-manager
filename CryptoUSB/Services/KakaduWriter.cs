@@ -4,7 +4,7 @@
  *  Статус: ОК - Класс переведен
  */
 
-using CryptoUSB.Models;
+using CryptoUSB.CustomClasses;
 using System.IO.Ports;
 using System.Threading;
 

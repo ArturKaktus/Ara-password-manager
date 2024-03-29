@@ -1,4 +1,5 @@
 ﻿using CryptoUSB.Controllers;
+using CryptoUSB.CustomClasses;
 using CryptoUSB.Services;
 using System;
 using System.Collections.Generic;

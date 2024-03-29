@@ -53,7 +53,7 @@ public class MenuViewModel : ViewModelBase
     }
     public async Task OpenKKDFromPC()
     {
-        Window owner = ((ClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime).MainWindow;
+        Window? owner = ((ClassicDesktopStyleApplicationLifetime)Application.Current?.ApplicationLifetime)?.MainWindow;
         if (owner == null)
             return;
         var dialog = new OpenFileDialog();
