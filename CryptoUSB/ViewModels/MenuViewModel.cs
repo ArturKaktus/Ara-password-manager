@@ -2,6 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using CryptoUSB.Controllers;
+using CryptoUSB.Models;
 using CryptoUSB.Views;
 using ReactiveUI;
 using System.Threading.Tasks;
@@ -125,11 +126,8 @@ public class MenuViewModel : ViewModelBase
             if (isEntered)
             {
                 var dataContext = devicePinCodeWindow.DataContext as SaveToDeviceViewModel;
-                SaveToDeviceController openFromDeviceController = new()
-                {
-                    pinCode = dataContext.PinCode
-                };
-                openFromDeviceController.ClickSave();
+                DeviceWriteModel deviceReaderModel = new DeviceWriteModel(dataContext.PinCode);
+                deviceReaderModel.write();
             }
 
         };
@@ -165,12 +163,9 @@ public class MenuViewModel : ViewModelBase
                     if (isEntered)
                     {
                         var dataContext = savePasswordControl.DataContext as EnterPassSaveFileViewModel;
-                        SaveToPcController openFromPCController = new()
-                        {
-                            Password = dataContext.Password,
-                            Path = dataContext.Path
-                        };
-                        openFromPCController.Save();
+
+                        var kakaduBackupWriterModel = new KakaduBackupWriterModel(dataContext.Password, dataContext.Path);
+                        kakaduBackupWriterModel.ExportBackup();
                     }
                 };
                 await passwordWindow.ShowDialog(owner);

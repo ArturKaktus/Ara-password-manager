@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace CryptoUSB.FileManagers
 {
+    /// <summary>
+    /// Интерфейс файлого менеджера
+    /// </summary>
     internal interface IFileManager
     {
         /// <summary>

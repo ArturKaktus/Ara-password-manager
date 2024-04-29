@@ -13,6 +13,14 @@
 
   
   <ItemGroup>
+    <AvaloniaXaml Remove="Command\**" />
+    <Compile Remove="Command\**" />
+    <EmbeddedResource Remove="Command\**" />
+    <None Remove="Command\**" />
+  </ItemGroup>
+
+  
+  <ItemGroup>
     <None Remove="Assets\File.png" />
     <None Remove="Assets\Folder.png" />
     <None Remove="Assets\github-logo.png" />
@@ -33,9 +41,5 @@
     <Compile Update="Views\MenuView.axaml.cs">
       <DependentUpon>MenuView.axaml</DependentUpon>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Command\" />
   </ItemGroup>
 </Project>
