@@ -41,6 +41,7 @@ public class CatalogTreeViewViewModel
         }
 
         //Сбор записей 
+        //Удалено, так как записи не должны быть в ветви
         //var recordModels = db.GetRecordsByPid(startId);
         //foreach (var recordModel in recordModels)
         //{
