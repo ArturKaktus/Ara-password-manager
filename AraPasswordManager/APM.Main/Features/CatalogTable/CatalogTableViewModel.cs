@@ -18,6 +18,7 @@ public class CatalogTableViewModel
 
     private void TreeNodeSelected_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
+        //Наполнение таблицы
         Records.Clear();
         var tnt = sender as TreeNodeTransfer;
         var db = AppDocument.CurrentDatabaseModel;
