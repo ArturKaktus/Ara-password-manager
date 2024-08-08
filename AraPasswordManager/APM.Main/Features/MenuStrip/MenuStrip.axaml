@@ -1,0 +1,22 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Ara_password_manager.Features.MenuStrip"
+             xmlns:menuStrip="clr-namespace:APM.Main.Features.MenuStrip"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Ara_password_manager.Features.MenuStrip.MenuStrip"
+             x:DataType="menuStrip:MenuStripViewModel">
+    <Design.DataContext>
+        <menuStrip:MenuStripViewModel/>
+    </Design.DataContext>
+    <Grid>
+        <Menu>
+            <MenuItem Header="ФАЙЛ">
+                <MenuItem Header="СОЗДАТЬ" Command="{Binding CreateNew_Clicked}"></MenuItem>
+                <MenuItem Header="ОТКРЫТЬ" Command="{Binding OpenFile_Clicked}"></MenuItem>
+                <MenuItem Header="ВЫЙТИ" Command="{Binding Exit_Clicked}"></MenuItem>
+            </MenuItem>
+        </Menu>
+    </Grid>
+</UserControl>

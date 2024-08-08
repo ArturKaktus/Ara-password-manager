@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "APM.Main": {
+      "commandName": "Project"
+    },
+    "Plugin Kakadu": {
+      "commandName": "Project",
+      "commandLineArgs": "-plugin:D:\\Development\\AraPasswordManager\\AraPasswordManager\\APM.KakaduFileRW\\bin\\Debug\\net8.0\\APM.KakaduFileRW.dll"
+    }
+  }
+}

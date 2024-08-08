@@ -1,0 +1,30 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Ara_password_manager.Features.MainWindow"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vmenu="clr-namespace:Ara_password_manager.Features.MenuStrip"
+        xmlns:vcatalogtw="clr-namespace:Ara_password_manager.Features.CatalogTreeView"
+        xmlns:vcatalogt="clr-namespace:Ara_password_manager.Features.CatalogTable"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Ara_password_manager.Features.MainWindow.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Ara Password Manager">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+    
+    <Grid RowDefinitions="auto,*,auto" ColumnDefinitions="Auto,auto,*">
+        <vmenu:MenuStrip Grid.Row="0"/>
+		<vcatalogtw:CatalogTreeView Grid.Row="1" Grid.Column="0"/>
+        <GridSplitter Grid.Row="1" Grid.Column="1" Background="Gray"/>
+		<vcatalogt:CatalogTable Grid.Row="1" Grid.Column="2"/>
+        <Grid.ContextMenu>
+
+        </Grid.ContextMenu>
+    </Grid>
+
+
+</Window>

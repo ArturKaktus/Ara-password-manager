@@ -1,0 +1,27 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:APM.Main.Features.CatalogTable"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Ara_password_manager.Features.CatalogTable.CatalogTable"
+             x:DataType="vm:CatalogTableViewModel">
+
+	<UserControl.Styles>
+		<FluentTheme />
+		<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+	</UserControl.Styles>
+    <DataGrid x:Name="TableGrid" Margin="10" ItemsSource="{Binding Records}"
+              AutoGenerateColumns="False"
+              BorderThickness="1" BorderBrush="Gray" PointerPressed="TableGrid_OnPointerPressed" Background="Gray">
+		<DataGrid.Columns>
+            <DataGridTextColumn Header="Title" Binding="{Binding Title}"/>
+            <DataGridTextColumn Header="Login" Binding="{Binding Login}"/>
+            <DataGridTextColumn Header="Password" Binding="{Binding Password}"/>
+            <DataGridTextColumn Header="Url" Binding="{Binding Url}"/>
+            <DataGridTextColumn Header="Notes" Binding="{Binding Notes}"/>
+        </DataGrid.Columns>
+    
+</DataGrid>
+
+</UserControl>
