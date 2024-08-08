@@ -11,7 +11,7 @@
 		<FluentTheme />
 		<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
 	</UserControl.Styles>
-    <DataGrid x:Name="TableGrid" Margin="10" ItemsSource="{Binding Records}"
+    <DataGrid x:Name="TableGrid" ItemsSource="{Binding Records}"
               AutoGenerateColumns="False"
               BorderThickness="1" BorderBrush="Gray" PointerPressed="TableGrid_OnPointerPressed" Background="Gray">
 		<DataGrid.Columns>
