@@ -13,7 +13,8 @@
 	</UserControl.Styles>
     <DataGrid x:Name="TableGrid" ItemsSource="{Binding Records}"
               AutoGenerateColumns="False"
-              BorderThickness="1" BorderBrush="Gray" PointerPressed="TableGrid_OnPointerPressed" Background="Gray">
+              BorderThickness="1" BorderBrush="Gray" Background="Gray" IsReadOnly="True"
+              SelectionMode="Extended">
 		<DataGrid.Columns>
             <DataGridTextColumn Header="Title" Binding="{Binding Title}"/>
             <DataGridTextColumn Header="Login" Binding="{Binding Login}"/>
@@ -21,7 +22,6 @@
             <DataGridTextColumn Header="Url" Binding="{Binding Url}"/>
             <DataGridTextColumn Header="Notes" Binding="{Binding Notes}"/>
         </DataGrid.Columns>
-    
-</DataGrid>
+    </DataGrid>
 
 </UserControl>
