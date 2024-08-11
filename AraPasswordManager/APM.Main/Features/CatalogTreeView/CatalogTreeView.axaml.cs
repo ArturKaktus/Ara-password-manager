@@ -9,9 +9,10 @@ namespace Ara_password_manager.Features.CatalogTreeView;
 
 public partial class CatalogTreeView : UserControl
 {
+    private CatalogTreeViewViewModel viewModel = new();
     public CatalogTreeView()
     {
-        this.DataContext = new CatalogTreeViewViewModel();
+        this.DataContext = viewModel;
         InitializeComponent();
     }
     private void TreeView_SelectionChanged(object? sender, Avalonia.Controls.SelectionChangedEventArgs e)
@@ -21,6 +22,18 @@ public partial class CatalogTreeView : UserControl
         {
             AppDocument.NodeTransfer.SelectedTreeNode = tw.SelectedItem as TreeNode;
         }
+    }
+
+    private void AddItem_Click(object sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        var selectedItem = CatalogTree.SelectedItem;
+        viewModel.AddItem(selectedItem as TreeNode);
+    }
+
+    private void DeleteItem_Click(object sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        var selectedItem = CatalogTree.SelectedItem;
+        viewModel.DeleteItem(selectedItem as TreeNode);
     }
 }
 

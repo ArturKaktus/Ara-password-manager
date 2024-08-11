@@ -6,11 +6,25 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Ara_password_manager.Features.CatalogTreeView.CatalogTreeView"
              x:DataType="vm:CatalogTreeViewViewModel">
-  <TreeView x:Name="CatalogTree" ItemsSource="{Binding TreeNodes}" SelectionChanged="TreeView_SelectionChanged">
-      <TreeView.ItemTemplate>
-          <TreeDataTemplate ItemsSource="{Binding Child}">
-              <TextBlock Text="{Binding Item}"></TextBlock>
-          </TreeDataTemplate>
-      </TreeView.ItemTemplate>
-  </TreeView>
+
+    <Design.DataContext>
+        <vm:CatalogTreeViewViewModel/>
+    </Design.DataContext>
+    <TreeView x:Name="CatalogTree" ItemsSource="{Binding TreeNodes}" SelectionChanged="TreeView_SelectionChanged">
+        <TreeView.Styles>
+            <Style Selector="TreeViewItem">
+                <Setter Property="ContextMenu">
+                    <ContextMenu>
+                        <MenuItem Header="Добавить" Click="AddItem_Click"/>
+                        <MenuItem Header="Удалить" Click="DeleteItem_Click"/>
+                    </ContextMenu>
+                </Setter>
+            </Style>
+        </TreeView.Styles>
+        <TreeView.ItemTemplate>
+        <TreeDataTemplate ItemsSource="{Binding Child}">
+            <TextBlock Text="{Binding Item}"/>
+        </TreeDataTemplate>
+    </TreeView.ItemTemplate>
+</TreeView>
 </UserControl>
