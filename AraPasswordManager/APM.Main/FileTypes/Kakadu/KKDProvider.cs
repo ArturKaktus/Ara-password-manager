@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using APM.Core.Models;
 using System.Text.Json.Nodes;
 using System.ComponentModel;
+using System.Linq;
 
 namespace APM.Main.FileTypes.Kakadu;
 
@@ -21,13 +22,19 @@ public class KKDProvider : IFileProvider
 
     public void Open()
     {
-        string jsonString = DecryptData(ReadFile());
+        var jsonString = DecryptData(ReadFile());
         if (!jsonString.Equals("error"))
         {
-            CurrentFile = new(FilePath);
+            CurrentFile = new FileInfo(FilePath);
         }
 
         FillKakaduJson(jsonString);
+    }
+
+    public void Save()
+    {
+        using FileStream backUpStream = new(FilePath, FileMode.Create);
+        backUpStream.Write(EncryptBackup(GetJsonString()));
     }
     private byte[] ReadFile()
     {
@@ -42,6 +49,19 @@ public class KKDProvider : IFileProvider
         {
             return error;
         }
+    }
+    private byte[] EncryptBackup(string backupString)
+    {
+        byte[] hash = SHA256.HashData(Encoding.UTF8.GetBytes(new string(Password)));
+
+        using Aes aes = Aes.Create();
+        aes.Key = hash;
+        aes.Mode = CipherMode.ECB;
+        aes.Padding = PaddingMode.PKCS7;
+
+        using ICryptoTransform encryptor = aes.CreateEncryptor();
+        byte[] byteCipherText = encryptor.TransformFinalBlock(Encoding.UTF8.GetBytes(backupString), 0, backupString.Length);
+        return byteCipherText;
     }
     private string DecryptData(byte[] sourceArray)
     {
@@ -106,5 +126,38 @@ public class KKDProvider : IFileProvider
         }
 
         AppDocument.CurrentDatabaseModel.FillLists(groupsArrayList,recordsArrayList);
+    }
+    private string GetJsonString()
+    {
+        JsonArray groupsArray = [];
+        JsonArray recordsArray = [];
+        JsonObject backupObj = new();
+        foreach (var groupJson in AppDocument.CurrentDatabaseModel.GroupsArrayList.Select(groupModel => new JsonObject()
+                 {
+                     { "id", groupModel.Id },
+                     { "pid", groupModel.Pid },
+                     { "name", groupModel.Title }
+                 }))
+        {
+            groupsArray.Add(groupJson);
+        }
+        foreach (var recordJson in AppDocument.CurrentDatabaseModel.RecordsArrayList.Select(recordModel => new JsonObject()
+                 {
+                     { "id", recordModel.Id },
+                     { "pid", recordModel.Pid },
+                     { "name", recordModel.Title },
+                     { "login", recordModel.Login },
+                     { "password", new string(recordModel.Password) },
+                     { "url", recordModel.Url },
+                     { "loginSymbol", recordModel.GetAfterLoginString() },
+                     { "passwordSymbol", recordModel.GetAfterPasswordString() },
+                     { "urlSymbol", recordModel.GetAfterUrlString() }
+                 }))
+        {
+            recordsArray.Add(recordJson);
+        }
+        backupObj.Add("groups", groupsArray);
+        backupObj.Add("records", recordsArray);
+        return backupObj.ToString();
     }
 }

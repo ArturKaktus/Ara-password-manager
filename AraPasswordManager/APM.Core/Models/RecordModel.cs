@@ -31,4 +31,16 @@ public class RecordModel : IRecord
     {
         return Title;
     }
+    public string GetAfterLoginString()
+    {
+        return this._afterLoginSymbol.GetSymbolStringValue();
+    }
+    public string GetAfterPasswordString()
+    {
+        return this._afterPasswordSymbol.GetSymbolStringValue();
+    }
+    public string GetAfterUrlString()
+    {
+        return this._afterUrlSymbol.GetSymbolStringValue();
+    }
 } 

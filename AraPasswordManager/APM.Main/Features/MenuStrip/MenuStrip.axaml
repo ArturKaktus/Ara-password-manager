@@ -15,6 +15,7 @@
             <MenuItem Header="ФАЙЛ">
                 <MenuItem Header="СОЗДАТЬ" Command="{Binding CreateNew_Clicked}"></MenuItem>
                 <MenuItem Header="ОТКРЫТЬ" Command="{Binding OpenFile_Clicked}"></MenuItem>
+                <MenuItem Header="СОХРАНИТЬ" Command="{Binding SaveFile_Clicked}"></MenuItem>
                 <MenuItem Header="ВЫЙТИ" Command="{Binding Exit_Clicked}"></MenuItem>
             </MenuItem>
         </Menu>

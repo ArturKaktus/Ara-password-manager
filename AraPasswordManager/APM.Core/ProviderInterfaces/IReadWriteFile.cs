@@ -11,5 +11,6 @@ namespace APM.Core.ProviderInterfaces
     public interface IReadWriteFile
     {
         public void ReadFile(Window? owner, IStorageFile file);
+        public void SaveFile(Window? owner, IStorageFile file);
     }
 }

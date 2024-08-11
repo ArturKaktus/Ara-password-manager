@@ -45,7 +45,29 @@ namespace APM.Main.Features.MenuStrip
                 }
             }
         }
-
+        public async Task SaveFile_Clicked()
+        {
+            Window? owner = ((ClassicDesktopStyleApplicationLifetime)Application.Current?.ApplicationLifetime!)?.MainWindow;
+            if (owner == null)
+                return;
+            List<FilePickerFileType> fileTypes = AppDocument.FilePickerFileTypeFilter;
+            var result = await owner.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions()
+            {
+                Title = "Save File",
+                FileTypeChoices = AppDocument.FilePickerFileTypeFilter
+            });
+            if (result != null)
+            {
+                var namePaths = ((IStorageFile)result).Name.Split('.');
+                var instance =
+                    AppDocument.ClassInstances.FirstOrDefault(obj =>
+                        obj.FileExtension.Contains($"*.{namePaths.LastOrDefault()}"));
+                if (instance is IReadWriteFile irwf)
+                {
+                    irwf.SaveFile(owner, result);
+                }
+            }
+        }
         public async Task Exit_Clicked()
         {
 
