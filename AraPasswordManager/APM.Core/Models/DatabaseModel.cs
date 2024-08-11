@@ -37,6 +37,9 @@ public class DatabaseModel
         recordModel.AddRange(this._recordsArrayList.Where(record => record.Pid == groupId));
         return recordModel;
     }
+    public List<GroupModel> GroupsArrayList => _groupsArrayList;
+    public List<RecordModel> RecordsArrayList => _recordsArrayList;
+
 
     public event PropertyChangedEventHandler? PropertyChanged;
     public void OnPropertyChanged(string propertyName)

@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 
 namespace APM.Main.FileTypes.Kakadu.PasswordVerify
 {
     public partial class PasswordVerifyViewModel : ObservableObject
     {
-        public PasswordVerifyViewModel(string path)
+        public PasswordVerifyViewModel()
+        {
+
+        }
+        public PasswordVerifyViewModel(string path):this()
         {
             PathString = Uri.UnescapeDataString(path);
         }

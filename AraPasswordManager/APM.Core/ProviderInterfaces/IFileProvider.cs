@@ -12,5 +12,6 @@ namespace APM.Core.ProviderInterfaces
         public string FilePath { get; set; }
         public char[] Password { get; set; }
         public void Open();
+        public void Save();
     }
 }

@@ -4,20 +4,19 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using System;
 
-namespace APM.Main.FileTypes.Kakadu.PasswordVerify;
+namespace APM.Main.FileTypes.Kakadu.CreatePassword;
 
-public partial class PasswordVerify : UserControl
+public partial class CreatePassword : UserControl
 {
     public event EventHandler AcceptButtonClicked;
-
-    public PasswordVerify()
+    public CreatePassword()
     {
         InitializeComponent();
     }
-    public PasswordVerify(string path):this()
+
+    public CreatePassword(string path):this()
     {
-        this.DataContext = new PasswordVerifyViewModel(path);
-        
+        this.DataContext = new CreatePasswordViewModel(path);
     }
     private void AcceptButton_Click(object sender, RoutedEventArgs e)
     {
