@@ -20,14 +20,7 @@ namespace APM.Main.FileTypes.Kakadu
         {
             bool isEntered = false;
             var passwordVerify = new PasswordVerify.PasswordVerify(file.Path.AbsolutePath);
-
-            var passwordWindow = new Window
-            {
-                Title = "Введите пароль",
-                Height = 200,
-                Width = 300,
-                Content = passwordVerify
-            };
+            var passwordWindow = WindowManager.NewWindow("Введите пароль", passwordVerify);
 
             passwordVerify.AcceptButtonClicked += (sender, e) =>
             {
@@ -57,13 +50,8 @@ namespace APM.Main.FileTypes.Kakadu
         {
             bool isEntered = false;
             var createPassword = new CreatePassword.CreatePassword(file.Path.AbsolutePath);
-            var passwordWindow = new Window
-            {
-                Title = "Введите пароль",
-                Height = 200,
-                Width = 300,
-                Content = createPassword
-            };
+            var passwordWindow = WindowManager.NewWindow("Введите пароль", createPassword);
+
             createPassword.AcceptButtonClicked += (sender, e) =>
             {
                 isEntered = true;

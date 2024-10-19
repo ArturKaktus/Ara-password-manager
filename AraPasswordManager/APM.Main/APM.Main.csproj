@@ -29,5 +29,6 @@
 
   <ItemGroup>
     <Folder Include="CustomControl\" />
+    <Folder Include="Devices\CryptoKakadu\" />
   </ItemGroup>
 </Project>
