@@ -27,22 +27,22 @@ public class KKDProvider : IFileProvider, IFileProperty, IReadWriteFile
     public char[] Password { get; set; }
     public FileInfo CurrentFile { get; set; }
 
-    public void Open()
-    {
-        var jsonString = DecryptData(ReadFile(), Password);
-        if (!jsonString.Equals("error"))
-        {
-            CurrentFile = new FileInfo(FilePath);
-        }
+    //public void Open()
+    //{
+    //    var jsonString = DecryptData(ReadFile(), Password);
+    //    if (!jsonString.Equals("error"))
+    //    {
+    //        CurrentFile = new FileInfo(FilePath);
+    //    }
 
-        FillKakaduJson(jsonString);
-    }
+    //    FillKakaduJson(jsonString);
+    //}
 
-    public void Save()
-    {
-        using FileStream backUpStream = new(FilePath, FileMode.Create);
-        backUpStream.Write(EncryptBackup(GetJsonString()));
-    }
+    //public void Save()
+    //{
+    //    using FileStream backUpStream = new(FilePath, FileMode.Create);
+    //    backUpStream.Write(EncryptBackup(GetJsonString(), Password));
+    //}
     public void ReadFile(Window? owner, IStorageFile file)
     {
         bool isEntered = false;
@@ -65,7 +65,16 @@ public class KKDProvider : IFileProvider, IFileProperty, IReadWriteFile
                 {
                     fileProvider.FilePath = Uri.UnescapeDataString(file.Path.AbsolutePath);
                     fileProvider.Password = dataContext.Password.ToCharArray();
-                    fileProvider.Open();
+
+                    var jsonString = DecryptData(ReadFile(fileProvider.FilePath), Password);
+                    if (!jsonString.Equals("error"))
+                    {
+                        CurrentFile = new FileInfo(FilePath);
+                    }
+
+                    FillKakaduJson(jsonString);
+
+                    //fileProvider.Open();
                 }
                 //AppDocument.Provider = new KKDProvider()
                 //{
@@ -78,7 +87,6 @@ public class KKDProvider : IFileProvider, IFileProperty, IReadWriteFile
 
         passwordWindow.ShowDialog(owner);
     }
-
     public void SaveFile(Window? owner, IStorageFile file)
     {
         bool isEntered = false;
@@ -100,7 +108,9 @@ public class KKDProvider : IFileProvider, IFileProperty, IReadWriteFile
                 {
                     fileProvider.FilePath = Uri.UnescapeDataString(file.Path.AbsolutePath);
                     fileProvider.Password = dataContext.Password.ToCharArray();
-                    fileProvider.Save();
+                    using FileStream backUpStream = new(fileProvider.FilePath, FileMode.Create);
+                    backUpStream.Write(EncryptBackup(GetJsonString(), Password));
+                    //fileProvider.Save();
                 }
 
                 //AppDocument.Provider = new KKDProvider()
@@ -113,13 +123,15 @@ public class KKDProvider : IFileProvider, IFileProperty, IReadWriteFile
         };
         passwordWindow.ShowDialog(owner);
     }
-    private byte[] ReadFile()
+
+    #region Static methods
+    private static byte[] ReadFile(string filePath)
     {
         byte[] error = new byte[1];
         try
         {
             string emptyStringArray = string.Empty;
-            byte[] array = File.ReadAllBytes(Path.Combine(FilePath, emptyStringArray));
+            byte[] array = File.ReadAllBytes(Path.Combine(filePath, emptyStringArray));
             return array;
         }
         catch
@@ -127,9 +139,9 @@ public class KKDProvider : IFileProvider, IFileProperty, IReadWriteFile
             return error;
         }
     }
-    private byte[] EncryptBackup(string backupString)
+    private static byte[] EncryptBackup(string backupString, char[] password)
     {
-        byte[] hash = SHA256.HashData(Encoding.UTF8.GetBytes(new string(Password)));
+        byte[] hash = SHA256.HashData(Encoding.UTF8.GetBytes(new string(password)));
 
         using Aes aes = Aes.Create();
         aes.Key = hash;
@@ -204,7 +216,7 @@ public class KKDProvider : IFileProvider, IFileProperty, IReadWriteFile
 
         AppDocument.CurrentDatabaseModel.FillLists(groupsArrayList,recordsArrayList);
     }
-    private string GetJsonString()
+    private static string GetJsonString()
     {
         JsonArray groupsArray = [];
         JsonArray recordsArray = [];
@@ -237,4 +249,5 @@ public class KKDProvider : IFileProvider, IFileProperty, IReadWriteFile
         backupObj.Add("records", recordsArray);
         return backupObj.ToString();
     }
+    #endregion
 }
