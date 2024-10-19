@@ -27,7 +27,7 @@ namespace APM.Main
                 var classInstance = Activator.CreateInstance(t);
 
                 if (classInstance is not IFileProperty ifp) continue;
-                ClassInstances.Add(ifp);
+                FileInstances.Add(ifp);
                 FilePickerFileTypeFilter.Add(new FilePickerFileType(ifp.FileTitle)
                 {
                     Patterns = ifp.FileExtension
@@ -40,12 +40,20 @@ namespace APM.Main
         /// </summary>
         public static readonly List<FilePickerFileType> FilePickerFileTypeFilter = [];
 
-        public static readonly List<IFileProperty> ClassInstances = [];
+        /// <summary>
+        /// Лист всех поддерживаемых типов файлов
+        /// </summary>
+        public static readonly List<IFileProperty> FileInstances = [];
 
-        public static object? CurrentInstance { get; set; }
+        /// <summary>
+        /// Текущий используемый тип файла
+        /// </summary>
+        public static object? CurrentFileInstance { get; set; }
 
+        /// <summary>
+        /// Текущая библиотека папкой и паролей
+        /// </summary>
         public static DatabaseModel CurrentDatabaseModel { get; } = new();
         public static TreeNodeTransfer NodeTransfer { get; } = new();
-        public static IFileProvider? Provider { get; set; }
     }
 }

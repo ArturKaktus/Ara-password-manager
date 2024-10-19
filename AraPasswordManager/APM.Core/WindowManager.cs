@@ -1,12 +1,6 @@
-﻿using APM.Main.FileTypes.Kakadu.CreatePassword;
-using Avalonia.Controls;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Avalonia.Controls;
 
-namespace APM.Main
+namespace APM.Core
 {
     /// <summary>
     /// Менеджер создания окон

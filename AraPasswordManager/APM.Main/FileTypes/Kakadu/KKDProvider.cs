@@ -1,28 +1,35 @@
-﻿using APM.Core.ProviderInterfaces;
-using System.IO;
-using System.Security.Cryptography;
-using System.Text;
+﻿using APM.Core;
+using APM.Core.Models;
+using APM.Core.ProviderInterfaces;
+using APM.Main.FileTypes.Kakadu.CreatePassword;
+using APM.Main.FileTypes.Kakadu.PasswordVerify;
+using Avalonia.Controls;
+using Avalonia.Platform.Storage;
 using System;
 using System.Collections.Generic;
-using APM.Core.Models;
-using System.Text.Json.Nodes;
-using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json.Nodes;
 
 namespace APM.Main.FileTypes.Kakadu;
 
 /// <summary>
-/// Класс чтения и записи файлов .kkd
+/// Чтения и записи файлов .kkd
 /// </summary>
-public class KKDProvider : IFileProvider
+public class KKDProvider : IFileProvider, IFileProperty, IReadWriteFile
 {
+    public string? FileTitle => "Kakadu File";
+    public List<string> FileExtension => ["*.kkd"];
+    public bool IsSecure => true;
     public string FilePath { get; set; }
     public char[] Password { get; set; }
     public FileInfo CurrentFile { get; set; }
 
     public void Open()
     {
-        var jsonString = DecryptData(ReadFile());
+        var jsonString = DecryptData(ReadFile(), Password);
         if (!jsonString.Equals("error"))
         {
             CurrentFile = new FileInfo(FilePath);
@@ -35,6 +42,76 @@ public class KKDProvider : IFileProvider
     {
         using FileStream backUpStream = new(FilePath, FileMode.Create);
         backUpStream.Write(EncryptBackup(GetJsonString()));
+    }
+    public void ReadFile(Window? owner, IStorageFile file)
+    {
+        bool isEntered = false;
+        var passwordVerify = new PasswordVerify.PasswordVerify(file.Path.AbsolutePath);
+        var passwordWindow = WindowManager.NewWindow("Введите пароль", passwordVerify);
+
+        passwordVerify.AcceptButtonClicked += (sender, e) =>
+        {
+            isEntered = true;
+            passwordWindow.Close();
+        };
+
+        passwordWindow.Closed += (sender, e) =>
+        {
+            if (isEntered)
+            {
+                var dataContext = passwordVerify.DataContext as PasswordVerifyViewModel;
+
+                if (AppDocument.CurrentFileInstance != null && AppDocument.CurrentFileInstance is IFileProvider fileProvider)
+                {
+                    fileProvider.FilePath = Uri.UnescapeDataString(file.Path.AbsolutePath);
+                    fileProvider.Password = dataContext.Password.ToCharArray();
+                    fileProvider.Open();
+                }
+                //AppDocument.Provider = new KKDProvider()
+                //{
+                //    FilePath = Uri.UnescapeDataString(file.Path.AbsolutePath),
+                //    Password = dataContext.Password.ToCharArray()
+                //};
+                //AppDocument.Provider.Open();
+            }
+        };
+
+        passwordWindow.ShowDialog(owner);
+    }
+
+    public void SaveFile(Window? owner, IStorageFile file)
+    {
+        bool isEntered = false;
+        var createPassword = new CreatePassword.CreatePassword(file.Path.AbsolutePath);
+        var passwordWindow = WindowManager.NewWindow("Введите пароль", createPassword);
+
+        createPassword.AcceptButtonClicked += (sender, e) =>
+        {
+            isEntered = true;
+            passwordWindow.Close();
+        };
+        passwordWindow.Closed += (sender, e) =>
+        {
+            if (isEntered)
+            {
+                var dataContext = createPassword.DataContext as CreatePasswordViewModel;
+
+                if (AppDocument.CurrentFileInstance != null && AppDocument.CurrentFileInstance is IFileProvider fileProvider)
+                {
+                    fileProvider.FilePath = Uri.UnescapeDataString(file.Path.AbsolutePath);
+                    fileProvider.Password = dataContext.Password.ToCharArray();
+                    fileProvider.Save();
+                }
+
+                //AppDocument.Provider = new KKDProvider()
+                //{
+                //    FilePath = Uri.UnescapeDataString(file.Path.AbsolutePath),
+                //    Password = dataContext.Password.ToCharArray()
+                //};
+                //AppDocument.Provider.Save();
+            }
+        };
+        passwordWindow.ShowDialog(owner);
     }
     private byte[] ReadFile()
     {
@@ -63,11 +140,11 @@ public class KKDProvider : IFileProvider
         byte[] byteCipherText = encryptor.TransformFinalBlock(Encoding.UTF8.GetBytes(backupString), 0, backupString.Length);
         return byteCipherText;
     }
-    private string DecryptData(byte[] sourceArray)
+    private static string DecryptData(byte[] sourceArray, char[] password)
     {
         try
         {
-            var hash = SHA256.HashData(Encoding.UTF8.GetBytes(Password));
+            var hash = SHA256.HashData(Encoding.UTF8.GetBytes(password));
             using var aesAlg = Aes.Create();
             aesAlg.Key = hash;
             aesAlg.Mode = CipherMode.ECB;

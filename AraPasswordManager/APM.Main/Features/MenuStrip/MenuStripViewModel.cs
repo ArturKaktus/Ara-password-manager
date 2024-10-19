@@ -35,9 +35,9 @@ namespace APM.Main.Features.MenuStrip
             {
                 var namePaths = ((IStorageFile)result[0]).Name.Split('.');
                 var instance =
-                    AppDocument.ClassInstances.FirstOrDefault(obj =>
+                    AppDocument.FileInstances.FirstOrDefault(obj =>
                         obj.FileExtension.Contains($"*.{namePaths.LastOrDefault()}"));
-                AppDocument.CurrentInstance = instance;
+                AppDocument.CurrentFileInstance = instance;
 
                 if (instance is IReadWriteFile irwf)
                 {
@@ -60,7 +60,7 @@ namespace APM.Main.Features.MenuStrip
             {
                 var namePaths = ((IStorageFile)result).Name.Split('.');
                 var instance =
-                    AppDocument.ClassInstances.FirstOrDefault(obj =>
+                    AppDocument.FileInstances.FirstOrDefault(obj =>
                         obj.FileExtension.Contains($"*.{namePaths.LastOrDefault()}"));
                 if (instance is IReadWriteFile irwf)
                 {
