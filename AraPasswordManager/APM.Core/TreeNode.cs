@@ -8,8 +8,10 @@ namespace APM.Core;
 public class TreeNode
 {
     public ObservableCollection<TreeNode> Child { get; set; } = [];
+    public TreeNode ParentNode { get; set; }
     public IObject Item { get; set; }
     public bool IsSelected { get; set; }
+    public bool IsExtanted { get; set; }
     public TreeNode()
     {
 
@@ -19,6 +21,7 @@ public class TreeNode
     {
         Child = child;
     }
+    public override string ToString() => Item.ToString();
 }
 
 public class TreeNodeTransfer
