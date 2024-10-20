@@ -1,7 +1,5 @@
 ﻿using Avalonia;
 using System;
-using System.Reflection;
-using APM.Core;
 
 namespace APM.Main
 {

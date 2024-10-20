@@ -1,13 +1,11 @@
-﻿using APM.Core.ProviderInterfaces;
+﻿using APM.Core;
+using APM.Core.Models;
+using APM.Core.ProviderInterfaces;
 using Avalonia.Platform.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using APM.Core;
-using APM.Core.Models;
 
 namespace APM.Main
 {

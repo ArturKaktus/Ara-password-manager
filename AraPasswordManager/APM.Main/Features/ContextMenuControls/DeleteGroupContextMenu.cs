@@ -1,8 +1,6 @@
 ﻿using APM.Core;
 using APM.Core.Models.Interfaces;
 using APM.Main.Features.CatalogTreeView;
-using Avalonia.Controls;
-using System;
 using System.Collections.Generic;
 using System.Windows.Input;
 

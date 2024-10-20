@@ -1,8 +1,7 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using APM.Core;
+﻿using APM.Core;
 using APM.Core.Models;
-using APM.Core.Models.Interfaces;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace APM.Main.Features.CatalogTable;
 
@@ -20,16 +19,17 @@ public class CatalogTableViewModel
     {
         //Наполнение таблицы
         Records.Clear();
-        var tnt = sender as TreeNodeTransfer;
-        var db = AppDocument.CurrentDatabaseModel;
-        if (tnt.SelectedTreeNode != null)
+        if (sender is TreeNodeTransfer tnt)
         {
-            var asd = db.GetRecordsByPid(tnt.SelectedTreeNode.Item.Id);
-            foreach (var a in asd)
+            var db = AppDocument.CurrentDatabaseModel;
+            if (tnt.SelectedTreeNode != null)
             {
-                Records.Add(a);
+                var asd = db.GetRecordsByPid(tnt.SelectedTreeNode.Item.Id);
+                foreach (var a in asd)
+                {
+                    Records.Add(a);
+                }
             }
         }
-        
     }
 }
