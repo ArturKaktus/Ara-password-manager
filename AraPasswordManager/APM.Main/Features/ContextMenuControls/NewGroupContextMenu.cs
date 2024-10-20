@@ -5,7 +5,7 @@ using Avalonia.Controls;
 using System;
 using System.Windows.Input;
 
-namespace APM.Main.Features.ContextMenu
+namespace APM.Main.Features.ContextMenuControls
 {
     internal class NewGroupContextMenu : IContextMenu
     {

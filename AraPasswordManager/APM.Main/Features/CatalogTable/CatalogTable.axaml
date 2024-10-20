@@ -4,9 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:APM.Main.Features.CatalogTable"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Ara_password_manager.Features.CatalogTable.CatalogTable"
+             x:Class="APM.Main.Features.CatalogTable.CatalogTable"
              x:DataType="vm:CatalogTableViewModel">
-
 	<UserControl.Styles>
 		<FluentTheme />
 		<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>

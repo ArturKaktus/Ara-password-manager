@@ -3,7 +3,7 @@ using System;
 using System.Reflection;
 using APM.Core;
 
-namespace Ara_password_manager
+namespace APM.Main
 {
     internal sealed class Program
     {

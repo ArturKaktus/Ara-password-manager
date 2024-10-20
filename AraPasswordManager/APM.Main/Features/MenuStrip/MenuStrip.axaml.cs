@@ -3,7 +3,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Ara_password_manager.Features.MenuStrip;
+namespace APM.Main.Features.MenuStrip;
 
 public partial class MenuStrip : UserControl
 {
