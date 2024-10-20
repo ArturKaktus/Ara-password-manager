@@ -12,9 +12,9 @@
     </Design.DataContext>
     <TreeView x:Name="CatalogTree" ItemsSource="{Binding TreeNodes}" SelectionChanged="TreeView_SelectionChanged">
         <TreeView.ItemTemplate>
-        <TreeDataTemplate ItemsSource="{Binding Child}">
-            <TextBlock Text="{Binding Item}"/>
-        </TreeDataTemplate>
-    </TreeView.ItemTemplate>
-</TreeView>
+            <TreeDataTemplate ItemsSource="{Binding Child}">
+			    <TextBlock Text="{Binding Item}"/>
+            </TreeDataTemplate>
+        </TreeView.ItemTemplate>
+    </TreeView>
 </UserControl>

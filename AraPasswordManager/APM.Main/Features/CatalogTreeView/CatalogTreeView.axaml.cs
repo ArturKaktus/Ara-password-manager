@@ -1,6 +1,8 @@
 using APM.Core;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.VisualTree;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -32,13 +34,32 @@ public partial class CatalogTreeView : UserControl
             var contextMenu = new ContextMenu();
             if (CatalogTree.SelectedItem is TreeNode tn)
             {
-                var menuItems = GenerateMenuItems(tn);
+                // Находим визуальный элемент, соответствующий выбранному элементу
+                var selectedVisualItem = CatalogTree.GetVisualDescendants()
+                    .OfType<TreeViewItem>()
+                    .FirstOrDefault(item => item.DataContext == tn);
 
-                foreach (var menuItem in menuItems)
+                if (selectedVisualItem != null)
                 {
-                    contextMenu.Items.Add(menuItem);
+                    // Получаем координаты указателя мыши относительно CatalogTree
+                    var mousePosition = e.GetPosition(CatalogTree);
+                    // Координаты относительно родительского элемента
+                    var position = selectedVisualItem.TranslatePoint(new Point(0, 0), CatalogTree);
+                    // Получаем прямоугольник выбранного элемента
+                    var bounds = selectedVisualItem.Bounds;
+                    // Проверяем, находится ли указатель мыши внутри выбранной ячейки
+                    if (mousePosition.X >= position.Value.X && mousePosition.X <= position.Value.X + bounds.Width &&
+                        mousePosition.Y >= position.Value.Y && mousePosition.Y <= position.Value.Y + bounds.Height)
+                    {
+                        var menuItems = GenerateMenuItems(tn);
+
+                        foreach (var menuItem in menuItems)
+                        {
+                            contextMenu.Items.Add(menuItem);
+                        }
+                        contextMenu.Open(CatalogTree);
+                    }
                 }
-                contextMenu.Open(CatalogTree);
             }
         }
     }
