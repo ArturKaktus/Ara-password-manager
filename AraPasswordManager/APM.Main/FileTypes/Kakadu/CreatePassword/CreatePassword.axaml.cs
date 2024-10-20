@@ -1,7 +1,5 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 using System;
 
 namespace APM.Main.FileTypes.Kakadu.CreatePassword;
@@ -9,10 +7,7 @@ namespace APM.Main.FileTypes.Kakadu.CreatePassword;
 public partial class CreatePassword : UserControl
 {
     public event EventHandler AcceptButtonClicked;
-    public CreatePassword()
-    {
-        InitializeComponent();
-    }
+    public CreatePassword() => InitializeComponent();
 
     public CreatePassword(string path):this()
     {

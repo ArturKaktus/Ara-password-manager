@@ -1,7 +1,5 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 using System;
 
 namespace APM.Main.FileTypes.Kakadu.PasswordVerify;
@@ -10,10 +8,7 @@ public partial class PasswordVerify : UserControl
 {
     public event EventHandler AcceptButtonClicked;
 
-    public PasswordVerify()
-    {
-        InitializeComponent();
-    }
+    public PasswordVerify() => InitializeComponent();
     public PasswordVerify(string path):this()
     {
         this.DataContext = new PasswordVerifyViewModel(path);

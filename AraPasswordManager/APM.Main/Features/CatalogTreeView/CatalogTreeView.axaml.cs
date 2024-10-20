@@ -1,7 +1,4 @@
 using APM.Core;
-using APM.Main;
-using APM.Main.Features.CatalogTreeView;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using System.Collections.Generic;
@@ -22,10 +19,9 @@ public partial class CatalogTreeView : UserControl
 
     private void TreeView_SelectionChanged(object? sender, Avalonia.Controls.SelectionChangedEventArgs e)
     {
-        TreeNode selectedItem;
-        if (sender is TreeView tw)
+        if (sender is TreeView tw && tw.SelectedItem != null && tw.SelectedItem is TreeNode tn)
         {
-            AppDocument.NodeTransfer.SelectedTreeNode = tw.SelectedItem as TreeNode;
+            AppDocument.NodeTransfer.SelectedTreeNode = tn;
         }
     }
 

@@ -1,7 +1,7 @@
+using APM.Main.Features;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using System;
-using APM.Main.Features;
 
 namespace APM.Main
 {

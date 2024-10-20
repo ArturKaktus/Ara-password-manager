@@ -1,7 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using APM.Core.Models.Interfaces;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using APM.Core.Models.Interfaces;
-using Avalonia.Controls;
 
 namespace APM.Core;
 
