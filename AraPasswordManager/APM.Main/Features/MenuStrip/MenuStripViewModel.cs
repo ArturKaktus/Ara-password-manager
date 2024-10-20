@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using APM.Core.ProviderInterfaces;
-using Ara_password_manager.Features;
+using APM.Main.Features;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;

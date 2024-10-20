@@ -1,9 +1,9 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using System;
-using Ara_password_manager.Features;
+using APM.Main.Features;
 
-namespace Ara_password_manager
+namespace APM.Main
 {
     public class ViewLocator : IDataTemplate
     {

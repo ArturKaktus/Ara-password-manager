@@ -1,10 +1,10 @@
-using Ara_password_manager.Features.MainWindow;
+using APM.Main.Features.MainWindow;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 
-namespace Ara_password_manager
+namespace APM.Main
 {
     public partial class App : Application
     {

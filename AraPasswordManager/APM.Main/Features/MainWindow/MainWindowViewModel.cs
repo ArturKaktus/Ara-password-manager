@@ -1,4 +1,4 @@
-﻿namespace Ara_password_manager.Features.MainWindow
+﻿namespace APM.Main.Features.MainWindow
 {
     public partial class MainWindowViewModel : ViewModelBase
     {

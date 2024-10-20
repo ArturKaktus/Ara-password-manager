@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Input;
 
-namespace APM.Main.Features.ContextMenu
+namespace APM.Main.Features.ContextMenuControls
 {
     internal class DeleteGroupContextMenu : IContextMenu
     {

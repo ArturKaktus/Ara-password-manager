@@ -9,7 +9,7 @@ using System;
 using APM.Core.Enums;
 using Avalonia.Interactivity;
 
-namespace Ara_password_manager.Features.CatalogTable;
+namespace APM.Main.Features.CatalogTable;
 
 public partial class CatalogTable : UserControl
 {
