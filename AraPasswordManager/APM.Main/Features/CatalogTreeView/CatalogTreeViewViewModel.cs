@@ -1,11 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using APM.Core;
+using APM.Core.Models;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using APM.Core;
-using APM.Core.Models;
-using Ara_password_manager;
-using Avalonia.Styling;
 
 namespace APM.Main.Features.CatalogTreeView;
 
@@ -21,15 +17,34 @@ public class CatalogTreeViewViewModel
     private void TreeObjets_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName != "UpdateDatabase") return;
+        RefreshTree();
+    }
+
+    public void RefreshTree()
+    {
         TreeNodes.Clear();
         TreeNodes.Add(CreateTree(1));
     }
-    private static TreeNode CreateTree(int startId)
+    public void AddGroupToTreeNode(TreeNode treeNode, GroupModel group)
+    {
+        TreeNode treeObject = new();
+        treeObject.ParentNode = treeNode;
+        treeObject.Item = group;
+        treeNode.Child.Add(treeObject);
+    }
+    public void DeleteGroupInTreeNode(TreeNode treeNode)
+    {
+        var parent = treeNode.ParentNode;
+        parent.Child.Remove(treeNode);
+    }
+    private static TreeNode CreateTree(int startId, TreeNode? parentTreeNode = null)
     {
         TreeNode treeObject = new();
         var db = AppDocument.CurrentDatabaseModel;
         //Выбор нулевой группы
         treeObject.Item = db.GetGroupsById(startId);
+        if(parentTreeNode != null)
+            treeObject.ParentNode = parentTreeNode;
 
         //Сбор групп
         var groups = db.GetGroupsByPid(startId);
@@ -37,7 +52,7 @@ public class CatalogTreeViewViewModel
         {
             if (treeObject.Item != null)
             {
-                treeObject.Child.Add(CreateTree(groupModel.Id));
+                treeObject.Child.Add(CreateTree(groupModel.Id, treeObject));
             }
         }
 
@@ -50,34 +65,5 @@ public class CatalogTreeViewViewModel
         //}
 
         return treeObject;
-    }
-
-    public void AddItem(TreeNode selected)
-    {
-        int maxId = AppDocument.CurrentDatabaseModel.GroupsArrayList.Max(obj => obj.Id);
-        var group = new GroupModel(maxId + 1, selected.Item.Id, "New Folder");
-        AppDocument.CurrentDatabaseModel.GroupsArrayList.Add(group);
-        AddNode(TreeNodes, selected, group);
-    }
-
-    private void AddNode(ObservableCollection<TreeNode> nodeList, TreeNode selected, GroupModel group)
-    {
-        foreach (var node in nodeList)
-        {
-            if (node.Item.Id == selected.Item.Id)
-            {
-                TreeNode treeObject = new();
-                treeObject.Item = group;
-                node.Child.Add(treeObject);
-                return;
-            }
-
-            AddNode(node.Child, selected, group);
-        }
-    }
-
-    public void DeleteItem(TreeNode selected)
-    {
-
     }
 }

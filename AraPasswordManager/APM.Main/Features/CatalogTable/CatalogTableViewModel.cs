@@ -22,10 +22,14 @@ public class CatalogTableViewModel
         Records.Clear();
         var tnt = sender as TreeNodeTransfer;
         var db = AppDocument.CurrentDatabaseModel;
-        var asd = db.GetRecordsByPid(tnt.SelectedTreeNode.Item.Id);
-        foreach (var a in asd)
+        if (tnt.SelectedTreeNode != null)
         {
-            Records.Add(a);
+            var asd = db.GetRecordsByPid(tnt.SelectedTreeNode.Item.Id);
+            foreach (var a in asd)
+            {
+                Records.Add(a);
+            }
         }
+        
     }
 }

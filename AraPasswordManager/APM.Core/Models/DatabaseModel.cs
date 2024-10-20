@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using APM.Core.Models.Interfaces;
+using System.ComponentModel;
 using System.Text.Json.Nodes;
 
 namespace APM.Core.Models;
@@ -25,6 +26,10 @@ public class DatabaseModel
     {
         return this._groupsArrayList.FirstOrDefault(groupModel => groupModel.Id == id)!;
     }
+    public RecordModel GetRecordById(int id)
+    {
+        return this._recordsArrayList.FirstOrDefault(recordModel => recordModel.Id == id)!;
+    }
     public List<GroupModel> GetGroupsByPid(int id)
     {
         List<GroupModel> groupModelsById = [];
@@ -37,9 +42,34 @@ public class DatabaseModel
         recordModel.AddRange(this._recordsArrayList.Where(record => record.Pid == groupId));
         return recordModel;
     }
-    public List<GroupModel> GroupsArrayList => _groupsArrayList;
-    public List<RecordModel> RecordsArrayList => _recordsArrayList;
 
+    public GroupModel AddGroup(int pid, string title)
+    {
+        int maxId = _groupsArrayList.Max(obj => obj.Id);
+        var group = new GroupModel(maxId + 1, pid, title);
+        _groupsArrayList.Add(group);
+        return group;
+    }
+
+    public void DeleteGroupsById(List<int> ids)
+    {
+        foreach(var id in ids)
+        {
+            var group = GetGroupsById(id);
+            _groupsArrayList.Remove(group);
+        }
+    }
+    public void DeleteRecordsById(List<int> ids)
+    {
+        foreach(var id in ids)
+        {
+            var record = GetRecordById(id);
+            _recordsArrayList.Remove(record);
+        }
+    }
+
+    public List<GroupModel> GroupsArrayList => _groupsArrayList; 
+    public List<RecordModel> RecordsArrayList => _recordsArrayList;
 
     public event PropertyChangedEventHandler? PropertyChanged;
     public void OnPropertyChanged(string propertyName)
