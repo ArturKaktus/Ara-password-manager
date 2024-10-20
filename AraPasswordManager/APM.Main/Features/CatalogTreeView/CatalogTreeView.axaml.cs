@@ -2,18 +2,23 @@ using APM.Core;
 using APM.Main;
 using APM.Main.Features.CatalogTreeView;
 using Avalonia.Controls;
+using Avalonia.Input;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Ara_password_manager.Features.CatalogTreeView;
 
 public partial class CatalogTreeView : UserControl
 {
     private CatalogTreeViewViewModel viewModel = new();
+
     public CatalogTreeView()
     {
         this.DataContext = viewModel;
         InitializeComponent();
+        CatalogTree.PointerReleased += CatalogTree_PointerReleased;
     }
+
     private void TreeView_SelectionChanged(object? sender, Avalonia.Controls.SelectionChangedEventArgs e)
     {
         TreeNode selectedItem;
@@ -23,46 +28,40 @@ public partial class CatalogTreeView : UserControl
         }
     }
 
-    private void AddItem_Click(object sender, Avalonia.Interactivity.RoutedEventArgs e)
+    private void CatalogTree_PointerReleased(object sender, PointerReleasedEventArgs e)
     {
-        var selectedItem = CatalogTree.SelectedItem;
-        if (selectedItem is TreeNode tn)
+        if (e.InitialPressMouseButton == MouseButton.Right)
         {
-            var newGroup = AppDocument.CurrentDatabaseModel.AddGroup(tn.Item.Id, "New Folder");
-            viewModel.AddGroupToTreeNode(tn, newGroup);
+            var contextMenu = new ContextMenu();
+            if (CatalogTree.SelectedItem is TreeNode tn)
+            {
+                var menuItems = GenerateMenuItems(tn);
+
+                foreach (var menuItem in menuItems)
+                {
+                    contextMenu.Items.Add(menuItem);
+                }
+                contextMenu.Open(CatalogTree);
+            }
         }
     }
 
-    private void DeleteItem_Click(object sender, Avalonia.Interactivity.RoutedEventArgs e)
+    private List<MenuItem> GenerateMenuItems(TreeNode treeNote)
     {
-        var selectedItem = CatalogTree.SelectedItem;
-        List<int> groudpIds = new();
-        List<int> recordIds = new();
-        if (selectedItem is TreeNode tn)
+        var menuItems = AppDocument.ContextMenuList.Where(item => item.CanExecute(treeNote)).OrderBy(i => i.Order);
+        List<MenuItem> items = [];
+        foreach (var menuItem in menuItems)
         {
-            groudpIds.Add(tn.Item.Id);
-            AddToLists(tn.Item.Id, groudpIds, recordIds);
-            AppDocument.CurrentDatabaseModel.DeleteRecordsById(recordIds);
-            AppDocument.CurrentDatabaseModel.DeleteGroupsById(groudpIds);
-            viewModel.DeleteGroupInTreeNode(tn);
+            var m = new MenuItem()
+            {
+                Header = menuItem.Title,
+                Command = menuItem.Execute,
+                CommandParameter = viewModel,
+                IsEnabled = menuItem.IsEnabledMenu(treeNote)
+            };
+            items.Add(m);
         }
-    }
-
-    private void AddToLists(int id,List<int> groupsList, List<int> recordsList)
-    {
-        var records = AppDocument.CurrentDatabaseModel.GetRecordsByPid(id);
-        var groups = AppDocument.CurrentDatabaseModel.GetGroupsByPid(id);
-
-        foreach (var rec in records)
-        {
-            recordsList.Add(rec.Id);
-        }
-
-        foreach (var gr in groups)
-        {
-            groupsList.Add(gr.Id);
-            AddToLists(gr.Id, groupsList, recordsList);
-        }
+        return items;
     }
 }
 
