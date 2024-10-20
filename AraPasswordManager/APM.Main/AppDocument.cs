@@ -22,6 +22,9 @@ namespace APM.Main
 
             // Фильтруем типы, чтобы найти те, которые реализуют интерфейс IFileProperty
             var implementingTypes = types.Where(t => t.GetInterfaces().Contains(typeof(IFileProperty)) && t.IsClass);
+            // Фильтруем типы, чтобы найти те, которые реализуют интерфейс IContextMenu
+            var contextMenuTypes = types.Where(t => t.GetInterfaces().Contains(typeof(IContextMenu)) && t.IsClass);
+
             foreach (var t in implementingTypes)
             {
                 var classInstance = Activator.CreateInstance(t);
@@ -32,6 +35,14 @@ namespace APM.Main
                 {
                     Patterns = ifp.FileExtension
                 });
+            }
+
+            foreach (var t in contextMenuTypes)
+            {
+                var classInstance = Activator.CreateInstance(t);
+
+                if (classInstance is not IContextMenu ifp) continue;
+                ContextMenuList.Add(ifp);
             }
         }
 
@@ -55,5 +66,6 @@ namespace APM.Main
         /// </summary>
         public static DatabaseModel CurrentDatabaseModel { get; } = new();
         public static TreeNodeTransfer NodeTransfer { get; } = new();
+        public static List<IContextMenu> ContextMenuList { get; set; } = new();
     }
 }
