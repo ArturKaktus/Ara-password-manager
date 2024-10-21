@@ -6,11 +6,20 @@ namespace APM.Core
     {
         private readonly Action<object> _execute;
         private readonly Func<object, bool> _canExecute;
+        private readonly Func<object, Task> _executeAsync;
 
         public DelegateCommand(Action<object> execute, Func<object, bool> canExecute = null)
         {
             _execute = execute ?? throw new ArgumentNullException(nameof(execute));
             _canExecute = canExecute;
+            _executeAsync = null;
+        }
+
+        public DelegateCommand(Func<object, Task> executeAsync, Func<object, bool> canExecute = null)
+        {
+            _executeAsync = executeAsync ?? throw new ArgumentNullException(nameof(executeAsync));
+            _canExecute = canExecute;
+            _execute = null;
         }
 
         public bool CanExecute(object parameter)
@@ -20,7 +29,26 @@ namespace APM.Core
 
         public void Execute(object parameter)
         {
-            _execute(parameter);
+            if (_execute != null)
+            {
+                _execute(parameter);
+            }
+            else if (_executeAsync != null)
+            {
+                _executeAsync(parameter).GetAwaiter();
+            }
+        }
+
+        public async Task ExecuteAsync(object parameter)
+        {
+            if (_executeAsync != null)
+            {
+                await _executeAsync(parameter);
+            }
+            else if (_execute != null)
+            {
+                _execute(parameter);
+            }
         }
 
         public event EventHandler CanExecuteChanged;

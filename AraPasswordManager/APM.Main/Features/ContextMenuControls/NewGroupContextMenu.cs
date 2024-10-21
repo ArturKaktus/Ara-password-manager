@@ -2,6 +2,7 @@
 using APM.Core.Models.Interfaces;
 using APM.Main.Features.CatalogTreeView;
 using Avalonia.Controls;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace APM.Main.Features.ContextMenuControls
@@ -42,6 +43,11 @@ namespace APM.Main.Features.ContextMenuControls
                 };
             }
             return null;
+        }
+
+        public Task ExecAsync(object parameter)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

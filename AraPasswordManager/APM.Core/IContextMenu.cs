@@ -20,6 +20,11 @@ public interface IContextMenu
 
     public ICommand? Execute { get; }
     /// <summary>
+    /// Асинхронный метод при нажатии
+    /// </summary>
+    /// <param name="parameter"></param>
+    public Task ExecAsync(object parameter);
+    /// <summary>
     /// Метод при нажатии
     /// </summary>
     /// <param name="parameter"></param>
