@@ -1,6 +1,7 @@
 ﻿using APM.Core;
 using APM.Core.Models;
 using APM.Core.ProviderInterfaces;
+using APM.Main.Features.ContextMenuControls;
 using Avalonia.Platform.Storage;
 using System;
 using System.Collections.Generic;
@@ -18,30 +19,17 @@ namespace APM.Main
             // Находим все типы в сборке
             var types = assembly.GetTypes();
 
-            // Фильтруем типы, чтобы найти те, которые реализуют интерфейс IFileProperty
-            var implementingTypes = types.Where(t => t.GetInterfaces().Contains(typeof(IFileProperty)) && t.IsClass);
-            // Фильтруем типы, чтобы найти те, которые реализуют интерфейс IContextMenu
-            var contextMenuTypes = types.Where(t => t.GetInterfaces().Contains(typeof(IContextMenu)) && t.IsClass);
-
+            var implementingTypes = ContextMenuUtils.GenerateClassList<IFileProperty>(types);
             foreach (var t in implementingTypes)
             {
-                var classInstance = Activator.CreateInstance(t);
-
-                if (classInstance is not IFileProperty ifp) continue;
-                FileInstances.Add(ifp);
-                FilePickerFileTypeFilter.Add(new FilePickerFileType(ifp.FileTitle)
+                FileInstances.Add(t);
+                FilePickerFileTypeFilter.Add(new FilePickerFileType(t.FileTitle)
                 {
-                    Patterns = ifp.FileExtension
+                    Patterns = t.FileExtension
                 });
             }
 
-            foreach (var t in contextMenuTypes)
-            {
-                var classInstance = Activator.CreateInstance(t);
-
-                if (classInstance is not IContextMenu ifp) continue;
-                ContextMenuList.Add(ifp);
-            }
+            ContextMenuList = ContextMenuUtils.GenerateClassList<IContextMenu>(types);
         }
 
         /// <summary>

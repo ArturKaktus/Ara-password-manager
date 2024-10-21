@@ -1,6 +1,7 @@
 ﻿using APM.Core;
 using APM.Core.Models.Interfaces;
 using APM.Main.Features.CatalogTreeView;
+using Avalonia.Controls;
 using System.Collections.Generic;
 using System.Windows.Input;
 
@@ -8,8 +9,6 @@ namespace APM.Main.Features.ContextMenuControls
 {
     internal class DeleteGroupContextMenu : IContextMenu
     {
-        public string Title => "Удалить папку";
-
         public ICommand? Execute => new DelegateCommand(Exec);
 
         public int Order => 20;
@@ -34,7 +33,7 @@ namespace APM.Main.Features.ContextMenuControls
             }
         }
 
-        public bool IsEnabledMenu(object parameter) => parameter is TreeNode tn && tn.Item.Id != 1;
+        public bool IsEnabledMenu(object parameter) => parameter is TreeNode tn && tn.Item is IGroup && tn.Item.Id != 1;
 
         private static void AddToLists(int id, List<int> groupsList, List<int> recordsList)
         {
@@ -51,6 +50,21 @@ namespace APM.Main.Features.ContextMenuControls
                 groupsList.Add(gr.Id);
                 AddToLists(gr.Id, groupsList, recordsList);
             }
+        }
+
+        public MenuItem ReturnMenuItem(object? mainObj, object? obj)
+        {
+            if (mainObj is CatalogTreeViewViewModel uc && obj is TreeNode tn && tn.Item is IGroup)
+            {
+                return new MenuItem()
+                {
+                    Header = "Удалить папку",
+                    Command = Execute,
+                    CommandParameter = uc,
+                    IsEnabled = IsEnabledMenu(tn)
+                };
+            }
+            return null;
         }
     }
 }

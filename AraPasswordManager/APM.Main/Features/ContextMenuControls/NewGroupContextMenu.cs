@@ -1,14 +1,13 @@
 ﻿using APM.Core;
 using APM.Core.Models.Interfaces;
 using APM.Main.Features.CatalogTreeView;
+using Avalonia.Controls;
 using System.Windows.Input;
 
 namespace APM.Main.Features.ContextMenuControls
 {
     internal class NewGroupContextMenu : IContextMenu
     {
-        public string Title => "Новая папка";
-
         public ICommand? Execute => new DelegateCommand(Exec);
 
         public int Order => 10;
@@ -29,5 +28,20 @@ namespace APM.Main.Features.ContextMenuControls
         }
 
         public bool IsEnabledMenu(object parameter) => true;
+
+        public MenuItem ReturnMenuItem(object? mainObj, object? obj)
+        {
+            if (mainObj is CatalogTreeViewViewModel uc && obj is TreeNode tn && tn.Item is IGroup)
+            {
+                return new MenuItem()
+                {
+                    Header = "Новая папка",
+                    Command = Execute,
+                    CommandParameter = uc,
+                    IsEnabled = IsEnabledMenu(tn)
+                };
+            }
+            return null;
+        }
     }
 }
