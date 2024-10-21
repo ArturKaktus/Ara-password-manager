@@ -7,9 +7,7 @@ public partial class MenuStrip : UserControl
 {
     public MenuStrip()
     {
-        var model = new MenuStripViewModel();
-        this.DataContext = model;
         InitializeComponent();
-        FileMenu.ItemsSource = ContextMenuUtils.GenerateMenuItems(null, model);
+        FileMenu.ItemsSource = ContextMenuUtils.GenerateMenuItems(null, this);
     }
 }
