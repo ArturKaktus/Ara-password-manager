@@ -1,4 +1,5 @@
 using APM.Core;
+using APM.Main.Features.ContextMenuControls;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -51,7 +52,7 @@ public partial class CatalogTreeView : UserControl
                     if (mousePosition.X >= position.Value.X && mousePosition.X <= position.Value.X + bounds.Width &&
                         mousePosition.Y >= position.Value.Y && mousePosition.Y <= position.Value.Y + bounds.Height)
                     {
-                        var menuItems = GenerateMenuItems(tn);
+                        var menuItems = ContextMenuUtils.GenerateMenuItems(viewModel, tn);
 
                         foreach (var menuItem in menuItems)
                         {
@@ -62,24 +63,6 @@ public partial class CatalogTreeView : UserControl
                 }
             }
         }
-    }
-
-    private List<MenuItem> GenerateMenuItems(TreeNode treeNote)
-    {
-        var menuItems = AppDocument.ContextMenuList.Where(item => item.CanExecute(treeNote)).OrderBy(i => i.Order);
-        List<MenuItem> items = [];
-        foreach (var menuItem in menuItems)
-        {
-            var m = new MenuItem()
-            {
-                Header = menuItem.Title,
-                Command = menuItem.Execute,
-                CommandParameter = viewModel,
-                IsEnabled = menuItem.IsEnabledMenu(treeNote)
-            };
-            items.Add(m);
-        }
-        return items;
     }
 }
 

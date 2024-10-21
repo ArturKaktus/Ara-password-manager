@@ -1,13 +1,10 @@
-﻿using System.Windows.Input;
+﻿using Avalonia.Controls;
+using System.Windows.Input;
 
 namespace APM.Core;
 
 public interface IContextMenu
 {
-    /// <summary>
-    /// Название
-    /// </summary>
-    public string Title { get; }
     /// <summary>
     /// Может ли быть использоваться
     /// </summary>
@@ -31,4 +28,12 @@ public interface IContextMenu
     /// Порядок
     /// </summary>
     public int Order {  get; }
+
+    /// <summary>
+    /// Возврат MenuItem
+    /// </summary>
+    /// <param name="mainObj"></param>
+    /// <param name="obj"></param>
+    /// <returns></returns>
+    public MenuItem ReturnMenuItem(object? mainObj, object? obj);
 }
