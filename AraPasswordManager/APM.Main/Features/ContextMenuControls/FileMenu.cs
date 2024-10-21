@@ -1,5 +1,4 @@
 ﻿using APM.Core;
-using APM.Main.Features.MenuStrip;
 using Avalonia.Controls;
 using System;
 using System.Threading.Tasks;
@@ -13,10 +12,7 @@ namespace APM.Main.Features.ContextMenuControls
 
         public int Order => 10;
 
-        public bool CanExecute(object parameter)
-        {
-            return parameter is MenuStripViewModel;
-        }
+        public bool CanExecute(object parameter) => parameter is MenuStrip.MenuStrip;
 
         public void Exec(object parameter)
         {
