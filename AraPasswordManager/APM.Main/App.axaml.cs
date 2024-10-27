@@ -1,3 +1,4 @@
+using APM.Main.Devices;
 using APM.Main.Features.MainWindow;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -24,9 +25,12 @@ namespace APM.Main
                 {
                     DataContext = new MainWindowViewModel(),
                 };
+                CastomModules();
             }
 
             base.OnFrameworkInitializationCompleted();
         }
+
+        private void CastomModules() => DeviceFinder.Instance.StartSearch();
     }
 }

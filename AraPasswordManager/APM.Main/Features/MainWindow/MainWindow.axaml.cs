@@ -1,3 +1,4 @@
+using APM.Main.Devices;
 using Avalonia.Controls;
 
 namespace APM.Main.Features.MainWindow
@@ -7,6 +8,11 @@ namespace APM.Main.Features.MainWindow
         public MainWindow()
         {
             InitializeComponent();
+            this.Closing += MainWindow_Closing;
+        }
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            DeviceFinder.Instance.StopSearch(true);
         }
     }
 }
