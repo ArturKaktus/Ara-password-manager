@@ -8,26 +8,20 @@
         xmlns:vcatalogt="clr-namespace:APM.Main.Features.CatalogTable"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="APM.Main.Features.MainWindow.MainWindow"
+		Classes="MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="Ara Password Manager"
-
-		WindowStartupLocation="CenterScreen"
-		TransparencyLevelHint="AcrylicBlur"
-		ExtendClientAreaToDecorationsHint="True">
-	<Window.Styles>
-		<Style Selector="Window">
-			<Setter Property="Background" Value="{DynamicResource BackgroundBrush}" />
-		</Style>
-	</Window.Styles>
+        Title="Ara Password Manager">
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
     
-    <Grid RowDefinitions="auto,*,auto" ColumnDefinitions="Auto,auto,*">
-        <vmenu:MenuStrip Grid.Row="0"/>
-		<vcatalogtw:CatalogTreeView Grid.Row="1" Grid.Column="0"/>
-        <GridSplitter Grid.Row="1" Grid.Column="1"/>
-		<vcatalogt:CatalogTable Grid.Row="1" Grid.Column="2"/>
+    <Grid RowDefinitions="auto,*" ColumnDefinitions="auto,*">
+        <vmenu:MenuStrip Grid.Row="0" Grid.Column="0"/>
+		<Grid Grid.Row="1" Grid.ColumnSpan="2" ColumnDefinitions="auto,auto,*">
+			<vcatalogtw:CatalogTreeView  Grid.Column="0" MinWidth="20"/>
+			<GridSplitter  Grid.Column="1"/>
+			<vcatalogt:CatalogTable  Grid.Column="2"/>
+		</Grid>
     </Grid>
 </Window>
