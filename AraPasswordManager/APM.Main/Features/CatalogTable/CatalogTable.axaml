@@ -16,7 +16,7 @@
 	</UserControl.Styles>
     <DataGrid x:Name="TableGrid" ItemsSource="{Binding Records}"
               AutoGenerateColumns="False"
-              BorderThickness="1" BorderBrush="Gray" Background="Gray" IsReadOnly="True"
+              BorderThickness="1" IsReadOnly="True"
               SelectionMode="Extended">
 		<DataGrid.Columns>
             <DataGridTextColumn Header="Title" Binding="{Binding Title}"/>
