@@ -1,4 +1,5 @@
 using APM.Core.Models.Interfaces;
+using APM.Main.Utils;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -8,9 +9,10 @@ namespace APM.Main.Features.CatalogTable;
 
 public partial class CatalogTable : UserControl
 {
+    private CatalogTableViewModel viewModel = new();
     public CatalogTable()
     {
-        this.DataContext = new CatalogTableViewModel();
+        this.DataContext = viewModel;
         InitializeComponent();
         TableGrid.PointerReleased += TableGrid_PointerReleased;
     }
@@ -19,6 +21,7 @@ public partial class CatalogTable : UserControl
     {
         if (e.InitialPressMouseButton == MouseButton.Right)
         {
+            var contextMenu = new ContextMenu();
             // Получаем координаты указателя мыши относительно TableGrid
             var mousePosition = e.GetPosition(TableGrid);
 
@@ -28,7 +31,13 @@ public partial class CatalogTable : UserControl
             // Проверяем, является ли найденная строка определенной строкой
             if (row != null && row.DataContext is IRecord specificRecord)
             {
-
+                viewModel.SelectedRecord = specificRecord;
+                var menuItems = GetClassesUtils.GenerateMenuItems(viewModel, specificRecord);
+                foreach (var menuItem in menuItems)
+                {
+                    contextMenu.Items.Add(menuItem);
+                }
+                contextMenu.Open(TableGrid);
             }
         }
     }

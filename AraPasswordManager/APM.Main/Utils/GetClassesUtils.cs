@@ -3,11 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace APM.Main.Features.ContextMenuControls
+namespace APM.Main.Utils
 {
-    internal static class ContextMenuUtils
+    internal static class GetClassesUtils
     {
-        //Выборка определенных меню
+        /// <summary>
+        /// Сбор MenuItem
+        /// </summary>
+        /// <param name="mainObj"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public static List<MenuItem> GenerateMenuItems(object? mainObj, object? obj)
         {
             return AppDocument.ContextMenuList
@@ -18,7 +23,12 @@ namespace APM.Main.Features.ContextMenuControls
                 .ToList();
         }
 
-        //Сбор всех классов с определнным интерфейсом
+        /// <summary>
+        /// Сбор всех классов с определнным интерфейсом
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="types"></param>
+        /// <returns></returns>
         public static List<T> GenerateClassList<T>(Type[] types)
         {
             List<T> menuList = new();

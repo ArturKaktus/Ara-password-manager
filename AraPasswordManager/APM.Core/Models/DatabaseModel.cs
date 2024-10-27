@@ -67,6 +67,12 @@ public class DatabaseModel
         }
     }
 
+    public void DeleteRecordById(int id)
+    {
+        var record = GetRecordById(id);
+        _recordsArrayList.Remove(record);
+    }
+
     public List<GroupModel> GroupsArrayList => _groupsArrayList; 
     public List<RecordModel> RecordsArrayList => _recordsArrayList;
 

@@ -2,11 +2,9 @@
 using APM.Core.Models;
 using APM.Core.ProviderInterfaces;
 using APM.Main.Devices;
-using APM.Main.Features.ContextMenuControls;
+using APM.Main.Utils;
 using Avalonia.Platform.Storage;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 namespace APM.Main
@@ -20,7 +18,7 @@ namespace APM.Main
             // Находим все типы в сборке
             var types = assembly.GetTypes();
 
-            var implementingTypes = ContextMenuUtils.GenerateClassList<IFileProperty>(types);
+            var implementingTypes = GetClassesUtils.GenerateClassList<IFileProperty>(types);
             foreach (var t in implementingTypes)
             {
                 FileInstances.Add(t);
@@ -30,8 +28,8 @@ namespace APM.Main
                 });
             }
 
-            ContextMenuList = ContextMenuUtils.GenerateClassList<IContextMenu>(types);
-            DeviceInstances = ContextMenuUtils.GenerateClassList<IDevice>(types);
+            ContextMenuList = GetClassesUtils.GenerateClassList<IContextMenu>(types);
+            DeviceInstances = GetClassesUtils.GenerateClassList<IDevice>(types);
         }
 
         public static readonly List<IDevice> DeviceInstances = [];
