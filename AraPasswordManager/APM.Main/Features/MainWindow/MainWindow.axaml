@@ -10,8 +10,16 @@
         x:Class="APM.Main.Features.MainWindow.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="Ara Password Manager">
+        Title="Ara Password Manager"
 
+		WindowStartupLocation="CenterScreen"
+		TransparencyLevelHint="AcrylicBlur"
+		ExtendClientAreaToDecorationsHint="True">
+	<Window.Styles>
+		<Style Selector="Window">
+			<Setter Property="Background" Value="{DynamicResource BackgroundBrush}" />
+		</Style>
+	</Window.Styles>
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
@@ -19,12 +27,7 @@
     <Grid RowDefinitions="auto,*,auto" ColumnDefinitions="Auto,auto,*">
         <vmenu:MenuStrip Grid.Row="0"/>
 		<vcatalogtw:CatalogTreeView Grid.Row="1" Grid.Column="0"/>
-        <GridSplitter Grid.Row="1" Grid.Column="1" Background="Gray"/>
+        <GridSplitter Grid.Row="1" Grid.Column="1"/>
 		<vcatalogt:CatalogTable Grid.Row="1" Grid.Column="2"/>
-        <Grid.ContextMenu>
-
-        </Grid.ContextMenu>
     </Grid>
-
-
 </Window>
