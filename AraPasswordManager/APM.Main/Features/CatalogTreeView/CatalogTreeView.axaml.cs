@@ -1,10 +1,9 @@
 using APM.Core;
-using APM.Main.Features.ContextMenuControls;
+using APM.Main.Utils;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.VisualTree;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace APM.Main.Features.CatalogTreeView;
@@ -52,7 +51,7 @@ public partial class CatalogTreeView : UserControl
                     if (mousePosition.X >= position.Value.X && mousePosition.X <= position.Value.X + bounds.Width &&
                         mousePosition.Y >= position.Value.Y && mousePosition.Y <= position.Value.Y + bounds.Height)
                     {
-                        var menuItems = ContextMenuUtils.GenerateMenuItems(viewModel, tn);
+                        var menuItems = GetClassesUtils.GenerateMenuItems(viewModel, tn);
 
                         foreach (var menuItem in menuItems)
                         {
