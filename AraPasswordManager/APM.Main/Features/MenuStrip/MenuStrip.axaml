@@ -3,10 +3,21 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:APM.Main.Features.MenuStrip"
-             xmlns:menuStrip="clr-namespace:APM.Main.Features.MenuStrip"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="APM.Main.Features.MenuStrip.MenuStrip">
+             x:Class="APM.Main.Features.MenuStrip.MenuStrip"
+			 x:DataType="vm:MenuStripViewModel">
     <Grid>
-        <Menu x:Name="FileMenu"/>
+		<Menu x:Name="FileMenu">
+			<MenuItem Header="Файл">
+				<MenuItem Header="Создать" Command="{Binding CreateCommand}"/>
+				<MenuItem Header="Загрузить" Command="{Binding OpenCommand}"/>
+				<MenuItem Header="Сохранить" Command="{Binding SaveCommand}"/>
+				<MenuItem Header="Выход" Command="{Binding ExitCommand}"/>
+			</MenuItem>
+			<MenuItem Header="Устройство" IsEnabled="{Binding IsConnectedDevice}">
+				<MenuItem Header="Загрузить" Command="{Binding OpenFromDeviceCommand}" IsEnabled="{Binding IsConnectedDevice}"/>
+				<MenuItem Header="Сохранить" Command="{Binding SaveToDeviceCommand}" IsEnabled="{Binding IsConnectedDevice}"/>
+			</MenuItem>
+		</Menu>
     </Grid>
 </UserControl>

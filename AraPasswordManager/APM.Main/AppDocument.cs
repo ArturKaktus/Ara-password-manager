@@ -1,6 +1,7 @@
 ﻿using APM.Core;
 using APM.Core.Models;
 using APM.Core.ProviderInterfaces;
+using APM.Main.Devices;
 using APM.Main.Features.ContextMenuControls;
 using Avalonia.Platform.Storage;
 using System;
@@ -30,7 +31,10 @@ namespace APM.Main
             }
 
             ContextMenuList = ContextMenuUtils.GenerateClassList<IContextMenu>(types);
+            DeviceInstances = ContextMenuUtils.GenerateClassList<IDevice>(types);
         }
+
+        public static readonly List<IDevice> DeviceInstances = [];
 
         /// <summary>
         /// Поддерживаемые расширения файлов
