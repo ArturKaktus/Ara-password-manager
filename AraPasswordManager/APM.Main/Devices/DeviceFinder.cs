@@ -68,13 +68,11 @@ namespace APM.Main.Devices
                 {
                     try
                     {
-                        if (device.PingDevice(portsNames[i]))
-                        {
-                            IsConnected = true;
-                            SelectedDevice = device;
-                            PortOfSelectedDevice = portsNames[i];
-                            return true;
-                        }
+                        if (!device.PingDevice(portsNames[i])) continue;
+                        IsConnected = true;
+                        SelectedDevice = device;
+                        PortOfSelectedDevice = portsNames[i];
+                        return true;
                     }
                     catch { }
                 }

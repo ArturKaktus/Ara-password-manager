@@ -1,15 +1,15 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-	<Style Selector="Window.MainWindow">
+
+	<!-- Общий стиль для всех окон -->
+	<Style Selector="Window">
 		<Setter Property="WindowStartupLocation" Value="CenterScreen"/>
 		<Setter Property="TransparencyLevelHint" Value="AcrylicBlur"/>
-		<Setter Property="ExtendClientAreaToDecorationsHint" Value="True"/>
 		<Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
 	</Style>
-	
-	<Style Selector="Window:not(.MainWindowView)">
-		<Setter Property="WindowStartupLocation" Value="CenterScreen"/>
-		<Setter Property="TransparencyLevelHint" Value="AcrylicBlur"/>
-		<Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
+
+	<!-- Стиль для MainWindow -->
+	<Style Selector="Window.MainWindow">
+		<Setter Property="ExtendClientAreaToDecorationsHint" Value="True"/>
 	</Style>
 </Styles>
