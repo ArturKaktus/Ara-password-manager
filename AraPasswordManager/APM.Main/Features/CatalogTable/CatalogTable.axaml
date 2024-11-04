@@ -23,7 +23,6 @@
             <DataGridTextColumn Header="Login" Binding="{Binding Login}"/>
             <DataGridTextColumn Header="Password" Binding="{Binding Password, Converter={StaticResource CharArrayToStringConverter}}"/>
             <DataGridTextColumn Header="Url" Binding="{Binding Url}"/>
-            <DataGridTextColumn Header="Notes" Binding="{Binding Notes}"/>
         </DataGrid.Columns>
     </DataGrid>
 

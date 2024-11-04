@@ -10,7 +10,6 @@ public class RecordModel : IRecord
     public int Id { get; set; }
     public int Pid { get; set; }
     public string Title { get; set; }
-    public string Notes { get; set; }
 
     private readonly SymbolModel _afterLoginSymbol = new();
     private readonly SymbolModel _afterPasswordSymbol = new();
