@@ -12,7 +12,7 @@ namespace APM.Main.Features.ContextMenuControls
     {
         public ICommand? Execute => new DelegateCommand(Exec);
 
-        public int Order => 20;
+        public int Order => 30;
 
         public bool CanExecute(object parameter) => parameter is TreeNode tn && tn.Item is IGroup;
 

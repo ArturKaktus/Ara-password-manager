@@ -13,7 +13,7 @@
     <TreeView x:Name="CatalogTree" ItemsSource="{Binding TreeNodes}" SelectionChanged="TreeView_SelectionChanged">
         <TreeView.ItemTemplate>
             <TreeDataTemplate ItemsSource="{Binding Child}">
-			    <TextBlock Text="{Binding Item}"/>
+			    <TextBlock Text="{Binding Item.Title}"/>
             </TreeDataTemplate>
         </TreeView.ItemTemplate>
     </TreeView>
