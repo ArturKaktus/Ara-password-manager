@@ -21,7 +21,7 @@ public class DatabaseModel
         if (this._recordsArrayList.Count > 0)
             this._recordsArrayList.Clear();
     }
-    public GroupModel GetGroupsById(int id)
+    public GroupModel GetGroupById(int id)
     {
         return this._groupsArrayList.FirstOrDefault(groupModel => groupModel.Id == id)!;
     }
@@ -50,11 +50,16 @@ public class DatabaseModel
         return group;
     }
 
+    public void EditGroup(int id, string title)
+    {
+        _groupsArrayList.Where(g => g.Id == id).FirstOrDefault()!.Title = title;
+    }
+
     public void DeleteGroupsById(List<int> ids)
     {
         foreach(var id in ids)
         {
-            var group = GetGroupsById(id);
+            var group = GetGroupById(id);
             _groupsArrayList.Remove(group);
         }
     }

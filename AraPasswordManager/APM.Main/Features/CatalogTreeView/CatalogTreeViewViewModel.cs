@@ -42,7 +42,7 @@ public class CatalogTreeViewViewModel
         TreeNode treeObject = new();
         var db = AppDocument.CurrentDatabaseModel;
         //Выбор нулевой группы
-        treeObject.Item = db.GetGroupsById(startId);
+        treeObject.Item = db.GetGroupById(startId);
         if(parentTreeNode != null)
             treeObject.ParentNode = parentTreeNode;
 
