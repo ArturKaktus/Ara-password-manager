@@ -17,8 +17,4 @@ public interface IRecord : IObject
     /// URL
     /// </summary>
     public string Url { get; set; }
-    /// <summary>
-    /// Описание
-    /// </summary>
-    public string Notes { get; set; }
 }
