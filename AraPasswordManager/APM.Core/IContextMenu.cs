@@ -11,6 +11,7 @@ public interface IContextMenu
     /// <param name="parameter"></param>
     /// <returns></returns>
     public bool CanExecute(object parameter);
+    
     /// <summary>
     /// Включенный
     /// </summary>
@@ -19,16 +20,13 @@ public interface IContextMenu
     public bool IsEnabledMenu(object parameter);
 
     public ICommand? Execute { get; }
-    /// <summary>
-    /// Асинхронный метод при нажатии
-    /// </summary>
-    /// <param name="parameter"></param>
-    public Task ExecAsync(object parameter);
+
     /// <summary>
     /// Метод при нажатии
     /// </summary>
     /// <param name="parameter"></param>
     public void Exec(object parameter);
+    
     /// <summary>
     /// Порядок
     /// </summary>

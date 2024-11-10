@@ -34,20 +34,15 @@ public partial class CatalogTreeView : UserControl
             var contextMenu = new ContextMenu();
             if (CatalogTree.SelectedItem is TreeNode tn)
             {
-                // Находим визуальный элемент, соответствующий выбранному элементу
                 var selectedVisualItem = CatalogTree.GetVisualDescendants()
                     .OfType<TreeViewItem>()
                     .FirstOrDefault(item => item.DataContext == tn);
 
                 if (selectedVisualItem != null)
                 {
-                    // Получаем координаты указателя мыши относительно CatalogTree
                     var mousePosition = e.GetPosition(CatalogTree);
-                    // Координаты относительно родительского элемента
                     var position = selectedVisualItem.TranslatePoint(new Point(0, 0), CatalogTree);
-                    // Получаем прямоугольник выбранного элемента
                     var bounds = selectedVisualItem.Bounds;
-                    // Проверяем, находится ли указатель мыши внутри выбранной ячейки
                     if (mousePosition.X >= position.Value.X && mousePosition.X <= position.Value.X + bounds.Width &&
                         mousePosition.Y >= position.Value.Y && mousePosition.Y <= position.Value.Y + bounds.Height)
                     {

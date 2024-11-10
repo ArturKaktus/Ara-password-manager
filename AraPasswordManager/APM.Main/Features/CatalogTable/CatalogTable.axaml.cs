@@ -16,19 +16,14 @@ public partial class CatalogTable : UserControl
         InitializeComponent();
         TableGrid.PointerReleased += TableGrid_PointerReleased;
     }
-
+    
     private void TableGrid_PointerReleased(object? sender, Avalonia.Input.PointerReleasedEventArgs e)
     {
         if (e.InitialPressMouseButton == MouseButton.Right)
         {
             var contextMenu = new ContextMenu();
-            // ѕолучаем координаты указател€ мыши относительно TableGrid
             var mousePosition = e.GetPosition(TableGrid);
-
-            // Ќаходим строку, на которую наведен указатель мыши с помощью HitTest
             var row = FindRowAtPosition(mousePosition);
-
-            // ѕровер€ем, €вл€етс€ ли найденна€ строка определенной строкой
             if (row != null && row.DataContext is IRecord specificRecord)
             {
                 viewModel.SelectedRecord = specificRecord;
@@ -41,7 +36,7 @@ public partial class CatalogTable : UserControl
             }
         }
     }
-    // ћетод дл€ поиска строки по координатам
+
     private DataGridRow FindRowAtPosition(Point position)
     {
         var hitTestResult = TableGrid.GetVisualAt(position);

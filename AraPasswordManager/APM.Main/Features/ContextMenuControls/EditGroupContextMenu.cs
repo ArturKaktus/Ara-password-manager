@@ -16,10 +16,6 @@ public class EditGroupContextMenu : IContextMenu
     public bool IsEnabledMenu(object parameter) => parameter is TreeNode { Item: IGroup } tn && tn.Item.Id != 1;
 
     public ICommand? Execute => new DelegateCommand(Exec);
-    public Task ExecAsync(object parameter)
-    {
-        throw new System.NotImplementedException();
-    }
 
     public async void Exec(object parameter)
     {

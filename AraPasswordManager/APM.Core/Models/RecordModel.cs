@@ -1,12 +1,40 @@
-﻿using APM.Core.Models.Interfaces;
+﻿using System.ComponentModel;
+using APM.Core.Models.Interfaces;
 
 namespace APM.Core.Models;
 
-public class RecordModel : IRecord
+public class RecordModel : IRecord, INotifyPropertyChanged, ICloneable
 {
-    public string Login { get; set; }
-    public char[] Password { get; set; }
-    public string Url { get; set; }
+    public string Login
+    {
+        get => _login;
+        set
+        {
+            _login = value;
+            OnPropertyChanged(nameof(Login));
+        }
+    }
+
+    public string Password
+    {
+        get => _password;
+        set
+        {
+            _password = value;
+            OnPropertyChanged(nameof(Password));
+        }
+    }
+
+    public string Url
+    {
+        get => _url;
+        set
+        {
+            _url = value;
+            OnPropertyChanged(nameof(Url));
+        }
+    }
+
     public int Id { get; set; }
     public int Pid { get; set; }
     public string Title { get; set; }
@@ -14,7 +42,12 @@ public class RecordModel : IRecord
     private readonly SymbolModel _afterLoginSymbol = new();
     private readonly SymbolModel _afterPasswordSymbol = new();
     private readonly SymbolModel _afterUrlSymbol = new();
-    public RecordModel(int id, int pid, string name, string login, char[] password, string url, string symbolLogin, string symbolPassword, string symbolUrl)
+    private string _login;
+    private string _password;
+    private string _url;
+
+    public RecordModel(int id, int pid, string name, string login, string password, string url, string symbolLogin,
+        string symbolPassword, string symbolUrl)
     {
         Id = id;
         Pid = pid;
@@ -22,24 +55,55 @@ public class RecordModel : IRecord
         Login = login;
         Password = password;
         Url = url;
-        this._afterLoginSymbol.SetSymbolValueFromString(symbolLogin);
-        this._afterPasswordSymbol.SetSymbolValueFromString(symbolPassword);
-        this._afterUrlSymbol.SetSymbolValueFromString(symbolUrl);
+        _afterLoginSymbol.SetSymbolValueFromString(symbolLogin);
+        _afterPasswordSymbol.SetSymbolValueFromString(symbolPassword);
+        _afterUrlSymbol.SetSymbolValueFromString(symbolUrl);
     }
+
     public override string ToString()
     {
         return Title;
     }
+
+    public object Clone()
+    {
+        return new RecordModel(Id, Pid, Title, Login, Password, Url, _afterLoginSymbol.GetSymbolStringValue(), _afterPasswordSymbol.GetSymbolStringValue(), _afterUrlSymbol.GetSymbolStringValue());
+    }
+
     public string GetAfterLoginString()
     {
-        return this._afterLoginSymbol.GetSymbolStringValue();
+        return _afterLoginSymbol.GetSymbolStringValue();
     }
+
     public string GetAfterPasswordString()
     {
-        return this._afterPasswordSymbol.GetSymbolStringValue();
+        return _afterPasswordSymbol.GetSymbolStringValue();
     }
+
     public string GetAfterUrlString()
     {
-        return this._afterUrlSymbol.GetSymbolStringValue();
+        return _afterUrlSymbol.GetSymbolStringValue();
     }
-} 
+
+    public byte GetAfterLoginByte()
+    {
+        return _afterLoginSymbol.GetSymbolByteValue();
+    }
+
+    public byte GetAfterPasswordByte()
+    {
+        return _afterPasswordSymbol.GetSymbolByteValue();
+    }
+
+    public byte GetAfterUrlByte()
+    {
+        return _afterUrlSymbol.GetSymbolByteValue();
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    private void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+}

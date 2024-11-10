@@ -16,11 +16,10 @@
 	<Grid RowDefinitions="auto,auto,*">
 		<TextBlock 
 			Grid.Row="0" 
-			Margin="10, 10, 10, 0" 
 			Text="Введите название папки:"/>
 		<TextBox 
 			Grid.Row="1" 
-			Margin="10, 5, 10, 0" 
+			Margin="0, 5, 0, 0" 
 			Watermark="Название папки" 
 			Text="{Binding FolderName}" 
 			HorizontalAlignment="Stretch"/>

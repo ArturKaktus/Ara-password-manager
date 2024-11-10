@@ -29,11 +29,6 @@ namespace APM.Main.Features.ContextMenuControls
             }
         }
 
-        public Task ExecAsync(object parameter)
-        {
-            throw new NotImplementedException();
-        }
-
         public bool IsEnabledMenu(object parameter) => true;
 
         public MenuItem ReturnMenuItem(object? mainObj, object? obj)

@@ -1,0 +1,19 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:APM.Main.Features.CatalogTable.Controls.RecordProps"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="APM.Main.Features.CatalogTable.Controls.RecordProps.RecordPropsView"
+             x:DataType="vm:RecordPropsViewModel">
+    <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto">
+        <TextBlock Grid.Row="0" Text="URL:"/>
+        <TextBox Grid.Row="1" Text="{Binding Record.Url}"/>
+        
+        <TextBlock Grid.Row="2" Text="Login:"/>
+        <TextBox Grid.Row="3" Text="{Binding Record.Login}"/>
+        
+        <TextBlock Grid.Row="4" Text="Password:"/>
+        <TextBox Grid.Row="5" Text="{Binding Record.Password}"/>
+    </Grid>
+</UserControl>
