@@ -207,7 +207,7 @@ public class KKDProvider : IFileProvider, IFileProperty, IReadWriteFile
                 Convert.ToInt32(recordObj["pid"]!.ToString()),
                 recordObj["name"]!.ToString(),
                 recordObj["login"]!.ToString(),
-                StringToCharArray(recordObj["password"]!.ToString()),
+                recordObj["password"]!.ToString(),
                 recordObj["url"]!.ToString(),
                 recordObj["loginSymbol"]!.ToString(),
                 recordObj["passwordSymbol"]!.ToString(),

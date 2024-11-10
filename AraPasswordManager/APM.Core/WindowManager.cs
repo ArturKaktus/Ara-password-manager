@@ -40,7 +40,7 @@ namespace APM.Core
                 Height = height ?? 600,
                 Width = width ?? 800,
                 Topmost = true,
-                CanResize = false
+                //CanResize = false
             };
 
             var okButton = new Button { Content = okString };
@@ -77,6 +77,7 @@ namespace APM.Core
             // Добавляем содержимое в Grid
             content.HorizontalAlignment = HorizontalAlignment.Stretch;
             content.VerticalAlignment = VerticalAlignment.Stretch;
+            content.Margin = new Thickness(5);
             contentPanel.Children.Add(content);
             Grid.SetRow(content, 0);
             Grid.SetRowSpan(content, 2);

@@ -14,16 +14,27 @@
 		<FluentTheme />
 		<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
 	</UserControl.Styles>
-    <DataGrid x:Name="TableGrid" ItemsSource="{Binding Records}"
-              AutoGenerateColumns="False"
-              BorderThickness="1" IsReadOnly="True"
-              SelectionMode="Extended">
-		<DataGrid.Columns>
-            <DataGridTextColumn Header="Title" Binding="{Binding Title}"/>
-            <DataGridTextColumn Header="Login" Binding="{Binding Login}"/>
-            <DataGridTextColumn Header="Password" Binding="{Binding Password, Converter={StaticResource CharArrayToStringConverter}}"/>
-            <DataGridTextColumn Header="Url" Binding="{Binding Url}"/>
-        </DataGrid.Columns>
-    </DataGrid>
-
+	<Grid RowDefinitions="Auto, *" ColumnDefinitions="Auto, Auto, *">
+		<TextBlock 
+			Grid.Column="0" 
+			Grid.Row="0" 
+			Text="{Binding SelectedTreeNode.Item.Title}" 
+			VerticalAlignment="Center" 
+			TextTrimming="CharacterEllipsis"
+			Width="150"
+			FontWeight="Bold" 
+			Margin="5 0 5 5"/>
+		<Button Grid.Column="1" Grid.Row="0" Content="Создать" Margin="0 0 0 5" IsEnabled="{Binding IsEnabledCreateButton}"/>
+		<DataGrid x:Name="TableGrid" Grid.ColumnSpan="3" Grid.Row="1" ItemsSource="{Binding Records}"
+		          AutoGenerateColumns="False"
+		          BorderThickness="1" IsReadOnly="True"
+		          SelectionMode="Extended">
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="Title" Binding="{Binding Title}"/>
+				<DataGridTextColumn Header="Login" Binding="{Binding Login}"/>
+				<DataGridTextColumn Header="Password" Binding="{Binding Password, Converter={StaticResource CharArrayToStringConverter}}"/>
+				<DataGridTextColumn Header="Url" Binding="{Binding Url}"/>
+			</DataGrid.Columns>
+		</DataGrid>
+	</Grid>
 </UserControl>

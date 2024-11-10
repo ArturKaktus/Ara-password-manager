@@ -3,15 +3,17 @@ using APM.Core.Models;
 using APM.Core.Models.Interfaces;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace APM.Main.Features.CatalogTable;
 
-public class CatalogTableViewModel
+public partial class CatalogTableViewModel : ObservableObject
 {
     public ObservableCollection<RecordModel> Records { get; }
     public IRecord SelectedRecord { get; set; }
-    public TreeNode SelectedTreeNode {  get; set; }
-
+    
+    [ObservableProperty] private TreeNode _SelectedTreeNode;
+    [ObservableProperty] private bool _IsEnabledCreateButton;
     public CatalogTableViewModel()
     {
         Records = [];
@@ -28,6 +30,11 @@ public class CatalogTableViewModel
             {
                 Records.Add(a);
             }
+            IsEnabledCreateButton = true;
+        }
+        else
+        {
+            IsEnabledCreateButton = false;
         }
     }
 

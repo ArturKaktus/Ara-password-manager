@@ -67,10 +67,5 @@ namespace APM.Main.Features.ContextMenuControls
             }
             return null;
         }
-
-        public Task ExecAsync(object parameter)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

@@ -12,7 +12,7 @@ public interface IRecord : IObject
     /// <summary>
     /// Пароль
     /// </summary>
-    public char[] Password { get; set; }
+    public string Password { get; set; }
     /// <summary>
     /// URL
     /// </summary>

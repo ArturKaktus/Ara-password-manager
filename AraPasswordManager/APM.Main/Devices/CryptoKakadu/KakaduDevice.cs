@@ -6,6 +6,8 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using APM.Core.Models;
+using APM.Main.Devices.CryptoKakadu.Controls.SavePinCode;
 
 namespace APM.Main.Devices.CryptoKakadu
 {
@@ -46,10 +48,11 @@ namespace APM.Main.Devices.CryptoKakadu
             {
                 if (isEntered)
                 {
+                    DeviceFinder.Instance.StopSearch();
                     var dataContext = devicePinCodeWindow.DataContext as OpenPinCodeViewModel;
                     string pinCode = dataContext.PinCode;
                     double percent = 0.0;
-                    KakaduDeviceSerialPort SerialPort = new KakaduDeviceSerialPort(DeviceFinder.Instance.PortOfSelectedDevice);
+                    //KakaduDeviceSerialPort SerialPort = new KakaduDeviceSerialPort(DeviceFinder.Instance.PortOfSelectedDevice);
                     DeviceFinder.Instance.StopSearch();
                     Commander.SetPort(DeviceFinder.Instance.PortOfSelectedDevice);
                     System.Threading.Thread.Sleep(3000);
@@ -63,11 +66,11 @@ namespace APM.Main.Devices.CryptoKakadu
                             contin = Commander.ExecuteCommand("cGET");
                             if (contin)
                             {
-                                SerialPort.OpenPort();
+                                AppDocument.SelectedDeviceSerialPort.OpenPort();
                                 try
                                 {
                                     byte[] pinBytes = System.Text.Encoding.ASCII.GetBytes(pinCode);
-                                    SerialPort.Write(pinBytes, 0, pinBytes.Length);
+                                    AppDocument.SelectedDeviceSerialPort.Write(pinBytes, 0, pinBytes.Length);
                                 }
                                 catch (Exception)
                                 {
@@ -83,7 +86,7 @@ namespace APM.Main.Devices.CryptoKakadu
                                     System.Threading.Thread.Sleep(1000);
                                     if (errorCount == 10)
                                     {
-                                        SerialPort.Close();
+                                        AppDocument.SelectedDeviceSerialPort.Close();
                                         try
                                         {
                                             Thread.Sleep(4000);
@@ -95,12 +98,12 @@ namespace APM.Main.Devices.CryptoKakadu
 
                                         break;
                                     }
-                                    if (0 == SerialPort.BytesToRead)
+                                    if (0 == AppDocument.SelectedDeviceSerialPort.BytesToRead)
                                     {
                                         ++errorCount;
                                     }
-                                    byte[] b = new byte[SerialPort.BytesToRead];
-                                    SerialPort.Read(b, 0, b.Length);
+                                    byte[] b = new byte[AppDocument.SelectedDeviceSerialPort.BytesToRead];
+                                    AppDocument.SelectedDeviceSerialPort.Read(b, 0, b.Length);
                                     bytesCount += b.Length;
                                     Array.Copy(b, 0, buffer, bytesCount - b.Length, b.Length);
                                     bytes += Convert.ToDouble(bytesCount);
@@ -108,7 +111,7 @@ namespace APM.Main.Devices.CryptoKakadu
                                 }
                                 if (errorCount != 10)
                                 {
-                                    SerialPort.Close();
+                                    AppDocument.SelectedDeviceSerialPort.Close();
                                     byte[,] resultArray = new byte[numRowsToRead, 196];
                                     for (int i = 0; i < numRowsToRead; ++i)
                                     {
@@ -133,15 +136,176 @@ namespace APM.Main.Devices.CryptoKakadu
                         System.Threading.Thread.Sleep(4000);
                         DeviceFinder.Instance.StartSearch();
                     }
-                    catch (Exception ex) { }
+                    catch (Exception ex) {}
                 }
             };
             await passwordWindow.ShowDialog(owner);
         }
 
-        public void SaveDevice()
+        public async void SaveDevice()
         {
-            throw new NotImplementedException();
+            Window owner = ((ClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime).MainWindow;
+            bool isEntered = false;
+            var passwordWindow = new Window
+            {
+                Title = "Введите пин код",
+                Height = 200,
+                Width = 300
+            };
+            var devicePinCodeWindow = new SavePinCodeView(new SavePinCodeViewModel()); 
+            passwordWindow.Content = devicePinCodeWindow;
+            devicePinCodeWindow.AcceptButtonClicked += (sender, e) =>
+            {
+                isEntered = true;
+                passwordWindow.Close();
+            };
+
+            passwordWindow.Closed += (sender, e) =>
+            {
+                if (isEntered)
+                {
+                    DeviceFinder.Instance.StopSearch();
+                    bool error = false;
+                    bool endWrite = false;
+                    int errorCounter = 0;
+                    var dataContext = devicePinCodeWindow.DataContext as SavePinCodeViewModel;
+                    string pinCode = dataContext.PinCode;
+                    double percent = 0.0;
+                    Commander.SetPort(DeviceFinder.Instance.PortOfSelectedDevice);
+                    System.Threading.Thread.Sleep(3000);
+                    //KakaduDeviceSerialPort SerialPort = new KakaduDeviceSerialPort(DeviceFinder.Instance.PortOfSelectedDevice);
+                    System.Threading.Thread.Sleep(1000);
+                    bool contin = Commander.SendSET();
+                    if (contin)
+                    {
+                        contin = Commander.SendPIN(pinCode);
+                        if (contin)
+                        {
+                            contin = Commander.SendRowCount();
+                            if (contin)
+                            {
+                                byte[] buffer = new byte[1];
+                                byte[,] rows = AppDocument.CurrentDatabaseModel.GetDeveiceArray();
+                                AppDocument.SelectedDeviceSerialPort.OpenPort();
+                                int count = AppDocument.CurrentDatabaseModel.GetRowCount() - 1;
+                                double oneRowPercent = Convert.ToDouble(count);
+                                int i = 1;
+                                var c = rows.GetLength(0);
+                                for (int ii = 0; i < c; ii++)
+                                {
+                                    byte[] bs = rows.GetRow(ii);
+                                    if (error) continue;
+                                    percent = Convert.ToDouble(i) / oneRowPercent * 100.0;
+                                    bool waitAnswer = true;
+                                    byte[] arrby = bs;
+                                    int n = arrby.Length;
+                                    for (int j = 0; j < n; ++j)
+                                    {
+                                        byte b;
+                                        buffer[0] = b = arrby[j];
+                                        try
+                                        {
+                                            //AppDocument.SelectedDeviceSerialPort.BreakState = true;
+                                            Thread.Sleep(25);
+                                        }
+                                        catch
+                                        {
+                                        }
+
+                                        AppDocument.SelectedDeviceSerialPort.Write(buffer, 0, buffer.Length);
+                                    }
+
+                                    errorCounter = 0;
+                                     while (waitAnswer) 
+                                     {
+                                        try
+                                        {
+                                            Thread.Sleep(50);
+                                        }
+                                        catch { }
+                                        if (errorCounter == 200)
+                                        {
+                                            error = true;
+                                            AppDocument.SelectedDeviceSerialPort.ClosePort();
+                                            //stageString = DeviceWriteModel.this.bundle.getString("device.read.error");
+                                            try
+                                            {
+                                                Thread.Sleep(3000);
+                                            }
+                                            catch (Exception exception)
+                                            {
+                                                // empty catch block
+                                            }
+                                            endWrite = true;
+                                            DeviceFinder.Instance.StartSearch();
+                                            //this.stop();
+                                            break;
+                                        }
+                                        if (AppDocument.SelectedDeviceSerialPort.BytesToRead > 0)
+                                        {
+                                            waitAnswer = false;
+                                            continue;
+                                        }
+                                        errorCounter++;
+                                    }
+                                    i++;
+                                }
+                                AppDocument.SelectedDeviceSerialPort.ClosePort();
+                                endWrite = true;
+                                //DatabaseModel.Instance.HashDatabase();
+                                DeviceFinder.Instance.StartSearch();
+                            }
+                            else
+                            {
+                                error = true;
+                                AppDocument.SelectedDeviceSerialPort.ClosePort();
+                                try
+                                {
+                                    Thread.Sleep(3000);
+                                }
+                                catch (Exception exception)
+                                {
+                                    // empty catch block
+                                }
+                                endWrite = true;
+                                DeviceFinder.Instance.StartSearch();
+                            }
+                        }
+                        else
+                        {
+                            error = true;
+                            AppDocument.SelectedDeviceSerialPort.ClosePort();
+                            try
+                            {
+                                Thread.Sleep(3000);
+                            }
+                            catch (Exception exception)
+                            {
+                                // empty catch block
+                            }
+                            endWrite = true;
+                            DeviceFinder.Instance.StartSearch();
+                        } 
+                    }
+                    else
+                    {
+                        error = true;
+                        AppDocument.SelectedDeviceSerialPort.ClosePort();
+                        try
+                        {
+                            Thread.Sleep(3000);
+                        }
+                        catch (Exception exception)
+                        {
+                            // empty catch block
+                        }
+                        endWrite = true;
+                        DeviceFinder.Instance.StartSearch();
+                    }
+                }
+            };
+            
+            await passwordWindow.ShowDialog(owner);
         }
     }
 
@@ -153,6 +317,7 @@ namespace APM.Main.Devices.CryptoKakadu
         private string _deviceName = string.Empty;
         private int _firmwareVersion = 0;
         private int _deviceRows = 0;
+        private int _errorCount = 15;
         private KakaduDeviceSerialPort _serialPort;
         public int GetDeviceRows()
         {
@@ -172,6 +337,82 @@ namespace APM.Main.Devices.CryptoKakadu
                 return true;
             }
             return false;
+        }
+        public bool SendSET()
+        {
+            try
+            {
+                byte[] answer = SendAndReceive(CommandToBytes("cSET"));
+                string answerString = BytesToString(answer);
+                if (answerString.Equals("PIN"))
+                    return true;
+            }
+            catch (Exception exception)
+            {
+                // ignored
+            }
+
+            return false;
+        }
+        public bool SendPIN(string pin)
+        {
+            try
+            {
+                byte[] answer = SendAndReceiveWithWait(CommandToBytes(pin), 50);
+                string answerString = BytesToString(answer);
+                if (answerString.Equals("OK"))
+                {
+                    return true;
+                }
+                this._errorCount = 15 - int.Parse(answerString);
+                if (this._errorCount < 0)
+                    this._errorCount = 0;
+                return false;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+        public bool SendRowCount()
+        {
+            try
+            {
+                byte[] count = AppDocument.CurrentDatabaseModel.GetRowCountByte();
+                byte?[] answer = new byte?[2];
+                answer[0] = SendAndReceiveWithWait(count[0], 50);
+                if (answer[0] == null || answer[0] != count[0])
+                    throw new Exception("sendRowCount error with first byte");
+                answer[1] = SendAndReceiveWithWait(count[1], 50);
+                if (answer[1] == null || answer[1] != count[1])
+                    throw new Exception("sendRowCount error with second byte");
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+        public byte? SendAndReceiveWithWait(byte sendByte, int attempts)
+        {
+            int errorCount = 0;
+            byte[] sendBytes = new byte[] { sendByte };
+            //_serialPort = new KakaduDeviceSerialPort(this._port);
+            AppDocument.SelectedDeviceSerialPort.OpenPort();
+            AppDocument.SelectedDeviceSerialPort.Write(sendBytes, 0, sendBytes.Length);
+            for (errorCount = 0; errorCount < attempts; ++errorCount)
+            {
+                Thread.Sleep(100);
+                if (AppDocument.SelectedDeviceSerialPort.BytesToRead > 0)
+                {
+                    byte[] receivedBytes = new byte[AppDocument.SelectedDeviceSerialPort.BytesToRead];
+                    AppDocument.SelectedDeviceSerialPort.Read(receivedBytes, 0, receivedBytes.Length);
+                    AppDocument.SelectedDeviceSerialPort.Close();
+                    return receivedBytes[0];
+                }
+            }
+            AppDocument.SelectedDeviceSerialPort.ClosePort();
+            return null;
         }
         private void FillDeviceInfo(string rawInfo)
         {
@@ -211,13 +452,13 @@ namespace APM.Main.Devices.CryptoKakadu
         }
         public byte[] SendAndReceive(byte[] sendBytes)
         {
-            this._serialPort = new KakaduDeviceSerialPort(_port);
-            this._serialPort.OpenPort();
-            this._serialPort.Write(sendBytes, 0, sendBytes.Length);
+            AppDocument.SelectedDeviceSerialPort ??= new KakaduDeviceSerialPort(this._port);
+            AppDocument.SelectedDeviceSerialPort.OpenPort();
+            AppDocument.SelectedDeviceSerialPort.Write(sendBytes, 0, sendBytes.Length);
             Thread.Sleep(150);
-            byte[] receivedBytes = new byte[this._serialPort.BytesToRead];
-            this._serialPort.Read(receivedBytes, 0, receivedBytes.Length);
-            this._serialPort.ClosePort();
+            byte[] receivedBytes = new byte[AppDocument.SelectedDeviceSerialPort.BytesToRead];
+            AppDocument.SelectedDeviceSerialPort.Read(receivedBytes, 0, receivedBytes.Length);
+            AppDocument.SelectedDeviceSerialPort.ClosePort();
             if (receivedBytes.Length == 0)
                 throw new Exception("0 bytes in serial port");
             return receivedBytes;
@@ -316,25 +557,25 @@ namespace APM.Main.Devices.CryptoKakadu
             bool wait = true;
             int counter = 0;
             error[0] = 0;
-            this._serialPort = new KakaduDeviceSerialPort(this._port);
+            //this._serialPort = new KakaduDeviceSerialPort(this._port);
             try
             {
-                this._serialPort.OpenPort();
-                this._serialPort.Write(bytesToWrite, 0, bytesToWrite.Length);
+                AppDocument.SelectedDeviceSerialPort.OpenPort();
+                AppDocument.SelectedDeviceSerialPort.Write(bytesToWrite, 0, bytesToWrite.Length);
                 while (wait)
                 {
                     if (counter == 10)
                     {
-                        this._serialPort.Close();
+                        AppDocument.SelectedDeviceSerialPort.Close();
                         return error;
                     }
-                    if (this._serialPort.BytesToRead > 0)
+                    if (AppDocument.SelectedDeviceSerialPort.BytesToRead > 0)
                     {
                         wait = false;
-                        int bytesToRead = this._serialPort.BytesToRead;
+                        int bytesToRead = AppDocument.SelectedDeviceSerialPort.BytesToRead;
                         byte[] recievedBytes = new byte[bytesToRead];
-                        this._serialPort.Read(recievedBytes, 0, bytesToRead);
-                        this._serialPort.ClosePort();
+                        AppDocument.SelectedDeviceSerialPort.Read(recievedBytes, 0, bytesToRead);
+                        AppDocument.SelectedDeviceSerialPort.ClosePort();
                         return recievedBytes;
                     }
                 }
@@ -348,22 +589,22 @@ namespace APM.Main.Devices.CryptoKakadu
         public byte[] SendAndReceiveWithWait(byte[] sendBytes, int attempts)
         {
             int errorCount = 0;
-            this._serialPort = new KakaduDeviceSerialPort(this._port);
-            this._serialPort.OpenPort();
-            this._serialPort.Write(sendBytes, 0, sendBytes.Length);
+            //AppDocument.SelectedDeviceSerialPort = new KakaduDeviceSerialPort(this._port);
+            AppDocument.SelectedDeviceSerialPort.OpenPort();
+            AppDocument.SelectedDeviceSerialPort.Write(sendBytes, 0, sendBytes.Length);
             while (errorCount <= attempts)
             {
                 Thread.Sleep(100);
-                if (this._serialPort.BytesToRead > 0)
+                if (AppDocument.SelectedDeviceSerialPort.BytesToRead > 0)
                 {
-                    byte[] receivedBytes = new byte[this._serialPort.BytesToRead];
-                    this._serialPort.Read(receivedBytes, 0, receivedBytes.Length);
-                    this._serialPort.Close();
+                    byte[] receivedBytes = new byte[AppDocument.SelectedDeviceSerialPort.BytesToRead];
+                    AppDocument.SelectedDeviceSerialPort.Read(receivedBytes, 0, receivedBytes.Length);
+                    AppDocument.SelectedDeviceSerialPort.Close();
                     return receivedBytes;
                 }
                 errorCount++;
             }
-            this._serialPort.ClosePort();
+            AppDocument.SelectedDeviceSerialPort.ClosePort();
             return null;
         }
         public int ToDecStrFromBytes(byte b1, byte b2)

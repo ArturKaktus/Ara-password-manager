@@ -110,7 +110,7 @@ namespace APM.Main.Features.MenuStrip
         [RelayCommand]
         public void SaveToDevice()
         {
-
+            DeviceFinder.Instance.SelectedDevice.SaveDevice();
         }
     }
 }

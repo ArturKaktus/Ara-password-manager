@@ -5,7 +5,9 @@ using APM.Main.Devices;
 using APM.Main.Utils;
 using Avalonia.Platform.Storage;
 using System.Collections.Generic;
+using System.IO.Ports;
 using System.Reflection;
+using APM.Main.Devices.CryptoKakadu;
 
 namespace APM.Main
 {
@@ -33,7 +35,7 @@ namespace APM.Main
         }
 
         public static readonly List<IDevice> DeviceInstances = [];
-
+        public static KakaduDeviceSerialPort SelectedDeviceSerialPort;
         /// <summary>
         /// Поддерживаемые расширения файлов
         /// </summary>

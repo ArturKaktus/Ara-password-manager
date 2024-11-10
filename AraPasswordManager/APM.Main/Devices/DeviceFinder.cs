@@ -2,6 +2,7 @@
 using System;
 using System.IO.Ports;
 using System.Threading;
+using APM.Main.Devices.CryptoKakadu;
 
 namespace APM.Main.Devices
 {
@@ -9,14 +10,11 @@ namespace APM.Main.Devices
     {
         public static DeviceFinder Instance = new();
 
-        [ObservableProperty]
-        public bool _isConnected = false;
-        [ObservableProperty]
-        public bool _continueFind = true;
-        [ObservableProperty]
-        public IDevice _selectedDevice;
-        [ObservableProperty]
-        public string _portOfSelectedDevice;
+        [ObservableProperty] private bool _isConnected = false;
+        [ObservableProperty] private bool _continueFind = true;
+        [ObservableProperty] private IDevice _selectedDevice;
+        [ObservableProperty] private string _portOfSelectedDevice;
+        [ObservableProperty] private bool _stopPing = false;
         private Thread findDeviceThread;
         public void StartSearch()
         {
@@ -38,10 +36,11 @@ namespace APM.Main.Devices
             {
                 if (IsConnected)
                 {
-                    if (!SelectedDevice.PingDevice(PortOfSelectedDevice))
+                    if (!_stopPing && !SelectedDevice.PingDevice(PortOfSelectedDevice))
                     {
                         PortOfSelectedDevice = string.Empty;
                         SelectedDevice = null;
+                        AppDocument.SelectedDeviceSerialPort = null;
                         IsConnected = false;
                     }
                 }
@@ -68,11 +67,15 @@ namespace APM.Main.Devices
                 {
                     try
                     {
-                        if (!device.PingDevice(portsNames[i])) continue;
-                        IsConnected = true;
-                        SelectedDevice = device;
-                        PortOfSelectedDevice = portsNames[i];
-                        return true;
+                        if (!_stopPing)
+                        {
+                            if (!device.PingDevice(portsNames[i])) continue;
+                            IsConnected = true;
+                            SelectedDevice = device;
+                            AppDocument.SelectedDeviceSerialPort ??= new KakaduDeviceSerialPort(portsNames[i]);
+                            PortOfSelectedDevice = portsNames[i];
+                            return true;
+                        }
                     }
                     catch { }
                 }

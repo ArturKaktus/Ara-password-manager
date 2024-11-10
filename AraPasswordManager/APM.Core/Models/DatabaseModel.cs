@@ -1,5 +1,6 @@
 ﻿using APM.Core.Utils;
 using System.ComponentModel;
+using APM.Core.Models.Interfaces;
 
 namespace APM.Core.Models;
 
@@ -55,6 +56,17 @@ public class DatabaseModel
         _groupsArrayList.Where(g => g.Id == id).FirstOrDefault()!.Title = title;
     }
 
+    public void EditRecord(IRecord record)
+    {
+        var rec = GetRecordById(record.Id);
+        var r = _recordsArrayList.Where(rec => rec.Id == record.Id).FirstOrDefault();
+        r.Url = record.Url;
+        r.Login = record.Login;
+        r.Password = record.Password;
+        //_recordsArrayList.Remove(rec);
+        //_recordsArrayList.Add((RecordModel)record);
+    }
+    
     public void DeleteGroupsById(List<int> ids)
     {
         foreach(var id in ids)
@@ -131,7 +143,7 @@ public class DatabaseModel
                 string login = ByteUtils.ByteToUtf8String(DeleteZerosFromArray(tempLogin));
                 string password = ByteUtils.ByteToUtf8String(DeleteZerosFromArray(tempPassword));
                 string url = ByteUtils.ByteToUtf8String(DeleteZerosFromArray(tempUrl));
-                _recordsArrayList.Add(new RecordModel(id, pid, name, login, StringToCharArray(password), url, afterLoginString, afterPasswordString, afterUrlString));
+                _recordsArrayList.Add(new RecordModel(id, pid, name, login, password, url, afterLoginString, afterPasswordString, afterUrlString));
             }
             catch /*(UnsupportedEncodingException e)*/
             {
@@ -143,6 +155,114 @@ public class DatabaseModel
     private static char[] StringToCharArray(string value)
     {
         return value.ToCharArray();
+    }
+    public int GetRowCount()
+    {
+        return _groupsArrayList.Count + _recordsArrayList.Count;
+    }
+    public byte[] GetRowCountByte()
+    {
+        return IntToDoubleByte(GetRowCount() - 1);
+    }
+    public byte[] IntToDoubleByte(int toByte)
+    {
+        byte[] doubleByte = new byte[2];
+        doubleByte[1] = (byte)toByte;
+        doubleByte[0] = (byte)(toByte >> 8);
+        return doubleByte;
+    }
+    public byte[,] GetDeveiceArray()
+    {
+        byte[,] kakaduBytes = new byte[_groupsArrayList.Count + _recordsArrayList.Count, 196];
+        int kakaduIndex = 0;
+        foreach (var group in _groupsArrayList)
+        {
+            if (group.Id == 1) continue; //пропуск Корневой папки
+            byte[] id = ToBytesFromDec(group.Id - 1);
+            byte[] pid = ToBytesFromDec(group.Pid - 1);
+            byte[] name = ByteUtils.Utf8ToByteString(group.Title);
+            
+            byte[] nameBytes = new byte[48];
+            Array.Copy(name, nameBytes, Math.Min(name.Length, 48));
+            
+            int index = 0;
+            for (int i = 0; i < id.Length; i++)
+            {
+                kakaduBytes[kakaduIndex, index + i] = id[i];
+            }
+            index += id.Length;
+            for (int i = 0; i < pid.Length; i++)
+            {
+                kakaduBytes[kakaduIndex, index + i] = pid[i];
+            }
+            index += pid.Length;
+            for (int i = 0; i < nameBytes.Length; i++)
+            {
+                kakaduBytes[kakaduIndex, index + i] = nameBytes[i];
+            }
+
+            kakaduIndex++;
+        }
+
+        foreach (var record in _recordsArrayList)
+        {
+            //TODO надо проверить байты русского языка при чтении и записи. Где то проблема, не читается
+            byte[] id = ToBytesFromDec(record.Id - 1);
+            byte[] pid = ToBytesFromDec(record.Pid - 1);
+            byte[] name = ByteUtils.Utf8ToByteString(record.Title);
+            byte[] login = ByteUtils.Utf8ToByteString(record.Login);
+            byte[] password = ByteUtils.Utf8ToByteString(record.Password);
+            byte[] url = ByteUtils.Utf8ToByteString(record.Url);
+            
+            byte[] nameBytes = new byte[48];
+            Array.Copy(name, nameBytes, Math.Min(name.Length, 48));
+            
+            byte[] loginBytes = new byte[48];
+            Array.Copy(login, loginBytes, Math.Min(login.Length, 48));
+            loginBytes[login.Length] = record.GetAfterLoginByte();
+            
+            byte[] passwordBytes = new byte[48];
+            Array.Copy(password, passwordBytes, Math.Min(password.Length, 48));
+            passwordBytes[password.Length] = record.GetAfterPasswordByte();
+            
+            byte[] urlBytes = new byte[48];
+            Array.Copy(url, urlBytes, Math.Min(url.Length, 48));
+            urlBytes[url.Length] = record.GetAfterUrlByte();
+            
+            int index = 0;
+            for (int i = 0; i < id.Length; i++)
+            {
+                kakaduBytes[kakaduIndex, index + i] = id[i];
+            }
+            index += id.Length;
+            for (int i = 0; i < pid.Length; i++)
+            {
+                kakaduBytes[kakaduIndex, index + i] = pid[i];
+            }
+            index += pid.Length;
+            for (int i = 0; i < nameBytes.Length; i++)
+            {
+                kakaduBytes[kakaduIndex, index + i] = nameBytes[i];
+            }
+            index += nameBytes.Length;
+            for (int i = 0; i < loginBytes.Length; i++)
+            {
+                kakaduBytes[kakaduIndex, index + i] = loginBytes[i];
+            }
+            index += loginBytes.Length;
+            for (int i = 0; i < passwordBytes.Length; i++)
+            {
+                kakaduBytes[kakaduIndex, index + i] = passwordBytes[i];
+            }
+            index += passwordBytes.Length;
+            for (int i = 0; i < urlBytes.Length; i++)
+            {
+                kakaduBytes[kakaduIndex, index + i] = urlBytes[i];
+            }
+
+            kakaduIndex++;
+        }
+        return kakaduBytes;
     }
     private string GetSymbolFromByteArray(byte[] byteArray)
     {
@@ -168,11 +288,19 @@ public class DatabaseModel
         {
             Array.Reverse(byteArray);
         }
-
         short shortVal = BitConverter.ToInt16(byteArray, 0);
-        int x = shortVal;
+        
+        return shortVal;
+    }
 
-        return x;
+    public byte[] ToBytesFromDec(int dec)
+    {
+        byte[] byteArray = BitConverter.GetBytes((short)dec);
+        if (BitConverter.IsLittleEndian)
+        {
+            Array.Reverse(byteArray);
+        }
+        return byteArray;
     }
     private byte[] DeleteZerosFromArray(byte[] byteArr)
     {
