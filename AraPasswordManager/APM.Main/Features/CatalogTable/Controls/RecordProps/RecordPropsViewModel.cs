@@ -16,7 +16,13 @@ public class RecordPropsViewModel
     private List<SymbolModel.SymbolValue> _symbols;
     public RecordPropsViewModel()
     {
-        
+        Record = new RecordModel();
+        this._symbols = new List<SymbolModel.SymbolValue>()
+        {
+            SymbolModel.SymbolValue.TAB,
+            SymbolModel.SymbolValue.ENTER,
+            SymbolModel.SymbolValue.NONE
+        };
     }
 
     public RecordPropsViewModel(IRecord record)

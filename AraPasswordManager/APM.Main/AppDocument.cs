@@ -1,4 +1,5 @@
-﻿using APM.Core;
+﻿using System;
+using APM.Core;
 using APM.Core.Models;
 using APM.Core.ProviderInterfaces;
 using APM.Main.Devices;
@@ -57,5 +58,20 @@ namespace APM.Main
         public static DatabaseModel CurrentDatabaseModel { get; } = new();
         public static TreeNodeTransfer NodeTransfer { get; } = new();
         public static List<IContextMenu> ContextMenuList { get; set; } = new();
+
+        public static bool ClearDocument()
+        {
+            try
+            {
+                NodeTransfer.SelectedTreeNode = null;
+                CurrentFileInstance = null;
+                CurrentDatabaseModel.Clear();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
     }
 }

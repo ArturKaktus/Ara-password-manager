@@ -3,6 +3,9 @@ using APM.Core.Models;
 using APM.Core.Models.Interfaces;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Input;
+using APM.Main.Features.CatalogTable.Controls.RecordProps;
+using Avalonia;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace APM.Main.Features.CatalogTable;
@@ -18,6 +21,21 @@ public partial class CatalogTableViewModel : ObservableObject
     {
         Records = [];
         AppDocument.NodeTransfer.PropertyChanged += TreeNodeSelected_PropertyChanged;
+    }
+
+    public async void CreateRecordCommamd()
+    {
+        var selectedItem = AppDocument.NodeTransfer.SelectedTreeNode;
+        if (selectedItem is TreeNode tn)
+        {
+            var context = new RecordPropsView();
+            var result = await WindowManager.ShowConfirmDialog(Application.Current, context, "Создание записи", 150, 320);
+            if (result)
+            {
+                AppDocument.CurrentDatabaseModel.AddRecord(tn.Item.Id, ((RecordPropsViewModel)context.DataContext).Record);
+                RefreshTable();
+            }
+        }
     }
 
     public void RefreshTable()

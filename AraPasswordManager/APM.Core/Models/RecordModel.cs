@@ -51,6 +51,8 @@ public class RecordModel : IRecord, INotifyPropertyChanged, ICloneable
     private string _password;
     private string _url;
 
+    public RecordModel()
+    {}
     public RecordModel(int id, int pid, string name, string login, string password, string url, string symbolLogin,
         string symbolPassword, string symbolUrl)
     {
