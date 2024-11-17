@@ -16,7 +16,7 @@ namespace APM.Main.Utils
         public static List<MenuItem> GenerateMenuItems(object? mainObj, object? obj)
         {
             return AppDocument.ContextMenuList
-                .Where(item => item.CanExecute(obj))
+                .Where(item => obj == null ? item.CanExecute(mainObj) : item.CanExecute(obj))
                 .OrderBy(i => i.Order)
                 .Select(item => item.ReturnMenuItem(mainObj, obj))
                 .Where(menuItem => menuItem != null)

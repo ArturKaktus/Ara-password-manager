@@ -6,14 +6,23 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="APM.Main.Features.CatalogTable.Controls.RecordProps.RecordPropsView"
              x:DataType="vm:RecordPropsViewModel">
-    <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto">
+    <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto">
         <TextBlock Grid.Row="0" Text="URL:"/>
         <TextBox Grid.Row="1" Text="{Binding Record.Url}"/>
         
-        <TextBlock Grid.Row="2" Text="Login:"/>
-        <TextBox Grid.Row="3" Text="{Binding Record.Login}"/>
+        <TextBlock Grid.Row="2" Text="Действие после ввода:"/>
+        <ComboBox Grid.Row="3" ItemsSource="{Binding Symbols}" SelectedItem="{Binding Record.AfterUrlSymbol.Symbol}"/>
         
-        <TextBlock Grid.Row="4" Text="Password:"/>
-        <TextBox Grid.Row="5" Text="{Binding Record.Password}"/>
+        <TextBlock Grid.Row="4" Text="Login:"/>
+        <TextBox Grid.Row="5" Text="{Binding Record.Login}"/>
+        
+        <TextBlock Grid.Row="6" Text="Действие после ввода:"/>
+        <ComboBox Grid.Row="7" ItemsSource="{Binding Symbols}" SelectedItem="{Binding Record.AfterLoginSymbol.Symbol}"/>
+        
+        <TextBlock Grid.Row="8" Text="Password:"/>
+        <TextBox Grid.Row="9" Text="{Binding Record.Password}"/>
+        
+        <TextBlock Grid.Row="10" Text="Действие после ввода:"/>
+        <ComboBox Grid.Row="11" ItemsSource="{Binding Symbols}" SelectedItem="{Binding Record.AfterPasswordSymbol.Symbol}"/>
     </Grid>
 </UserControl>
