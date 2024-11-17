@@ -51,7 +51,7 @@ namespace APM.Core.Utils
                     case 208:
                     {
                         i++;
-                        if (utf8Bytes[i] >= 128 && utf8Bytes[i] <= 143)
+                        if (utf8Bytes[i] >= 144 && utf8Bytes[i] <= 191)
                         {
                             win1251Bytes.Add((byte)(utf8Bytes[i] + 48));
                         }
@@ -69,7 +69,7 @@ namespace APM.Core.Utils
                     case 209:
                     {
                         i++;
-                        if (utf8Bytes[i] >= 144 && utf8Bytes[i] <= 159)
+                        if (utf8Bytes[i] >= 128 && utf8Bytes[i] <= 143)
                         {
                             win1251Bytes.Add((byte)(utf8Bytes[i] + 112));
                         }

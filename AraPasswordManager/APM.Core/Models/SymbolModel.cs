@@ -1,12 +1,20 @@
-﻿namespace APM.Core.Models;
+﻿using System.ComponentModel;
+
+namespace APM.Core.Models;
 
 public class SymbolModel
 {
-    enum SymbolValue
+    public enum SymbolValue
     {
-        TAB, ENTER, NONE
+        [Description("Tab")]
+        TAB, 
+        [Description("Enter")]
+        ENTER, 
+        [Description("Ничего")]
+        NONE
     }
     private SymbolValue _symbolValue = SymbolValue.NONE;
+    public SymbolValue Symbol { get => _symbolValue; set => _symbolValue = value; }
     public void SetSymbolValueFromByte(byte value)
     {
         switch (value)

@@ -42,6 +42,11 @@ public class RecordModel : IRecord, INotifyPropertyChanged, ICloneable
     private readonly SymbolModel _afterLoginSymbol = new();
     private readonly SymbolModel _afterPasswordSymbol = new();
     private readonly SymbolModel _afterUrlSymbol = new();
+    
+    public SymbolModel AfterLoginSymbol => _afterLoginSymbol;
+    public SymbolModel AfterPasswordSymbol => _afterPasswordSymbol;
+    public SymbolModel AfterUrlSymbol => _afterUrlSymbol;
+
     private string _login;
     private string _password;
     private string _url;

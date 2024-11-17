@@ -45,7 +45,9 @@ public class DatabaseModel
 
     public GroupModel AddGroup(int pid, string title)
     {
-        int maxId = _groupsArrayList.Max(obj => obj.Id);
+        //TODO если избавляться от корневой папки, то int maxId = 0
+        int maxId = 1;
+        if (_groupsArrayList.Count > 0) maxId = _groupsArrayList.Max(obj => obj.Id);
         var group = new GroupModel(maxId + 1, pid, title);
         _groupsArrayList.Add(group);
         return group;
@@ -58,13 +60,16 @@ public class DatabaseModel
 
     public void EditRecord(IRecord record)
     {
+        
         var rec = GetRecordById(record.Id);
         var r = _recordsArrayList.Where(rec => rec.Id == record.Id).FirstOrDefault();
         r.Url = record.Url;
         r.Login = record.Login;
         r.Password = record.Password;
-        //_recordsArrayList.Remove(rec);
-        //_recordsArrayList.Add((RecordModel)record);
+        //TODO Надо удалить каст, если будем делать другие типы
+        r.AfterLoginSymbol.Symbol = ((RecordModel)record).AfterLoginSymbol.Symbol;
+        r.AfterPasswordSymbol.Symbol = ((RecordModel)record).AfterPasswordSymbol.Symbol;
+        r.AfterUrlSymbol.Symbol = ((RecordModel)record).AfterUrlSymbol.Symbol;
     }
     
     public void DeleteGroupsById(List<int> ids)

@@ -12,6 +12,9 @@ public class CatalogTreeViewViewModel
     public CatalogTreeViewViewModel()
     {
         TreeNodes = [];
+        TreeNode treeObject = new();
+        treeObject.Item = new GroupModel(1, 0, "Корневая папка");
+        TreeNodes.Add(treeObject);
         AppDocument.CurrentDatabaseModel.PropertyChanged += TreeObjets_PropertyChanged;
     }
     private void TreeObjets_PropertyChanged(object? sender, PropertyChangedEventArgs e)

@@ -32,7 +32,7 @@
 			<DataGrid.Columns>
 				<DataGridTextColumn Header="Title" Binding="{Binding Title}"/>
 				<DataGridTextColumn Header="Login" Binding="{Binding Login}"/>
-				<DataGridTextColumn Header="Password" Binding="{Binding Password, Converter={StaticResource CharArrayToStringConverter}}"/>
+				<DataGridTextColumn Header="Password" Binding="{Binding Password}"/>
 				<DataGridTextColumn Header="Url" Binding="{Binding Url}"/>
 			</DataGrid.Columns>
 		</DataGrid>
