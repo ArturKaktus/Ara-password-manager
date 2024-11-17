@@ -33,7 +33,7 @@ namespace APM.Main.Features.MenuStrip
         [RelayCommand]
         public void Create()
         {
-            //TODO Команда обнуления
+            AppDocument.ClearDocument();
         }
 
         [RelayCommand]

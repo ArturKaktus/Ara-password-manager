@@ -21,6 +21,7 @@ public class DatabaseModel
             this._groupsArrayList.Clear();
         if (this._recordsArrayList.Count > 0)
             this._recordsArrayList.Clear();
+        OnPropertyChanged("UpdateDatabase");
     }
     public GroupModel GetGroupById(int id)
     {
@@ -51,6 +52,15 @@ public class DatabaseModel
         var group = new GroupModel(maxId + 1, pid, title);
         _groupsArrayList.Add(group);
         return group;
+    }
+
+    public void AddRecord(int pid, RecordModel record)
+    {
+        int maxId = 1;
+        if (_recordsArrayList.Count > 0) maxId = _recordsArrayList.Max(obj => obj.Id);
+        record.Id = maxId + 1;
+        record.Pid = pid;
+        _recordsArrayList.Add(record);
     }
 
     public void EditGroup(int id, string title)
