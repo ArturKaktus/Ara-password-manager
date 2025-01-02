@@ -1,3 +1,4 @@
+using System.Text;
 using APM.Main.Devices;
 using APM.Main.Features.MainWindow;
 using Avalonia;
@@ -11,6 +12,7 @@ namespace APM.Main
     {
         public override void Initialize()
         {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance); // Регистрация провайдера кодировок
             AvaloniaXamlLoader.Load(this);
         }
 
