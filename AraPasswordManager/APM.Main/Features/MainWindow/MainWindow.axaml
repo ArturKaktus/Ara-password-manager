@@ -10,7 +10,7 @@
         x:Class="APM.Main.Features.MainWindow.MainWindow"
 		Classes="MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/ara-logo.ico"
         Title="Ara Password Manager">
     <Design.DataContext>
         <vm:MainWindowViewModel/>
