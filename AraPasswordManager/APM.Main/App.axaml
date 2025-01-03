@@ -7,9 +7,7 @@
 	
 	<Application.Resources>
 		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceInclude Source="/Theme/General.axaml"/>
-			</ResourceDictionary.MergedDictionaries>
+
 		</ResourceDictionary>
 	</Application.Resources>
 	
@@ -19,7 +17,6 @@
   
     <Application.Styles>
         <FluentTheme />
-		<StyleInclude Source="/Theme/GeneralStyle.axaml"/>
     </Application.Styles>
 
 </Application>

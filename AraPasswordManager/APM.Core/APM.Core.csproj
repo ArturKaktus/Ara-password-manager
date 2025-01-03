@@ -13,7 +13,6 @@
   <ItemGroup>
     <Folder Include="Models\Interfaces\" />
     <Folder Include="Attributes\" />
-    <Folder Include="Enums\" />
   </ItemGroup>
 
 </Project>

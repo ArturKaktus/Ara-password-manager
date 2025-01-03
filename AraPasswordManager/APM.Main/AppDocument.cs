@@ -8,6 +8,7 @@ using Avalonia.Platform.Storage;
 using System.Collections.Generic;
 using System.IO.Ports;
 using System.Reflection;
+using APM.Core.Enums;
 using APM.Main.Devices.CryptoKakadu;
 
 namespace APM.Main
@@ -37,6 +38,7 @@ namespace APM.Main
 
         public static readonly List<IDevice> DeviceInstances = [];
         public static KakaduDeviceSerialPort SelectedDeviceSerialPort;
+        
         /// <summary>
         /// Поддерживаемые расширения файлов
         /// </summary>
@@ -56,6 +58,11 @@ namespace APM.Main
         /// Текущая библиотека папкой и паролей
         /// </summary>
         public static DatabaseModel CurrentDatabaseModel { get; } = new();
+
+        /// <summary>
+        /// Текущая операционная система
+        /// </summary>
+        public static NameOS CurrentNameOS { get; set; } = NameOS.NONE;
         public static TreeNodeTransfer NodeTransfer { get; } = new();
         public static List<IContextMenu> ContextMenuList { get; set; } = new();
 
