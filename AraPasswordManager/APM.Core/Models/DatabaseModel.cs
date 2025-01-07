@@ -188,11 +188,13 @@ public class DatabaseModel
     }
     public byte[,] GetDeveiceArray()
     {
-        byte[,] kakaduBytes = new byte[_groupsArrayList.Count + _recordsArrayList.Count, 196];
-        int kakaduIndex = 0;
+        byte[,] kakaduBytes = new byte[_groupsArrayList.Count - 1 + _recordsArrayList.Count, 196];
+        int kakaduIndex = -1;
         foreach (var group in _groupsArrayList)
         {
             if (group.Id == 1) continue; //пропуск Корневой папки
+            
+            kakaduIndex++;
             byte[] id = ToBytesFromDec(group.Id - 1);
             byte[] pid = ToBytesFromDec(group.Pid - 1);
             byte[] name = ByteUtils.Utf8ToByteString(group.Title);
@@ -215,12 +217,12 @@ public class DatabaseModel
             {
                 kakaduBytes[kakaduIndex, index + i] = nameBytes[i];
             }
-
-            kakaduIndex++;
         }
-
+        
         foreach (var record in _recordsArrayList)
         {
+            kakaduIndex++;
+            
             //TODO надо проверить байты русского языка при чтении и записи. Где то проблема, не читается
             byte[] id = ToBytesFromDec(record.Id - 1);
             byte[] pid = ToBytesFromDec(record.Pid - 1);
@@ -274,9 +276,8 @@ public class DatabaseModel
             {
                 kakaduBytes[kakaduIndex, index + i] = urlBytes[i];
             }
-
-            kakaduIndex++;
         }
+        
         return kakaduBytes;
     }
     private string GetSymbolFromByteArray(byte[] byteArray)

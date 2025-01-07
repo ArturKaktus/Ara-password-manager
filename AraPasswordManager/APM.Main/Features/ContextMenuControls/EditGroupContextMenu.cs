@@ -35,7 +35,7 @@ public class EditGroupContextMenu : IContextMenu
     }
 
     public int Order => 20;
-    public MenuItem ReturnMenuItem(object? mainObj, object? obj)
+    public MenuItem? ReturnMenuItem(object? mainObj, object? obj)
     {
         if (mainObj is CatalogTreeViewViewModel uc && obj is TreeNode { Item: IGroup } tn)
         {

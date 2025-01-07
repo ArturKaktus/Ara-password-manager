@@ -38,5 +38,5 @@ public interface IContextMenu
     /// <param name="mainObj"></param>
     /// <param name="obj"></param>
     /// <returns></returns>
-    public MenuItem ReturnMenuItem(object? mainObj, object? obj);
+    public MenuItem? ReturnMenuItem(object? mainObj, object? obj);
 }

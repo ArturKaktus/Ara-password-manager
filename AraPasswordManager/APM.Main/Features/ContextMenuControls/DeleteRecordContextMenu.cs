@@ -31,7 +31,7 @@ namespace APM.Main.Features.ContextMenuControls
 
         public bool IsEnabledMenu(object parameter) => true;
 
-        public MenuItem ReturnMenuItem(object? mainObj, object? obj)
+        public MenuItem? ReturnMenuItem(object? mainObj, object? obj)
         {
             if (mainObj is CatalogTableViewModel uc && obj is IRecord)
             {

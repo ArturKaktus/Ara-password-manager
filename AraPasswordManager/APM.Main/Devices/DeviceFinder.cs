@@ -8,39 +8,52 @@ namespace APM.Main.Devices
 {
     public partial class DeviceFinder : ObservableObject
     {
-        public static DeviceFinder Instance = new();
-
+        public static readonly DeviceFinder Instance = new();
+        private static readonly ManualResetEvent PauseEvent = new(true);
+        
         [ObservableProperty] private bool _isConnected = false;
         [ObservableProperty] private bool _continueFind = true;
-        [ObservableProperty] private IDevice _selectedDevice;
-        [ObservableProperty] private string _portOfSelectedDevice;
+        [ObservableProperty] private IDevice _selectedDevice = null!;
+        [ObservableProperty] private string _portOfSelectedDevice = null!;
         [ObservableProperty] private bool _stopPing = false;
-        private Thread findDeviceThread;
+        private readonly Thread _findDeviceThread;
+
+        private DeviceFinder()
+        {
+            _findDeviceThread = new Thread(Run);
+        }
+        
+        public void InitSearch()
+        {
+            _findDeviceThread.Start();
+        }
+
         public void StartSearch()
         {
-            ContinueFind = true;
-            findDeviceThread = new(Run);
-            findDeviceThread.Start();
+            PauseEvent.Set();
         }
 
         public void StopSearch(bool forExit = false)
         {
+            PauseEvent.Reset();
+
+            if (!forExit) return;
             ContinueFind = false;
-            if (forExit)
-                findDeviceThread?.Join();
+            _findDeviceThread.Join();
         }
 
-        public void Run()
+        private void Run()
         {
             while (ContinueFind)
             {
+                PauseEvent.WaitOne();
                 if (IsConnected)
                 {
-                    if (!_stopPing && !SelectedDevice.PingDevice(PortOfSelectedDevice))
+                    if (!StopPing && SelectedDevice != null && !SelectedDevice.PingDevice(PortOfSelectedDevice))
                     {
                         PortOfSelectedDevice = string.Empty;
-                        SelectedDevice = null;
-                        AppDocument.SelectedDeviceSerialPort = null;
+                        SelectedDevice = null!;
+                        AppDocument.SelectedDeviceSerialPort = null!;
                         IsConnected = false;
                     }
                 }
@@ -55,6 +68,7 @@ namespace APM.Main.Devices
                         Run();
                     }
                 }
+                Thread.Sleep(1000);
             }
         }
 
@@ -67,17 +81,18 @@ namespace APM.Main.Devices
                 {
                     try
                     {
-                        if (!_stopPing)
-                        {
-                            if (!device.PingDevice(portsNames[i])) continue;
-                            IsConnected = true;
-                            SelectedDevice = device;
-                            AppDocument.SelectedDeviceSerialPort ??= new KakaduDeviceSerialPort(portsNames[i]);
-                            PortOfSelectedDevice = portsNames[i];
-                            return true;
-                        }
+                        if (StopPing) continue;
+                        if (!device.PingDevice(portsNames[i])) continue;
+                        IsConnected = true;
+                        SelectedDevice = device;
+                        AppDocument.SelectedDeviceSerialPort ??= new KakaduDeviceSerialPort(portsNames[i]);
+                        PortOfSelectedDevice = portsNames[i];
+                        return true;
                     }
-                    catch { }
+                    catch
+                    {
+                        // ignored
+                    }
                 }
             }
             return false;

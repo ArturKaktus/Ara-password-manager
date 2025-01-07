@@ -32,7 +32,7 @@ public class EditRecordContextMenu : IContextMenu
     }
 
     public int Order => 10;
-    public MenuItem ReturnMenuItem(object? mainObj, object? obj)
+    public MenuItem? ReturnMenuItem(object? mainObj, object? obj)
     {
         if (mainObj is CatalogTableViewModel uc && obj is IRecord)
         {
