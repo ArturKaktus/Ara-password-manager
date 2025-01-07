@@ -37,8 +37,8 @@ namespace APM.Core
             var window = new Window
             {
                 Title = title,
-                Height = height ?? 600,
-                Width = width ?? 800,
+                Height = height ?? content.Height,
+                Width = width ?? content.Width,
                 Topmost = true,
                 //CanResize = false
             };
@@ -88,6 +88,37 @@ namespace APM.Core
 
             window.Content = contentPanel;
             return await window.ShowDialog<bool>(owner);
+        }
+
+        public static async Task ShowMessage(string title, string message)
+        {
+            var border = new Border
+            {
+                Padding = new Thickness(10),
+                Child = new StackPanel
+                {
+                    Spacing = 10,
+                    Children =
+                    {
+                        new TextBlock
+                        {
+                            Text = message,
+                            TextWrapping = TextWrapping.Wrap
+                        }
+                    }
+                }
+            };
+            
+            var window = new Window
+            {
+                Title = title,
+                Width = 400,
+                Height = 200,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                Content = border
+            };
+            Window owner = ((ClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime).MainWindow;
+            await window.ShowDialog<bool>(owner);
         }
     }
 }

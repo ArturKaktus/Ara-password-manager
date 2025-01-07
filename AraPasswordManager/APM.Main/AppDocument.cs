@@ -36,7 +36,7 @@ namespace APM.Main
             DeviceInstances = GetClassesUtils.GenerateClassList<IDevice>(types);
         }
 
-        public static readonly List<IDevice> DeviceInstances = [];
+        public static readonly List<IDevice> DeviceInstances;
         public static KakaduDeviceSerialPort SelectedDeviceSerialPort;
         
         /// <summary>

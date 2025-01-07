@@ -4,7 +4,6 @@ using APM.Core.Enums;
 using APM.Main.Devices;
 using APM.Main.Features.MainWindow;
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
@@ -40,7 +39,7 @@ namespace APM.Main
             base.OnFrameworkInitializationCompleted();
         }
 
-        private void CastomModules() => DeviceFinder.Instance.StartSearch();
+        private void CastomModules() => DeviceFinder.Instance.InitSearch();
 
         private void LoadThemeResources()
         {
@@ -63,6 +62,7 @@ namespace APM.Main
                 this.Resources.MergedDictionaries.Add(resource);
             }
         }
+        
         private NameOS GetOperatingSystem()
         {
             if (OperatingSystem.IsWindows())

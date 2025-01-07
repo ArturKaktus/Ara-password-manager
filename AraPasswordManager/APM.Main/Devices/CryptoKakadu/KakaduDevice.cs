@@ -52,7 +52,6 @@ namespace APM.Main.Devices.CryptoKakadu
                     var dataContext = devicePinCodeWindow.DataContext as OpenPinCodeViewModel;
                     string pinCode = dataContext.PinCode;
                     double percent = 0.0;
-                    //KakaduDeviceSerialPort SerialPort = new KakaduDeviceSerialPort(DeviceFinder.Instance.PortOfSelectedDevice);
                     DeviceFinder.Instance.StopSearch();
                     Commander.SetPort(DeviceFinder.Instance.PortOfSelectedDevice);
                     System.Threading.Thread.Sleep(3000);
@@ -70,7 +69,7 @@ namespace APM.Main.Devices.CryptoKakadu
                                 try
                                 {
                                     byte[] pinBytes = System.Text.Encoding.ASCII.GetBytes(pinCode);
-                                    AppDocument.SelectedDeviceSerialPort.Write(pinBytes, 0, pinBytes.Length);
+                                    AppDocument.SelectedDeviceSerialPort.WriteData(pinBytes);
                                 }
                                 catch (Exception)
                                 {
@@ -86,7 +85,7 @@ namespace APM.Main.Devices.CryptoKakadu
                                     System.Threading.Thread.Sleep(1000);
                                     if (errorCount == 10)
                                     {
-                                        AppDocument.SelectedDeviceSerialPort.Close();
+                                        AppDocument.SelectedDeviceSerialPort.ClosePort();
                                         try
                                         {
                                             Thread.Sleep(4000);
@@ -103,7 +102,7 @@ namespace APM.Main.Devices.CryptoKakadu
                                         ++errorCount;
                                     }
                                     byte[] b = new byte[AppDocument.SelectedDeviceSerialPort.BytesToRead];
-                                    AppDocument.SelectedDeviceSerialPort.Read(b, 0, b.Length);
+                                    AppDocument.SelectedDeviceSerialPort.ReadData(b);
                                     bytesCount += b.Length;
                                     Array.Copy(b, 0, buffer, bytesCount - b.Length, b.Length);
                                     bytes += Convert.ToDouble(bytesCount);
@@ -111,7 +110,7 @@ namespace APM.Main.Devices.CryptoKakadu
                                 }
                                 if (errorCount != 10)
                                 {
-                                    AppDocument.SelectedDeviceSerialPort.Close();
+                                    AppDocument.SelectedDeviceSerialPort.ClosePort();
                                     byte[,] resultArray = new byte[numRowsToRead, 196];
                                     for (int i = 0; i < numRowsToRead; ++i)
                                     {
@@ -121,8 +120,6 @@ namespace APM.Main.Devices.CryptoKakadu
                                         }
                                     }
                                     AppDocument.CurrentDatabaseModel.FillFromDevice(resultArray);
-                                    //AppDocument.CurrentDatabaseModel.HashDatabase();
-                                    //AppDocument.CurrentDatabaseModel.BuildTree();
                                     System.Threading.Thread.Sleep(4000);
                                     DeviceFinder.Instance.StartSearch();
                                 }
@@ -160,7 +157,7 @@ namespace APM.Main.Devices.CryptoKakadu
                 passwordWindow.Close();
             };
 
-            passwordWindow.Closed += (sender, e) =>
+            passwordWindow.Closed += async (sender, e) =>
             {
                 if (isEntered)
                 {
@@ -173,11 +170,11 @@ namespace APM.Main.Devices.CryptoKakadu
                     double percent = 0.0;
                     Commander.SetPort(DeviceFinder.Instance.PortOfSelectedDevice);
                     System.Threading.Thread.Sleep(3000);
-                    //KakaduDeviceSerialPort SerialPort = new KakaduDeviceSerialPort(DeviceFinder.Instance.PortOfSelectedDevice);
-                    System.Threading.Thread.Sleep(1000);
                     bool contin = Commander.SendSET();
                     if (contin)
                     {
+                        //Между Set и Pin должна быть пауза
+                        Thread.Sleep(1000);
                         contin = Commander.SendPIN(pinCode);
                         if (contin)
                         {
@@ -191,7 +188,7 @@ namespace APM.Main.Devices.CryptoKakadu
                                 double oneRowPercent = Convert.ToDouble(count);
                                 int i = 1;
                                 var c = rows.GetLength(0);
-                                for (int ii = 0; i < c; ii++)
+                                for (int ii = 0; i <= c; ii++)
                                 {
                                     byte[] bs = rows.GetRow(ii);
                                     if (error) continue;
@@ -201,44 +198,22 @@ namespace APM.Main.Devices.CryptoKakadu
                                     int n = arrby.Length;
                                     for (int j = 0; j < n; ++j)
                                     {
-                                        byte b;
-                                        buffer[0] = b = arrby[j];
-                                        try
-                                        {
-                                            //AppDocument.SelectedDeviceSerialPort.BreakState = true;
-                                            Thread.Sleep(25);
-                                        }
-                                        catch
-                                        {
-                                        }
+                                        buffer[0] = arrby[j];
 
-                                        AppDocument.SelectedDeviceSerialPort.Write(buffer, 0, buffer.Length);
+                                        AppDocument.SelectedDeviceSerialPort.WriteData(buffer);
                                     }
 
                                     errorCounter = 0;
                                      while (waitAnswer) 
                                      {
-                                        try
-                                        {
-                                            Thread.Sleep(50);
-                                        }
-                                        catch { }
+                                         Thread.Sleep(200);
                                         if (errorCounter == 200)
                                         {
                                             error = true;
                                             AppDocument.SelectedDeviceSerialPort.ClosePort();
-                                            //stageString = DeviceWriteModel.this.bundle.getString("device.read.error");
-                                            try
-                                            {
-                                                Thread.Sleep(3000);
-                                            }
-                                            catch (Exception exception)
-                                            {
-                                                // empty catch block
-                                            }
+                                            Thread.Sleep(3000);
                                             endWrite = true;
                                             DeviceFinder.Instance.StartSearch();
-                                            //this.stop();
                                             break;
                                         }
                                         if (AppDocument.SelectedDeviceSerialPort.BytesToRead > 0)
@@ -252,21 +227,13 @@ namespace APM.Main.Devices.CryptoKakadu
                                 }
                                 AppDocument.SelectedDeviceSerialPort.ClosePort();
                                 endWrite = true;
-                                //DatabaseModel.Instance.HashDatabase();
                                 DeviceFinder.Instance.StartSearch();
                             }
                             else
                             {
                                 error = true;
                                 AppDocument.SelectedDeviceSerialPort.ClosePort();
-                                try
-                                {
-                                    Thread.Sleep(3000);
-                                }
-                                catch (Exception exception)
-                                {
-                                    // empty catch block
-                                }
+                                Thread.Sleep(3000);
                                 endWrite = true;
                                 DeviceFinder.Instance.StartSearch();
                             }
@@ -275,14 +242,7 @@ namespace APM.Main.Devices.CryptoKakadu
                         {
                             error = true;
                             AppDocument.SelectedDeviceSerialPort.ClosePort();
-                            try
-                            {
-                                Thread.Sleep(3000);
-                            }
-                            catch (Exception exception)
-                            {
-                                // empty catch block
-                            }
+                            Thread.Sleep(3000);
                             endWrite = true;
                             DeviceFinder.Instance.StartSearch();
                         } 
@@ -291,14 +251,7 @@ namespace APM.Main.Devices.CryptoKakadu
                     {
                         error = true;
                         AppDocument.SelectedDeviceSerialPort.ClosePort();
-                        try
-                        {
-                            Thread.Sleep(3000);
-                        }
-                        catch (Exception exception)
-                        {
-                            // empty catch block
-                        }
+                        Thread.Sleep(3000);
                         endWrite = true;
                         DeviceFinder.Instance.StartSearch();
                     }
@@ -346,13 +299,12 @@ namespace APM.Main.Devices.CryptoKakadu
                 string answerString = BytesToString(answer);
                 if (answerString.Equals("PIN"))
                     return true;
+                return false;
             }
             catch (Exception exception)
             {
-                // ignored
+                return false;
             }
-
-            return false;
         }
         public bool SendPIN(string pin)
         {
@@ -393,21 +345,21 @@ namespace APM.Main.Devices.CryptoKakadu
                 return false;
             }
         }
-        public byte? SendAndReceiveWithWait(byte sendByte, int attempts)
+
+        private byte? SendAndReceiveWithWait(byte sendByte, int attempts)
         {
             int errorCount = 0;
-            byte[] sendBytes = new byte[] { sendByte };
-            //_serialPort = new KakaduDeviceSerialPort(this._port);
+            byte[] sendBytes = [sendByte];
             AppDocument.SelectedDeviceSerialPort.OpenPort();
-            AppDocument.SelectedDeviceSerialPort.Write(sendBytes, 0, sendBytes.Length);
+            AppDocument.SelectedDeviceSerialPort.WriteData(sendBytes);
             for (errorCount = 0; errorCount < attempts; ++errorCount)
             {
                 Thread.Sleep(100);
                 if (AppDocument.SelectedDeviceSerialPort.BytesToRead > 0)
                 {
                     byte[] receivedBytes = new byte[AppDocument.SelectedDeviceSerialPort.BytesToRead];
-                    AppDocument.SelectedDeviceSerialPort.Read(receivedBytes, 0, receivedBytes.Length);
-                    AppDocument.SelectedDeviceSerialPort.Close();
+                    AppDocument.SelectedDeviceSerialPort.ReadData(receivedBytes);
+                    AppDocument.SelectedDeviceSerialPort.ClosePort();
                     return receivedBytes[0];
                 }
             }
@@ -421,15 +373,8 @@ namespace APM.Main.Devices.CryptoKakadu
             {
                 _deviceName = infoStrings[0];
                 _kakaduVersion = infoStrings[1];
-                string versionOnly = new string(infoStrings[1].Where(char.IsDigit).ToArray());
-                if (int.TryParse(versionOnly, out int firmwareVersion))
-                {
-                    _firmwareVersion = firmwareVersion;
-                }
-                else
-                {
-                    _firmwareVersion = 0;
-                }
+                var versionOnly = new string(infoStrings[1].Where(char.IsDigit).ToArray());
+                _firmwareVersion = int.TryParse(versionOnly, out var firmwareVersion) ? firmwareVersion : 0;
             }
             else
             {
@@ -450,14 +395,14 @@ namespace APM.Main.Devices.CryptoKakadu
             }
             return ansString;
         }
-        public byte[] SendAndReceive(byte[] sendBytes)
+
+        private byte[] SendAndReceive(byte[] sendBytes)
         {
             AppDocument.SelectedDeviceSerialPort ??= new KakaduDeviceSerialPort(this._port);
             AppDocument.SelectedDeviceSerialPort.OpenPort();
-            AppDocument.SelectedDeviceSerialPort.Write(sendBytes, 0, sendBytes.Length);
-            Thread.Sleep(150);
+            AppDocument.SelectedDeviceSerialPort.WriteData(sendBytes);
             byte[] receivedBytes = new byte[AppDocument.SelectedDeviceSerialPort.BytesToRead];
-            AppDocument.SelectedDeviceSerialPort.Read(receivedBytes, 0, receivedBytes.Length);
+            AppDocument.SelectedDeviceSerialPort.ReadData(receivedBytes);
             AppDocument.SelectedDeviceSerialPort.ClosePort();
             if (receivedBytes.Length == 0)
                 throw new Exception("0 bytes in serial port");
@@ -561,12 +506,12 @@ namespace APM.Main.Devices.CryptoKakadu
             try
             {
                 AppDocument.SelectedDeviceSerialPort.OpenPort();
-                AppDocument.SelectedDeviceSerialPort.Write(bytesToWrite, 0, bytesToWrite.Length);
+                AppDocument.SelectedDeviceSerialPort.WriteData(bytesToWrite);
                 while (wait)
                 {
                     if (counter == 10)
                     {
-                        AppDocument.SelectedDeviceSerialPort.Close();
+                        AppDocument.SelectedDeviceSerialPort.ClosePort();
                         return error;
                     }
                     if (AppDocument.SelectedDeviceSerialPort.BytesToRead > 0)
@@ -574,7 +519,7 @@ namespace APM.Main.Devices.CryptoKakadu
                         wait = false;
                         int bytesToRead = AppDocument.SelectedDeviceSerialPort.BytesToRead;
                         byte[] recievedBytes = new byte[bytesToRead];
-                        AppDocument.SelectedDeviceSerialPort.Read(recievedBytes, 0, bytesToRead);
+                        AppDocument.SelectedDeviceSerialPort.ReadData(recievedBytes);
                         AppDocument.SelectedDeviceSerialPort.ClosePort();
                         return recievedBytes;
                     }
@@ -589,17 +534,16 @@ namespace APM.Main.Devices.CryptoKakadu
         public byte[] SendAndReceiveWithWait(byte[] sendBytes, int attempts)
         {
             int errorCount = 0;
-            //AppDocument.SelectedDeviceSerialPort = new KakaduDeviceSerialPort(this._port);
             AppDocument.SelectedDeviceSerialPort.OpenPort();
-            AppDocument.SelectedDeviceSerialPort.Write(sendBytes, 0, sendBytes.Length);
+            AppDocument.SelectedDeviceSerialPort.WriteData(sendBytes);
             while (errorCount <= attempts)
             {
                 Thread.Sleep(100);
                 if (AppDocument.SelectedDeviceSerialPort.BytesToRead > 0)
                 {
                     byte[] receivedBytes = new byte[AppDocument.SelectedDeviceSerialPort.BytesToRead];
-                    AppDocument.SelectedDeviceSerialPort.Read(receivedBytes, 0, receivedBytes.Length);
-                    AppDocument.SelectedDeviceSerialPort.Close();
+                    AppDocument.SelectedDeviceSerialPort.ReadData(receivedBytes);
+                    AppDocument.SelectedDeviceSerialPort.ClosePort();
                     return receivedBytes;
                 }
                 errorCount++;
@@ -609,7 +553,7 @@ namespace APM.Main.Devices.CryptoKakadu
         }
         public int ToDecStrFromBytes(byte b1, byte b2)
         {
-            byte[] bytes = new byte[] { b1, b2 };
+            byte[] bytes = [b1, b2];
             if (BitConverter.IsLittleEndian)
             {
                 Array.Reverse(bytes);

@@ -53,7 +53,7 @@ namespace APM.Main.Features.ContextMenuControls
             }
         }
 
-        public MenuItem ReturnMenuItem(object? mainObj, object? obj)
+        public MenuItem? ReturnMenuItem(object? mainObj, object? obj)
         {
             if (mainObj is CatalogTreeViewViewModel uc && obj is TreeNode tn && tn.Item is IGroup)
             {
