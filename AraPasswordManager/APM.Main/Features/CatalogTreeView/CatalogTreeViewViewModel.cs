@@ -33,10 +33,7 @@ public class CatalogTreeViewViewModel
         TreeNode treeObject = new();
         treeObject.ParentNode = treeNode;
         treeObject.Item = group;
-        if (treeNode == null)
-            TreeNodes.Add(treeObject);
-        else
-            treeNode.Child.Add(treeObject);
+        treeNode.Child.Add(treeObject);
     }
     public void DeleteGroupInTreeNode(TreeNode treeNode)
     {

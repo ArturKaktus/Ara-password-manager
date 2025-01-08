@@ -1,6 +1,5 @@
 using APM.Main.Devices;
 using Avalonia.Controls;
-using Avalonia;
 
 namespace APM.Main.Features.MainWindow
 {
