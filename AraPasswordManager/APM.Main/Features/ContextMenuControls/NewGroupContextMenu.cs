@@ -17,7 +17,7 @@ namespace APM.Main.Features.ContextMenuControls
 
         public int Order => 10;
 
-        public bool CanExecute(object parameter) => parameter is CatalogTreeViewViewModel or TreeNode { Item: IGroup };
+        public bool CanExecute(object parameter) => parameter is TreeNode { Item: IGroup };
 
         public async void Exec(object parameter)
         {
@@ -30,7 +30,7 @@ namespace APM.Main.Features.ContextMenuControls
                 if (!result) return;
                 var folderName = ((NewGroupViewModel)context.DataContext!)?.FolderName;
                 if (folderName == null) return;
-                var newGroup = AppDocument.CurrentDatabaseModel.AddGroup(selectedItem == null ? 0 : selectedItem.Item.Id, folderName);
+                var newGroup = AppDocument.CurrentDatabaseModel.AddGroup(selectedItem.Item.Id, folderName);
                 treeView.AddGroupToTreeNode(selectedItem, newGroup);
             }
             catch (Exception e)
@@ -43,13 +43,14 @@ namespace APM.Main.Features.ContextMenuControls
 
         public MenuItem? ReturnMenuItem(object? mainObj, object? obj)
         {
-            if (mainObj is CatalogTreeViewViewModel uc)
+            if (mainObj is CatalogTreeViewViewModel uc && obj is TreeNode { Item: IGroup } tn)
             {
                 return new MenuItem()
                 {
                     Header = "Новая папка",
                     Command = Execute,
-                    CommandParameter = uc
+                    CommandParameter = uc,
+                    IsEnabled = IsEnabledMenu(tn)
                 };
             }
             return null;

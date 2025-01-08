@@ -54,37 +54,7 @@ public partial class CatalogTreeView : UserControl
                         }
                         contextMenu.Open(CatalogTree);
                     }
-                    else
-                    {
-                        var menuItems = GetClassesUtils.GenerateMenuItems(viewModel, null);
-
-                        foreach (var menuItem in menuItems)
-                        {
-                            contextMenu.Items.Add(menuItem);
-                        }
-                        contextMenu.Open(CatalogTree);
-                    }
                 }
-                else
-                {
-                    var menuItems = GetClassesUtils.GenerateMenuItems(viewModel, null);
-
-                    foreach (var menuItem in menuItems)
-                    {
-                        contextMenu.Items.Add(menuItem);
-                    }
-                    contextMenu.Open(CatalogTree);
-                }
-            }
-            else
-            {
-                var menuItems = GetClassesUtils.GenerateMenuItems(viewModel, null);
-
-                foreach (var menuItem in menuItems)
-                {
-                    contextMenu.Items.Add(menuItem);
-                }
-                contextMenu.Open(CatalogTree);
             }
         }
     }
