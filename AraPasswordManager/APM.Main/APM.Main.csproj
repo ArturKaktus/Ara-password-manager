@@ -6,6 +6,8 @@
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <AssemblyName>Ara Password Manager</AssemblyName>
+    <ApplicationIcon>Assets\ara-logo.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>

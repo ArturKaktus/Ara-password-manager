@@ -45,20 +45,23 @@ namespace APM.Main
         {
             if (AppDocument.CurrentNameOS == NameOS.Windows)
             {
+                var assemblyName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+                var baseUri = new Uri($"avares://{assemblyName}/Themes/");
+
                 var styles = new Styles
                 {
-                    new StyleInclude(new Uri("avares://APM.Main/Theme/Styles.Windows.axaml"))
+                    new StyleInclude(new Uri(baseUri, "Styles.Windows.axaml"))
                     {
-                        Source = new Uri("avares://APM.Main/Theme/Styles.Windows.axaml")
+                        Source = new Uri(baseUri, "Styles.Windows.axaml")
                     }
                 };
                 this.Styles.Add(styles);
 
-                ResourceInclude resource = new ResourceInclude(new Uri("avares://APM.Main/Theme/ResourceDictionary.Windows.axaml"))
+                ResourceInclude resource = new ResourceInclude(new Uri(baseUri, "ResourceDictionary.Windows.axaml"))
                 {
-                    Source = new Uri("avares://APM.Main/Theme/ResourceDictionary.Windows.axaml")
+                    Source = new Uri(baseUri, "ResourceDictionary.Windows.axaml")
                 };
-                
+
                 this.Resources.MergedDictionaries.Add(resource);
             }
         }

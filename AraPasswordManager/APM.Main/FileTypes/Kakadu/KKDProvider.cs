@@ -103,7 +103,7 @@ public class KKDProvider : IFileProvider, IFileProperty, IReadWriteFile
             if (isEntered)
             {
                 var dataContext = createPassword.DataContext as CreatePasswordViewModel;
-
+                //TODO добавить возможность сохранения нового файла без CurrentFileInstance
                 if (AppDocument.CurrentFileInstance != null && AppDocument.CurrentFileInstance is IFileProvider fileProvider)
                 {
                     fileProvider.FilePath = Uri.UnescapeDataString(file.Path.AbsolutePath);
