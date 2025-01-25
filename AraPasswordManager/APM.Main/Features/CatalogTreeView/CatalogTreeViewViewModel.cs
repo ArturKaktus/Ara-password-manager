@@ -12,9 +12,7 @@ public class CatalogTreeViewViewModel
     public CatalogTreeViewViewModel()
     {
         TreeNodes = [];
-        TreeNode treeObject = new();
-        treeObject.Item = new GroupModel(1, 0, "Корневая папка");
-        TreeNodes.Add(treeObject);
+        CreateRootFolder();
         AppDocument.CurrentDatabaseModel.PropertyChanged += TreeObjets_PropertyChanged;
     }
     private void TreeObjets_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -23,6 +21,14 @@ public class CatalogTreeViewViewModel
         RefreshTree();
     }
 
+    public void CreateRootFolder()
+    {
+        TreeNode treeObject = new();
+        var group = AppDocument.CurrentDatabaseModel.AddGroup(0, "Корневая папка");
+        treeObject.Item = group;
+        TreeNodes.Add(treeObject);
+    }
+    
     public void RefreshTree()
     {
         TreeNodes.Clear();
@@ -44,6 +50,8 @@ public class CatalogTreeViewViewModel
     {
         TreeNode treeObject = new();
         var db = AppDocument.CurrentDatabaseModel;
+        if (db.GroupsArrayList.Count == 0)
+            AppDocument.CurrentDatabaseModel.AddGroup(0, "Корневая папка");
         //Выбор нулевой группы
         treeObject.Item = db.GetGroupById(startId);
         if(parentTreeNode != null)

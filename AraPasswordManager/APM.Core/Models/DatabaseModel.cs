@@ -47,7 +47,7 @@ public class DatabaseModel
     public GroupModel AddGroup(int pid, string title)
     {
         //TODO если избавляться от корневой папки, то int maxId = 0
-        int maxId = 1;
+        int maxId = 0;
         if (_groupsArrayList.Count > 0) maxId = _groupsArrayList.Max(obj => obj.Id);
         var group = new GroupModel(maxId + 1, pid, title);
         _groupsArrayList.Add(group);
@@ -56,7 +56,7 @@ public class DatabaseModel
 
     public void AddRecord(int pid, RecordModel record)
     {
-        int maxId = 1;
+        int maxId = 0;
         if (_recordsArrayList.Count > 0) maxId = _recordsArrayList.Max(obj => obj.Id);
         record.Id = maxId + 1;
         record.Pid = pid;
