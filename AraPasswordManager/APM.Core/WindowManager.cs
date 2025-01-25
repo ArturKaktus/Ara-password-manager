@@ -17,14 +17,15 @@ namespace APM.Core
             Ok,
             None
         }
-        public static Window NewWindow(string title, object? content)
+        public static Window NewWindow(string title, object content)
         {
             return new Window
             {
                 Title = title,
-                Height = 200,
-                Width = 300,
-                Content = content
+                Height = ((Control)content).Height,
+                Width = ((Control)content).Width,
+                Content = content,
+                CanResize = false
             };
         }
 

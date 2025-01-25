@@ -84,6 +84,7 @@ namespace APM.Main.Features.MenuStrip
                 var instance =
                     AppDocument.FileInstances.FirstOrDefault(obj =>
                         obj.FileExtension.Contains($"*.{namePaths.LastOrDefault()}"));
+                AppDocument.CurrentFileInstance = instance;
                 if (instance is IReadWriteFile irwf)
                 {
                     irwf.SaveFile(owner, result);
