@@ -1,5 +1,5 @@
 ﻿using APM.Core.ProviderInterfaces;
-using APM.Main.Devices;
+using APM.Desktop.Devices;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -10,7 +10,7 @@ using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-namespace APM.Main.Features.MenuStrip
+namespace APM.Desktop.Features.MenuStrip
 {
     public partial class MenuStripViewModel : ObservableObject
     {

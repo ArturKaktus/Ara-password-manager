@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace APM.Main.Features;
+namespace APM.Desktop.Features;
 
 public class ViewModelBase : ObservableObject
 {

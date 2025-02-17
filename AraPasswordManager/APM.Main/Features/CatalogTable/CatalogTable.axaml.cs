@@ -1,11 +1,11 @@
 using APM.Core.Models.Interfaces;
-using APM.Main.Utils;
+using APM.Desktop.Utils;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.VisualTree;
 
-namespace APM.Main.Features.CatalogTable;
+namespace APM.Desktop.Features.CatalogTable;
 
 public partial class CatalogTable : UserControl
 {

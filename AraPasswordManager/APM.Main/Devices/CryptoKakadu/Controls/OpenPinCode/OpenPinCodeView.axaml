@@ -3,9 +3,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-			 xmlns:vm="using:APM.Main.Devices.CryptoKakadu.Controls.OpenPinCode"
+			 xmlns:vm="using:APM.Desktop.Devices.CryptoKakadu.Controls.OpenPinCode"
 			 x:DataType="vm:OpenPinCodeViewModel"
-             x:Class="APM.Main.Devices.CryptoKakadu.Controls.OpenPinCode.OpenPinCodeView">
+             x:Class="APM.Desktop.Devices.CryptoKakadu.Controls.OpenPinCode.OpenPinCodeView">
 	<Grid Margin="5">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="auto"/>

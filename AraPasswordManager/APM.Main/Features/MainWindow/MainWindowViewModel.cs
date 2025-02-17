@@ -1,4 +1,4 @@
-﻿namespace APM.Main.Features.MainWindow
+﻿namespace APM.Desktop.Features.MainWindow
 {
     public partial class MainWindowViewModel : ViewModelBase
     {

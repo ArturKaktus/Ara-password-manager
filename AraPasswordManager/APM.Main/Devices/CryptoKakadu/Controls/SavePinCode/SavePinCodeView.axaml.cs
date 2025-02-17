@@ -2,7 +2,7 @@ using System;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 
-namespace APM.Main.Devices.CryptoKakadu.Controls.SavePinCode;
+namespace APM.Desktop.Devices.CryptoKakadu.Controls.SavePinCode;
 
 public partial class SavePinCodeView : UserControl
 {

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace APM.Main.Utils
+namespace APM.Desktop.Utils
 {
     internal static class GetClassesUtils
     {

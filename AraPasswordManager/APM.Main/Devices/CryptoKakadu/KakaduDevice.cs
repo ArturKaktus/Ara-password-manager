@@ -1,4 +1,4 @@
-﻿using APM.Main.Devices.CryptoKakadu.Controls.OpenPinCode;
+﻿using APM.Desktop.Devices.CryptoKakadu.Controls.OpenPinCode;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using APM.Core.Models;
-using APM.Main.Devices.CryptoKakadu.Controls.SavePinCode;
+using APM.Desktop.Devices.CryptoKakadu.Controls.SavePinCode;
 
-namespace APM.Main.Devices.CryptoKakadu
+namespace APM.Desktop.Devices.CryptoKakadu
 {
     public class KakaduDevice : IDevice
     {

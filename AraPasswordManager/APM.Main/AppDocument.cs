@@ -2,16 +2,16 @@
 using APM.Core;
 using APM.Core.Models;
 using APM.Core.ProviderInterfaces;
-using APM.Main.Devices;
-using APM.Main.Utils;
+using APM.Desktop.Devices;
+using APM.Desktop.Utils;
 using Avalonia.Platform.Storage;
 using System.Collections.Generic;
 using System.IO.Ports;
 using System.Reflection;
 using APM.Core.Enums;
-using APM.Main.Devices.CryptoKakadu;
+using APM.Desktop.Devices.CryptoKakadu;
 
-namespace APM.Main
+namespace APM.Desktop
 {
     public static class AppDocument
     {

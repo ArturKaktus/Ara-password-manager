@@ -3,9 +3,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             xmlns:vm="using:APM.Main.Devices.CryptoKakadu.Controls.SavePinCode"
+             xmlns:vm="using:APM.Desktop.Devices.CryptoKakadu.Controls.SavePinCode"
              x:DataType="vm:SavePinCodeViewModel"
-             x:Class="APM.Main.Devices.CryptoKakadu.Controls.SavePinCode.SavePinCodeView">
+             x:Class="APM.Desktop.Devices.CryptoKakadu.Controls.SavePinCode.SavePinCodeView">
     <Grid Margin="5" RowDefinitions="auto,auto,auto,auto,auto">
 
         <TextBlock Grid.Row="0" Margin="5" Text="Введите пин код:"/>

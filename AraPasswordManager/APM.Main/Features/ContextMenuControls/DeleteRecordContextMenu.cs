@@ -1,7 +1,7 @@
 ﻿using APM.Core;
 using APM.Core.Models.Interfaces;
-using APM.Main.Features.CatalogTable;
-using APM.Main.Features.CatalogTreeView;
+using APM.Desktop.Features.CatalogTable;
+using APM.Desktop.Features.CatalogTreeView;
 using Avalonia.Controls;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace APM.Main.Features.ContextMenuControls
+namespace APM.Desktop.Features.ContextMenuControls
 {
     internal class DeleteRecordContextMenu : IContextMenu
     {

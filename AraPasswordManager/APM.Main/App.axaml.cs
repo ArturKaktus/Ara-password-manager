@@ -1,8 +1,8 @@
 using System;
 using System.Text;
 using APM.Core.Enums;
-using APM.Main.Devices;
-using APM.Main.Features.MainWindow;
+using APM.Desktop.Devices;
+using APM.Desktop.Features.MainWindow;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
@@ -10,7 +10,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Markup.Xaml.Styling;
 using Avalonia.Styling;
 
-namespace APM.Main
+namespace APM.Desktop
 {
     public partial class App : Application
     {

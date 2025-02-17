@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace APM.Main.Devices
+namespace APM.Desktop.Devices
 {
     public interface IDevice
     {

@@ -8,7 +8,7 @@ using APM.Core.Models;
 using APM.Core.Models.Interfaces;
 using Avalonia.Data.Converters;
 
-namespace APM.Main.Features.CatalogTable.Controls.RecordProps;
+namespace APM.Desktop.Features.CatalogTable.Controls.RecordProps;
 
 public class RecordPropsViewModel
 {

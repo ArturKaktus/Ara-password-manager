@@ -3,7 +3,7 @@ using APM.Core.Models;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
-namespace APM.Main.Features.CatalogTreeView;
+namespace APM.Desktop.Features.CatalogTreeView;
 
 public class CatalogTreeViewViewModel
 {

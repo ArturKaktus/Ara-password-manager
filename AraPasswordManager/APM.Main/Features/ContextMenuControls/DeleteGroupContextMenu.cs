@@ -1,12 +1,12 @@
 ﻿using APM.Core;
 using APM.Core.Models.Interfaces;
-using APM.Main.Features.CatalogTreeView;
+using APM.Desktop.Features.CatalogTreeView;
 using Avalonia.Controls;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace APM.Main.Features.ContextMenuControls
+namespace APM.Desktop.Features.ContextMenuControls
 {
     internal class DeleteGroupContextMenu : IContextMenu
     {

@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 
-namespace APM.Main.FileTypes.Kakadu.PasswordVerify
+namespace APM.Desktop.FileTypes.Kakadu.PasswordVerify
 {
     public partial class PasswordVerifyViewModel : ObservableObject
     {

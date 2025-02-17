@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace APM.Main.Devices.CryptoKakadu.Controls.SavePinCode;
+namespace APM.Desktop.Devices.CryptoKakadu.Controls.SavePinCode;
 
 public partial class SavePinCodeViewModel : ObservableObject
 {

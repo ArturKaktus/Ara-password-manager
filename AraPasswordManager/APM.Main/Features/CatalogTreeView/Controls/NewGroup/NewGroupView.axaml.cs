@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace APM.Main.Features.CatalogTreeView.Controls.NewGroup;
+namespace APM.Desktop.Features.CatalogTreeView.Controls.NewGroup;
 
 public partial class NewGroupView : UserControl
 {

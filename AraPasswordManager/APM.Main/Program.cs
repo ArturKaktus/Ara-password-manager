@@ -1,7 +1,7 @@
 ﻿using Avalonia;
 using System;
 
-namespace APM.Main
+namespace APM.Desktop
 {
     internal sealed class Program
     {

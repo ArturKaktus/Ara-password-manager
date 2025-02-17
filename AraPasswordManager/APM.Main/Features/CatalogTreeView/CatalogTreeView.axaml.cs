@@ -1,12 +1,12 @@
 using APM.Core;
-using APM.Main.Utils;
+using APM.Desktop.Utils;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.VisualTree;
 using System.Linq;
 
-namespace APM.Main.Features.CatalogTreeView;
+namespace APM.Desktop.Features.CatalogTreeView;
 
 public partial class CatalogTreeView : UserControl
 {
