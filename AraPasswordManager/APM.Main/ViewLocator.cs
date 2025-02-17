@@ -1,9 +1,9 @@
-using APM.Main.Features;
+using APM.Desktop.Features;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using System;
 
-namespace APM.Main
+namespace APM.Desktop
 {
     public class ViewLocator : IDataTemplate
     {

@@ -1,8 +1,8 @@
 ﻿using APM.Core;
 using APM.Core.Models;
 using APM.Core.ProviderInterfaces;
-using APM.Main.FileTypes.Kakadu.CreatePassword;
-using APM.Main.FileTypes.Kakadu.PasswordVerify;
+using APM.Desktop.FileTypes.Kakadu.CreatePassword;
+using APM.Desktop.FileTypes.Kakadu.PasswordVerify;
 using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using System;
@@ -13,7 +13,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Nodes;
 
-namespace APM.Main.FileTypes.Kakadu;
+namespace APM.Desktop.FileTypes.Kakadu;
 
 /// <summary>
 /// Чтения и записи файлов .kkd

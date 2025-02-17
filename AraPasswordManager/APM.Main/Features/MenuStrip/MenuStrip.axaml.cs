@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace APM.Main.Features.MenuStrip;
+namespace APM.Desktop.Features.MenuStrip;
 
 public partial class MenuStrip : UserControl
 {

@@ -2,9 +2,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="using:APM.Main.Features.CatalogTreeView"
+             xmlns:vm="using:APM.Desktop.Features.CatalogTreeView"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="APM.Main.Features.CatalogTreeView.CatalogTreeView"
+             x:Class="APM.Desktop.Features.CatalogTreeView.CatalogTreeView"
              x:DataType="vm:CatalogTreeViewViewModel">
 
     <Design.DataContext>

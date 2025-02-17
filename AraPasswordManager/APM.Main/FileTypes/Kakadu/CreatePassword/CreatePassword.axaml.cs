@@ -2,7 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using System;
 
-namespace APM.Main.FileTypes.Kakadu.CreatePassword;
+namespace APM.Desktop.FileTypes.Kakadu.CreatePassword;
 
 public partial class CreatePassword : UserControl
 {

@@ -2,7 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using System;
 
-namespace APM.Main.Devices.CryptoKakadu.Controls.OpenPinCode;
+namespace APM.Desktop.Devices.CryptoKakadu.Controls.OpenPinCode;
 
 public partial class OpenPinCodeView : UserControl
 {

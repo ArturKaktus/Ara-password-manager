@@ -2,7 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using System;
 
-namespace APM.Main.FileTypes.Kakadu.PasswordVerify;
+namespace APM.Desktop.FileTypes.Kakadu.PasswordVerify;
 
 public partial class PasswordVerify : UserControl
 {

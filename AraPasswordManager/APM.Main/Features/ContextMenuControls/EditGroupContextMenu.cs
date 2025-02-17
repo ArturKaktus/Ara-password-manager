@@ -2,12 +2,12 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using APM.Core;
 using APM.Core.Models.Interfaces;
-using APM.Main.Features.CatalogTreeView;
-using APM.Main.Features.CatalogTreeView.Controls.NewGroup;
+using APM.Desktop.Features.CatalogTreeView;
+using APM.Desktop.Features.CatalogTreeView.Controls.NewGroup;
 using Avalonia;
 using Avalonia.Controls;
 
-namespace APM.Main.Features.ContextMenuControls;
+namespace APM.Desktop.Features.ContextMenuControls;
 
 public class EditGroupContextMenu : IContextMenu
 {

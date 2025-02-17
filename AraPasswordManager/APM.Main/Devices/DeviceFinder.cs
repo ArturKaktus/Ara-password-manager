@@ -2,9 +2,9 @@
 using System;
 using System.IO.Ports;
 using System.Threading;
-using APM.Main.Devices.CryptoKakadu;
+using APM.Desktop.Devices.CryptoKakadu;
 
-namespace APM.Main.Devices
+namespace APM.Desktop.Devices
 {
     public partial class DeviceFinder : ObservableObject
     {

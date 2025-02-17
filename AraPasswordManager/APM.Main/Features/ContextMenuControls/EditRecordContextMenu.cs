@@ -2,12 +2,12 @@ using System.Windows.Input;
 using APM.Core;
 using APM.Core.Models;
 using APM.Core.Models.Interfaces;
-using APM.Main.Features.CatalogTable;
-using APM.Main.Features.CatalogTable.Controls.RecordProps;
+using APM.Desktop.Features.CatalogTable;
+using APM.Desktop.Features.CatalogTable.Controls.RecordProps;
 using Avalonia;
 using Avalonia.Controls;
 
-namespace APM.Main.Features.ContextMenuControls;
+namespace APM.Desktop.Features.ContextMenuControls;
 
 public class EditRecordContextMenu : IContextMenu
 {

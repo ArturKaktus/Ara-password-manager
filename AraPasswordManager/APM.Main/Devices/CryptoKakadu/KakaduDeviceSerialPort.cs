@@ -2,7 +2,7 @@
 using System.IO.Ports;
 using System.Threading;
 
-namespace APM.Main.Devices.CryptoKakadu
+namespace APM.Desktop.Devices.CryptoKakadu
 {
     public class KakaduDeviceSerialPort : SerialPort
     {

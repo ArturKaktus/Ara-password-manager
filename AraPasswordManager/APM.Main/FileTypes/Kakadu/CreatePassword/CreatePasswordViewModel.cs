@@ -2,7 +2,7 @@
 using System;
 using System.Text.RegularExpressions;
 
-namespace APM.Main.FileTypes.Kakadu.CreatePassword;
+namespace APM.Desktop.FileTypes.Kakadu.CreatePassword;
 
 public partial class CreatePasswordViewModel : ObservableObject
 {

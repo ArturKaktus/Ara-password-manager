@@ -4,11 +4,11 @@ using APM.Core.Models.Interfaces;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
-using APM.Main.Features.CatalogTable.Controls.RecordProps;
+using APM.Desktop.Features.CatalogTable.Controls.RecordProps;
 using Avalonia;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace APM.Main.Features.CatalogTable;
+namespace APM.Desktop.Features.CatalogTable;
 
 public partial class CatalogTableViewModel : ObservableObject
 {

@@ -1,7 +1,7 @@
 using APM.Core.Models.Interfaces;
 using Avalonia.Controls;
 
-namespace APM.Main.Features.CatalogTable.Controls.RecordProps;
+namespace APM.Desktop.Features.CatalogTable.Controls.RecordProps;
 
 public partial class RecordPropsView : UserControl
 {

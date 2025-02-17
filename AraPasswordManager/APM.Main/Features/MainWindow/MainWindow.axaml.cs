@@ -1,8 +1,8 @@
-using APM.Main.Devices;
+using APM.Desktop.Devices;
 using Avalonia.Controls;
 using Avalonia;
 
-namespace APM.Main.Features.MainWindow
+namespace APM.Desktop.Features.MainWindow
 {
     public partial class MainWindow : Window
     {

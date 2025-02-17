@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "APM.Main": {
+    "APM.Desktop": {
       "commandName": "Project"
     },
     "Plugin Kakadu": {
