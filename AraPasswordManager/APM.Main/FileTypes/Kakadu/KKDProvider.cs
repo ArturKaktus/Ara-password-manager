@@ -18,31 +18,15 @@ namespace APM.Main.FileTypes.Kakadu;
 /// <summary>
 /// Чтения и записи файлов .kkd
 /// </summary>
-public class KKDProvider : IFileProvider, IFileProperty, IReadWriteFile
+public class KKDProvider : IFileProvider
 {
     public string? FileTitle => "Kakadu File";
     public List<string> FileExtension => ["*.kkd"];
-    public bool IsSecure => true;
     public string FilePath { get; set; }
     public char[] Password { get; set; }
     public FileInfo CurrentFile { get; set; }
+    public bool HasChange { get; set; }
 
-    //public void Open()
-    //{
-    //    var jsonString = DecryptData(ReadFile(), Password);
-    //    if (!jsonString.Equals("error"))
-    //    {
-    //        CurrentFile = new FileInfo(FilePath);
-    //    }
-
-    //    FillKakaduJson(jsonString);
-    //}
-
-    //public void Save()
-    //{
-    //    using FileStream backUpStream = new(FilePath, FileMode.Create);
-    //    backUpStream.Write(EncryptBackup(GetJsonString(), Password));
-    //}
     public void ReadFile(Window? owner, IStorageFile file)
     {
         bool isEntered = false;
@@ -73,15 +57,7 @@ public class KKDProvider : IFileProvider, IFileProperty, IReadWriteFile
                     }
 
                     FillKakaduJson(jsonString);
-
-                    //fileProvider.Open();
                 }
-                //AppDocument.Provider = new KKDProvider()
-                //{
-                //    FilePath = Uri.UnescapeDataString(file.Path.AbsolutePath),
-                //    Password = dataContext.Password.ToCharArray()
-                //};
-                //AppDocument.Provider.Open();
             }
         };
 
@@ -109,15 +85,7 @@ public class KKDProvider : IFileProvider, IFileProperty, IReadWriteFile
                     fileProvider.Password = dataContext.Password.ToCharArray();
                     using FileStream backUpStream = new(fileProvider.FilePath, FileMode.Create);
                     backUpStream.Write(EncryptBackup(GetJsonString(), Password));
-                    //fileProvider.Save();
                 }
-
-                //AppDocument.Provider = new KKDProvider()
-                //{
-                //    FilePath = Uri.UnescapeDataString(file.Path.AbsolutePath),
-                //    Password = dataContext.Password.ToCharArray()
-                //};
-                //AppDocument.Provider.Save();
             }
         };
         passwordWindow.ShowDialog(owner);
