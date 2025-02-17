@@ -22,7 +22,7 @@ namespace APM.Main
             // Находим все типы в сборке
             var types = assembly.GetTypes();
 
-            var implementingTypes = GetClassesUtils.GenerateClassList<IFileProperty>(types);
+            var implementingTypes = GetClassesUtils.GenerateClassList<IFileProvider>(types);
             foreach (var t in implementingTypes)
             {
                 FileInstances.Add(t);
@@ -47,7 +47,7 @@ namespace APM.Main
         /// <summary>
         /// Лист всех поддерживаемых типов файлов
         /// </summary>
-        public static readonly List<IFileProperty> FileInstances = [];
+        public static readonly List<IFileProvider> FileInstances = [];
 
         /// <summary>
         /// Текущий используемый тип файла

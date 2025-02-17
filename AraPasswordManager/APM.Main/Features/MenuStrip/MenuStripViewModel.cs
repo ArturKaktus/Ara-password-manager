@@ -59,7 +59,7 @@ namespace APM.Main.Features.MenuStrip
                         obj.FileExtension.Contains($"*.{namePaths.LastOrDefault()}"));
                 AppDocument.CurrentFileInstance = instance;
 
-                if (instance is IReadWriteFile irwf)
+                if (instance is IFileProvider irwf)
                 {
                     irwf.ReadFile(owner, result[0]);
                 }
@@ -85,7 +85,7 @@ namespace APM.Main.Features.MenuStrip
                     AppDocument.FileInstances.FirstOrDefault(obj =>
                         obj.FileExtension.Contains($"*.{namePaths.LastOrDefault()}"));
                 AppDocument.CurrentFileInstance = instance;
-                if (instance is IReadWriteFile irwf)
+                if (instance is IFileProvider irwf)
                 {
                     irwf.SaveFile(owner, result);
                 }
