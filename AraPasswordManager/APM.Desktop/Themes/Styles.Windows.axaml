@@ -9,7 +9,7 @@
     <!-- Общий стиль для всех окон -->
     <Style Selector="Window">
         <Setter Property="WindowStartupLocation" Value="CenterScreen"/>
-        <Setter Property="TransparencyLevelHint" Value="AcrylicBlur"/>
+        <!--<Setter Property="TransparencyLevelHint" Value="AcrylicBlur"/>-->
         <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
     </Style>
     

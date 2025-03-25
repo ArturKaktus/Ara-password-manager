@@ -7,7 +7,7 @@ namespace APM.Core.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is char[] charArray)
+            if (value != null && value is char[] charArray)
             {
                 return new string(charArray);
             }

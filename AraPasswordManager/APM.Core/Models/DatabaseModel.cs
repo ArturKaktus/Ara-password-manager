@@ -137,9 +137,8 @@ public class DatabaseModel
                     name = ByteUtils.ByteToUtf8String(nameBytes);
                     _groupsArrayList.Add(new GroupModel(id, pid, name));
                 }
-                catch (Exception e)
+                catch
                 {
-                    //Console.Error.WriteLine(e);
                 }
                 continue;
             }
