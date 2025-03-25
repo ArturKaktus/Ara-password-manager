@@ -18,7 +18,6 @@ namespace APM.Desktop
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance); // Регистрация провайдера кодировок
             AvaloniaXamlLoader.Load(this);
-            AppDocument.CurrentNameOS = GetOperatingSystem();
             LoadThemeResources();
         }
 
@@ -43,47 +42,27 @@ namespace APM.Desktop
 
         private void LoadThemeResources()
         {
-            if (AppDocument.CurrentNameOS == NameOS.Windows)
-            {
-                var assemblyName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
-                var baseUri = new Uri($"avares://{assemblyName}/Themes/");
+            //if (OperatingSystem.IsWindows())
+            //{
+            //    var assemblyName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+            //    var baseUri = new Uri($"avares://{assemblyName}/Themes/");
 
-                var styles = new Styles
-                {
-                    new StyleInclude(new Uri(baseUri, "Styles.Windows.axaml"))
-                    {
-                        Source = new Uri(baseUri, "Styles.Windows.axaml")
-                    }
-                };
-                this.Styles.Add(styles);
+            //    var styles = new Styles
+            //    {
+            //        new StyleInclude(new Uri(baseUri, "Styles.Windows.axaml"))
+            //        {
+            //            Source = new Uri(baseUri, "Styles.Windows.axaml")
+            //        }
+            //    };
+            //    this.Styles.Add(styles);
 
-                ResourceInclude resource = new ResourceInclude(new Uri(baseUri, "ResourceDictionary.Windows.axaml"))
-                {
-                    Source = new Uri(baseUri, "ResourceDictionary.Windows.axaml")
-                };
+            //    ResourceInclude resource = new ResourceInclude(new Uri(baseUri, "ResourceDictionary.Windows.axaml"))
+            //    {
+            //        Source = new Uri(baseUri, "ResourceDictionary.Windows.axaml")
+            //    };
 
-                this.Resources.MergedDictionaries.Add(resource);
-            }
-        }
-        
-        private NameOS GetOperatingSystem()
-        {
-            if (OperatingSystem.IsWindows())
-            {
-                return NameOS.Windows;
-            }
-            else if (OperatingSystem.IsLinux())
-            {
-                return NameOS.Linux;
-            }
-            else if (OperatingSystem.IsMacOS())
-            {
-                return NameOS.MacOS;
-            }
-            else
-            {
-                return NameOS.NONE;
-            }
+            //    this.Resources.MergedDictionaries.Add(resource);
+            //}
         }
     }
 }

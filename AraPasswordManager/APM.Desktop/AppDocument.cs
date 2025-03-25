@@ -1,15 +1,13 @@
-﻿using System;
-using APM.Core;
+﻿using APM.Core;
 using APM.Core.Models;
 using APM.Core.ProviderInterfaces;
 using APM.Desktop.Devices;
+using APM.Desktop.Devices.CryptoKakadu;
 using APM.Desktop.Utils;
 using Avalonia.Platform.Storage;
+using System;
 using System.Collections.Generic;
-using System.IO.Ports;
 using System.Reflection;
-using APM.Core.Enums;
-using APM.Desktop.Devices.CryptoKakadu;
 
 namespace APM.Desktop
 {
@@ -59,10 +57,6 @@ namespace APM.Desktop
         /// </summary>
         public static DatabaseModel CurrentDatabaseModel { get; } = new();
 
-        /// <summary>
-        /// Текущая операционная система
-        /// </summary>
-        public static NameOS CurrentNameOS { get; set; } = NameOS.NONE;
         public static TreeNodeTransfer NodeTransfer { get; } = new();
         public static List<IContextMenu> ContextMenuList { get; set; } = new();
 
@@ -75,7 +69,7 @@ namespace APM.Desktop
                 CurrentDatabaseModel.Clear();
                 return true;
             }
-            catch (Exception e)
+            catch
             {
                 return false;
             }

@@ -301,7 +301,7 @@ namespace APM.Desktop.Devices.CryptoKakadu
                     return true;
                 return false;
             }
-            catch (Exception exception)
+            catch
             {
                 return false;
             }
@@ -321,7 +321,7 @@ namespace APM.Desktop.Devices.CryptoKakadu
                     this._errorCount = 0;
                 return false;
             }
-            catch (Exception e)
+            catch
             {
                 return false;
             }
@@ -340,7 +340,7 @@ namespace APM.Desktop.Devices.CryptoKakadu
                     throw new Exception("sendRowCount error with second byte");
                 return true;
             }
-            catch (Exception e)
+            catch
             {
                 return false;
             }
@@ -390,7 +390,7 @@ namespace APM.Desktop.Devices.CryptoKakadu
             {
                 ansString = Encoding.GetEncoding(this._charset).GetString(answerBytes);
             }
-            catch (Exception e)
+            catch
             {
             }
             return ansString;
@@ -410,12 +410,12 @@ namespace APM.Desktop.Devices.CryptoKakadu
         }
         private byte[] CommandToBytes(string command)
         {
-            byte[] commandArray = null;
+            byte[]? commandArray = null;
             try
             {
                 commandArray = Encoding.GetEncoding(this._charset).GetBytes(command);
             }
-            catch (Exception e)
+            catch
             {
             }
             return commandArray;
@@ -483,7 +483,7 @@ namespace APM.Desktop.Devices.CryptoKakadu
                 }
                 return false;
             }
-            catch (Exception exception)
+            catch
             {
                 return false;
             }
