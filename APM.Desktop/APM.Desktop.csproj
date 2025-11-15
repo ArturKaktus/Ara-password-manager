@@ -10,6 +10,7 @@
     <ApplicationIcon>Assets\ara-logo.ico</ApplicationIcon>
 	<InvariantGlobalization>true</InvariantGlobalization>
 	<LangVersion>12</LangVersion>
+      <RuntimeIdentifiers>win-x64; linux-x64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <ItemGroup>
