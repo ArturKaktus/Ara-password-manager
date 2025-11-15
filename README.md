@@ -1,5 +1,5 @@
 # Изменен вектор разработки
-Теперь программа находится [по этой ссылке](https://github.com/ArturKaktus/Ara-password-manager-rs)
+Альтернативная версия [по этой ссылке](https://github.com/ArturKaktus/Ara-password-manager-rs)
 
 # Ara password manager
 Данная программа представляет собой решение для безопасного хранения и управления паролями.
