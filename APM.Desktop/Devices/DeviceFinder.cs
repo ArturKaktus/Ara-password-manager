@@ -15,7 +15,7 @@ namespace APM.Desktop.Devices
         [ObservableProperty] private bool _continueFind = true;
         [ObservableProperty] private IDevice _selectedDevice = null!;
         [ObservableProperty] private string _portOfSelectedDevice = null!;
-        [ObservableProperty] private bool _stopPing = false;
+        // [ObservableProperty] private bool _stopPing = false;
         private readonly Thread _findDeviceThread;
 
         private DeviceFinder()
@@ -49,7 +49,7 @@ namespace APM.Desktop.Devices
                 PauseEvent.WaitOne();
                 if (IsConnected)
                 {
-                    if (!StopPing && SelectedDevice != null && !SelectedDevice.PingDevice(PortOfSelectedDevice))
+                    if (SelectedDevice != null && !SelectedDevice.PingDevice(PortOfSelectedDevice))
                     {
                         PortOfSelectedDevice = string.Empty;
                         SelectedDevice = null!;
@@ -75,18 +75,17 @@ namespace APM.Desktop.Devices
         private bool SearchInAllPorts()
         {
             string[] portsNames = SerialPort.GetPortNames();
-            for (int i = 0; i < portsNames.Length; i++)
+            foreach (var t in portsNames)
             {
                 foreach (var device in AppDocument.DeviceInstances)
                 {
                     try
                     {
-                        if (StopPing) continue;
-                        if (!device.PingDevice(portsNames[i])) continue;
+                        if (!device.PingDevice(t)) continue;
                         IsConnected = true;
                         SelectedDevice = device;
-                        AppDocument.SelectedDeviceSerialPort ??= new KakaduDeviceSerialPort(portsNames[i]);
-                        PortOfSelectedDevice = portsNames[i];
+                        AppDocument.SelectedDeviceSerialPort ??= new KakaduDeviceSerialPort(t);
+                        PortOfSelectedDevice = t;
                         return true;
                     }
                     catch

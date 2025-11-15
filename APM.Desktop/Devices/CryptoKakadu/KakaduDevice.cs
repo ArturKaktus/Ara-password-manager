@@ -400,9 +400,12 @@ namespace APM.Desktop.Devices.CryptoKakadu
         {
             AppDocument.SelectedDeviceSerialPort ??= new KakaduDeviceSerialPort(this._port);
             AppDocument.SelectedDeviceSerialPort.OpenPort();
+            System.Threading.Thread.Sleep(1000);
             AppDocument.SelectedDeviceSerialPort.WriteData(sendBytes);
+            System.Threading.Thread.Sleep(1000);
             byte[] receivedBytes = new byte[AppDocument.SelectedDeviceSerialPort.BytesToRead];
             AppDocument.SelectedDeviceSerialPort.ReadData(receivedBytes);
+            System.Threading.Thread.Sleep(1000);
             AppDocument.SelectedDeviceSerialPort.ClosePort();
             if (receivedBytes.Length == 0)
                 throw new Exception("0 bytes in serial port");
